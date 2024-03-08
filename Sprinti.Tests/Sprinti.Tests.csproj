@@ -22,4 +22,7 @@
         </PackageReference>
     </ItemGroup>
 
+    <Target Name="Sprinti_Api">
+    </Target>
+
 </Project>

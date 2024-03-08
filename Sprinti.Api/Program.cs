@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Sprinti.Api;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
@@ -15,7 +15,8 @@ public class Program
 
         var app = builder.Build();
 
-        var sampleTodos = new Todo[] {
+        var sampleTodos = new Todo[]
+        {
             new(1, "Walk the dog"),
             new(2, "Do the dishes", DateOnly.FromDateTime(DateTime.Now)),
             new(3, "Do the laundry", DateOnly.FromDateTime(DateTime.Now.AddDays(1))),
@@ -25,7 +26,7 @@ public class Program
 
         var todosApi = app.MapGroup("/todos");
         todosApi.MapGet("/", () => sampleTodos);
-        todosApi.MapGet("/{id}", (int id) =>
+        todosApi.MapGet("/{id:int}", (int id) =>
             sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo
                 ? Results.Ok(todo)
                 : Results.NotFound());
@@ -37,7 +38,4 @@ public class Program
 public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
 
 [JsonSerializable(typeof(Todo[]))]
-internal partial class AppJsonSerializerContext : JsonSerializerContext
-{
-
-}
+internal partial class AppJsonSerializerContext : JsonSerializerContext;
