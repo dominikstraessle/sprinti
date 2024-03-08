@@ -4,11 +4,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BB60A8E6-803
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprinti.Api", "src\Sprinti.Api\Sprinti.Api.csproj", "{52ECA57D-449E-4B6D-801E-7228A45A246E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprinti.Tests", "src\Sprinti.Tests\Sprinti.Tests.csproj", "{56D44CD0-339E-4FD9-9C40-A1BD2F4F7A08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56D44CD0-339E-4FD9-9C40-A1BD2F4F7A08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56D44CD0-339E-4FD9-9C40-A1BD2F4F7A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56D44CD0-339E-4FD9-9C40-A1BD2F4F7A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56D44CD0-339E-4FD9-9C40-A1BD2F4F7A08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
