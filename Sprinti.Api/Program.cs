@@ -23,6 +23,6 @@ public static class Program
             .Bind(builder.Configuration.GetSection(SerialOptions.ConfigurationSectionName))
             .ValidateOnStart();
         builder.Services.AddSerialModule();
-        builder.Services.AddHostedService<SerialWorker>();
+        builder.Services.AddHostedService<SerialReaderService>();
     }
 }
