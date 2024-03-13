@@ -12,10 +12,12 @@ public interface ISerialAdapter : IDisposable
 public class SerialAdapter : ISerialAdapter
 {
     private readonly SerialPort _serialPort;
+    private readonly ILogger<SerialAdapter> _logger;
 
-    public SerialAdapter(IOptions<SerialOptions> options, SerialPort serialPort)
+    public SerialAdapter(IOptions<SerialOptions> options, SerialPort serialPort, ILogger<SerialAdapter> logger)
     {
         _serialPort = serialPort;
+        _logger = logger;
         var serialOptions = options.Value;
         serialPort.PortName = serialOptions.PortName;
         serialPort.BaudRate = serialOptions.BaudRate;
@@ -34,12 +36,15 @@ public class SerialAdapter : ISerialAdapter
 
     public void WriteLine(string message)
     {
+        _logger.LogInformation("Send serial message: '{message}'", message);
         _serialPort.WriteLine(message);
     }
 
     public string ReadLine()
     {
-        return _serialPort.ReadLine();
+        var responseLine = _serialPort.ReadLine();
+        _logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
+        return responseLine;
     }
 
     public void Dispose()

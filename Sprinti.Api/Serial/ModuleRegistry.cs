@@ -8,5 +8,6 @@ public static class ModuleRegistry
     {
         services.AddSingleton<SerialPort>();
         services.AddSingleton<ISerialAdapter, SerialAdapter>();
+        services.AddSingleton<SerialService>();
     }
 }

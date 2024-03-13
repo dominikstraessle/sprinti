@@ -1,24 +1,24 @@
 namespace Sprinti.Api.Serial;
 
-public class SerialReaderService(ISerialAdapter serialAdapter, ILogger<SerialReaderService> logger)
+public class SerialReaderService(SerialService serialService, ILogger<SerialReaderService> logger)
     : BackgroundService
 {
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Started Reader");
-        return Task.Run(() =>
+        return Task.Run(async () =>
         {
             logger.LogInformation("Start reading");
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
-                    var message = serialAdapter.ReadLine();
+                    var message = await serialService.SendCommand(new ResetCommand(), stoppingToken);
                     logger.LogInformation("Message received: {Message}", message);
                 }
-                catch (TimeoutException)
+                catch (TimeoutException e)
                 {
-                    logger.LogTrace("No message received in timeout interval");
+                    logger.LogError("Timeout: {e}", e);
                 }
             }
         }, stoppingToken);
@@ -32,7 +32,7 @@ public class SerialReaderService(ISerialAdapter serialAdapter, ILogger<SerialRea
 
     public override void Dispose()
     {
-        serialAdapter.Dispose();
+        serialService.Dispose();
         base.Dispose();
     }
 }
