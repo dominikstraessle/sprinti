@@ -1,10 +1,23 @@
+using Microsoft.Extensions.Options;
+
 namespace Sprinti.Api.Serial;
 
-public class SerialService(ISerialAdapter serialAdapter, ILogger<SerialService> logger)
+public class SerialService(ISerialAdapter serialAdapter, IOptions<SerialOptions> options, ILogger<SerialService> logger)
 {
-    private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(10);
+    private TimeSpan Timeout => TimeSpan.FromMilliseconds(options.Value.ReadTimeoutInMilliseconds);
 
-    public async Task<string> SendCommand(ISerialCommand command, CancellationToken stoppingToken)
+    public async Task SendCommand(ISerialCommand command, CancellationToken cancellationToken)
+    {
+        var message = await CommandReply(command, cancellationToken);
+    }
+
+    public async Task<FinishedResponse> SendFinish(FinishCommand command, CancellationToken cancellationToken)
+    {
+        var message = await CommandReply(command, cancellationToken);
+        return new FinishedResponse(10);
+    }
+
+    private async Task<string> CommandReply(ISerialCommand command, CancellationToken stoppingToken)
     {
         var readTask = Task.Run(() => ReadResponse(stoppingToken), stoppingToken);
 

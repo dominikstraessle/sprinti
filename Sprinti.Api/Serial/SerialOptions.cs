@@ -11,6 +11,6 @@ public class SerialOptions
     public required Parity Parity { get; init; } = Parity.None;
     public required int DataBits { get; init; } = 8;
     public required StopBits StopBits { get; init; } = StopBits.One;
-    public required int ReadTimeout { get; init; } = 500;
-    public required int WriteTimeout { get; init; } = 500;
+    public required int ReadTimeoutInMilliseconds { get; init; } = 10000;
+    public required int WriteTimeout { get; init; } = 5000;
 }

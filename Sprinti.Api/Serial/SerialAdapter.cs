@@ -27,7 +27,7 @@ public class SerialAdapter : ISerialAdapter, IDisposable
 
 
         // Set the read/write timeouts
-        _serialPort.ReadTimeout = serialOptions.ReadTimeout;
+        _serialPort.ReadTimeout = serialOptions.ReadTimeoutInMilliseconds;
         _serialPort.WriteTimeout = serialOptions.WriteTimeout;
 
         _serialPort.Open();

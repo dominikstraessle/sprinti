@@ -44,3 +44,5 @@ public record FinishCommand : ISerialCommand
         return "finish";
     }
 }
+
+public record FinishedResponse(int PowerInWattHours);
