@@ -6,7 +6,7 @@ public class SerialOptions
 {
     public const string ConfigurationSectionName = "Serial";
 
-    public required string PortName { get; init; } = "/dev/pts/2";
+    public required string PortName { get; init; } = "/dev/pts/1";
     public required int BaudRate { get; init; } = 115200;
     public required Parity Parity { get; init; } = Parity.None;
     public required int DataBits { get; init; } = 8;
