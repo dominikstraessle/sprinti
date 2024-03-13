@@ -3,60 +3,50 @@ using Microsoft.Extensions.Options;
 
 namespace Sprinti.Api.Serial;
 
-public interface ISerialAdapter
+public interface ISerialAdapter : IDisposable
 {
-    void WriteLine(string message);
+    void WriteLine(string text);
     string ReadLine();
 }
 
-public class SerialAdapter : ISerialAdapter, IDisposable
+public class SerialAdapter : SerialPort, ISerialAdapter
 {
-    private readonly SerialPort _serialPort;
     private readonly ILogger<SerialAdapter> _logger;
 
-    public SerialAdapter(IOptions<SerialOptions> options, SerialPort serialPort, ILogger<SerialAdapter> logger)
+    public SerialAdapter(IOptions<SerialOptions> options, ILogger<SerialAdapter> logger)
     {
-        _serialPort = serialPort;
         _logger = logger;
-        var serialOptions = options.Value;
-        serialPort.PortName = serialOptions.PortName;
-        serialPort.BaudRate = serialOptions.BaudRate;
-        serialPort.Parity = serialOptions.Parity;
-        serialPort.DataBits = serialOptions.DataBits;
-        serialPort.StopBits = serialOptions.StopBits;
-
-
-        // Set the read/write timeouts
-        _serialPort.ReadTimeout = serialOptions.ReadTimeoutInMilliseconds;
-        _serialPort.WriteTimeout = serialOptions.WriteTimeout;
-
-        _serialPort.Open();
+        PortName = options.Value.PortName;
+        BaudRate = options.Value.BaudRate;
+        Parity = options.Value.Parity;
+        DataBits = options.Value.DataBits;
+        StopBits = options.Value.StopBits;
+        ReadTimeout = options.Value.ReadTimeoutInMilliseconds;
+        WriteTimeout = options.Value.WriteTimeout;
+        logger.LogInformation("Opening serial connection");
+        Open();
     }
 
-
-    public void WriteLine(string message)
+    public new void WriteLine(string text)
     {
-        _logger.LogInformation("Send serial message: '{message}'", message);
-        _serialPort.WriteLine(message);
+        _logger.LogInformation("Send serial message: '{text}'", text);
+        base.WriteLine(text);
     }
 
-    public string ReadLine()
+    public new string ReadLine()
     {
-        var responseLine = _serialPort.ReadLine();
+        var responseLine = base.ReadLine();
         _logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
         return responseLine;
     }
 
-    public void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
+        if (disposing)
+        {
+            _logger.LogInformation("Closing serial connection");
+        }
 
-    protected virtual void Dispose(bool disposing)
-    {
-        _logger.LogInformation("Disposing {s}", nameof(SerialAdapter));
-        _serialPort.Close();
-        _serialPort.Dispose();
+        base.Dispose(disposing);
     }
 }
