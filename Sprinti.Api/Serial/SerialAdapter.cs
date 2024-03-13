@@ -29,13 +29,17 @@ public class SerialAdapter : SerialPort, ISerialAdapter
 
     public new void WriteLine(string text)
     {
+        DiscardOutBuffer();
         _logger.LogInformation("Send serial message: '{text}'", text);
         base.WriteLine(text);
+        DiscardOutBuffer();
     }
 
     public new string ReadLine()
     {
+        DiscardInBuffer();
         var responseLine = base.ReadLine();
+        DiscardInBuffer();
         _logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
         return responseLine;
     }

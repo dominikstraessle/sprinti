@@ -1,6 +1,8 @@
+using static Sprinti.Api.Serial.EnumMapper.Color;
+
 namespace Sprinti.Api.Serial;
 
-public class SerialReaderService(SerialService serialService, ILogger<SerialReaderService> logger)
+public class SerialConsole(SerialService serialService, ILogger<SerialConsole> logger)
     : BackgroundService
 {
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -13,7 +15,7 @@ public class SerialReaderService(SerialService serialService, ILogger<SerialRead
             {
                 try
                 {
-                    var response = await serialService.SendCommand(new ResetCommand(), stoppingToken);
+                    var response = await serialService.SendCommand(new EjectCommand(Red), stoppingToken);
                     logger.LogInformation("Message received: {response}", response);
                 }
                 catch (TimeoutException e)
