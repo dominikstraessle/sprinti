@@ -15,6 +15,18 @@ public static class EnumMapper
         Down = 1
     }
 
+    public enum ResponseState
+    {
+        Complete,
+        InvalidArgument,
+        NotImplemented,
+        MachineError,
+        Error,
+        Unknown,
+        Finished
+    }
+
+
     public static string Map(this Color color) => color switch
     {
         Color.Red => "red",

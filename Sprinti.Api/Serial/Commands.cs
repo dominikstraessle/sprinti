@@ -45,4 +45,6 @@ public record FinishCommand : ISerialCommand
     }
 }
 
-public record FinishedResponse(int PowerInWattHours);
+public record FinishedResponse(int PowerInWattHours, EnumMapper.ResponseState ResponseState);
+
+public record CompletedResponse(EnumMapper.ResponseState ResponseState);

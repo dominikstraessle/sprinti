@@ -13,12 +13,16 @@ public class SerialReaderService(SerialService serialService, ILogger<SerialRead
             {
                 try
                 {
-                    await serialService.SendCommand(new ResetCommand(), stoppingToken);
-                    logger.LogInformation("Message received");
+                    var response = await serialService.SendCommand(new ResetCommand(), stoppingToken);
+                    logger.LogInformation("Message received: {response}", response);
                 }
                 catch (TimeoutException e)
                 {
-                    logger.LogError("Timeout: {e}", e);
+                    logger.LogWarning("Timeout: {e}", e);
+                }
+                catch (Exception e)
+                {
+                    logger.LogError("Error: {e}", e);
                 }
             }
         }, stoppingToken);
