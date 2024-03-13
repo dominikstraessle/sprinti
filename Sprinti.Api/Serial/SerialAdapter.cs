@@ -3,13 +3,13 @@ using Microsoft.Extensions.Options;
 
 namespace Sprinti.Api.Serial;
 
-public interface ISerialAdapter : IDisposable
+public interface ISerialAdapter
 {
     void WriteLine(string message);
     string ReadLine();
 }
 
-public class SerialAdapter : ISerialAdapter
+public class SerialAdapter : ISerialAdapter, IDisposable
 {
     private readonly SerialPort _serialPort;
     private readonly ILogger<SerialAdapter> _logger;
@@ -55,6 +55,7 @@ public class SerialAdapter : ISerialAdapter
 
     protected virtual void Dispose(bool disposing)
     {
+        _logger.LogInformation("Disposing {s}", nameof(SerialAdapter));
         _serialPort.Close();
         _serialPort.Dispose();
     }

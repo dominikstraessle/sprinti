@@ -29,10 +29,4 @@ public class SerialReaderService(SerialService serialService, ILogger<SerialRead
         logger.LogInformation("Stopping SerialReaderService");
         await base.StopAsync(cancellationToken);
     }
-
-    public override void Dispose()
-    {
-        serialService.Dispose();
-        base.Dispose();
-    }
 }

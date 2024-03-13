@@ -45,7 +45,7 @@ public record FinishCommand : ISerialCommand
     }
 }
 
-public class SerialService(ISerialAdapter serialAdapter, ILogger<SerialService> logger) : IDisposable
+public class SerialService(ISerialAdapter serialAdapter, ILogger<SerialService> logger)
 {
     private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(10);
 
@@ -73,10 +73,5 @@ public class SerialService(ISerialAdapter serialAdapter, ILogger<SerialService> 
         var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
         logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
         return responseLine;
-    }
-
-    public void Dispose()
-    {
-        serialAdapter.Dispose();
     }
 }
