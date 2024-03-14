@@ -9,8 +9,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+        <ProjectReference Include="..\Sprinti.Serial\Sprinti.Serial.csproj"/>
     </ItemGroup>
-    <Target Name="Sprinti_Tests">
-    </Target>
+
+    <ItemGroup>
+      <Reference Include="Sprinti.Serial">
+        <HintPath>..\Sprinti.Serial\bin\Debug\net8.0\Sprinti.Serial.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Sprinti.Serial">
+        <HintPath>..\Sprinti.Serial\bin\Debug\net8.0\Sprinti.Serial.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

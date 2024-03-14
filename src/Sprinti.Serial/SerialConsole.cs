@@ -1,6 +1,8 @@
-using static Sprinti.Api.Serial.EnumMapper.Color;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using static Sprinti.Serial.EnumMapper.Color;
 
-namespace Sprinti.Api.Serial;
+namespace Sprinti.Serial;
 
 public class SerialConsole(SerialService serialService, ILogger<SerialConsole> logger)
     : BackgroundService

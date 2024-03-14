@@ -1,4 +1,4 @@
-using Sprinti.Api.Serial;
+using Sprinti.Serial;
 
 namespace Sprinti.Api;
 

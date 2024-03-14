@@ -1,7 +1,8 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using static Sprinti.Api.Serial.EnumMapper;
+using static Sprinti.Serial.EnumMapper;
 
-namespace Sprinti.Api.Serial;
+namespace Sprinti.Serial;
 
 public class SerialService(ISerialAdapter serialAdapter, IOptions<SerialOptions> options, ILogger<SerialService> logger)
 {
