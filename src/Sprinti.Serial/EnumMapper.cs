@@ -27,18 +27,24 @@ public static class EnumMapper
     }
 
 
-    public static string Map(this Color color) => color switch
+    public static string Map(this Color color)
     {
-        Color.Red => "red",
-        Color.Blue => "blue",
-        Color.Yellow => "yellow",
-        _ => throw new ArgumentOutOfRangeException(nameof(color), color, null)
-    };
+        return color switch
+        {
+            Color.Red => "red",
+            Color.Blue => "blue",
+            Color.Yellow => "yellow",
+            _ => throw new ArgumentOutOfRangeException(nameof(color), color, null)
+        };
+    }
 
-    public static string Map(this Direction direction) => direction switch
+    public static string Map(this Direction direction)
     {
-        Direction.Up => "up",
-        Direction.Down => "down",
-        _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
-    };
+        return direction switch
+        {
+            Direction.Up => "up",
+            Direction.Down => "down",
+            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+        };
+    }
 }

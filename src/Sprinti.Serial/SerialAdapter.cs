@@ -47,10 +47,7 @@ public class SerialAdapter : SerialPort, ISerialAdapter
 
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
-        {
-            _logger.LogInformation("Closing serial connection");
-        }
+        if (disposing) _logger.LogInformation("Closing serial connection");
 
         base.Dispose(disposing);
     }

@@ -3,7 +3,7 @@ namespace Sprinti.Tests.Serial;
 public class TheoryData<T1, T2, T3> : TheoryData
 {
     /// <summary>
-    /// Adds data to the theory data set.
+    ///     Adds data to the theory data set.
     /// </summary>
     /// <param name="p1">The first data value.</param>
     /// <param name="p2">The second data value.</param>

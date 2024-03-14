@@ -31,24 +31,24 @@ public class SerialService(ISerialAdapter serialAdapter, IOptions<SerialOptions>
             : new FinishedResponse(0, responseState);
     }
 
-    private static ResponseState ParseResponseState(string response) => response switch
+    private static ResponseState ParseResponseState(string response)
     {
-        "complete" => ResponseState.Complete,
-        _ when IsFinished(response) => ResponseState.Finished,
-        "error invalid_argument" => ResponseState.InvalidArgument,
-        "error not_implemented" => ResponseState.NotImplemented,
-        "error machine_error" => ResponseState.MachineError,
-        "error error" => ResponseState.Error,
-        _ => ResponseState.Unknown
-    };
+        return response switch
+        {
+            "complete" => ResponseState.Complete,
+            _ when IsFinished(response) => ResponseState.Finished,
+            "error invalid_argument" => ResponseState.InvalidArgument,
+            "error not_implemented" => ResponseState.NotImplemented,
+            "error machine_error" => ResponseState.MachineError,
+            "error error" => ResponseState.Error,
+            _ => ResponseState.Unknown
+        };
+    }
 
     private static bool IsFinished(string s)
     {
         var splitted = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (splitted is not ["finish", _])
-        {
-            return false;
-        }
+        if (splitted is not ["finish", _]) return false;
 
         return int.TryParse(splitted[1], out var number) && number >= 1;
     }
@@ -56,15 +56,9 @@ public class SerialService(ISerialAdapter serialAdapter, IOptions<SerialOptions>
     private static int GetPowerInWatts(string s)
     {
         var splitted = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (splitted is not ["finish", _])
-        {
-            throw new ArgumentException(nameof(s), s);
-        }
+        if (splitted is not ["finish", _]) throw new ArgumentException(nameof(s), s);
 
-        if (int.TryParse(splitted[1], out var number) && number >= 1)
-        {
-            return number;
-        }
+        if (int.TryParse(splitted[1], out var number) && number >= 1) return number;
 
         throw new ArgumentException(nameof(s), s);
     }
@@ -84,7 +78,6 @@ public class SerialService(ISerialAdapter serialAdapter, IOptions<SerialOptions>
     private string ReadResponse(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
-        {
             try
             {
                 return serialAdapter.ReadLine();
@@ -93,7 +86,6 @@ public class SerialService(ISerialAdapter serialAdapter, IOptions<SerialOptions>
             {
                 logger.LogTrace("No message received in timeout interval");
             }
-        }
 
         throw new TimeoutException("Timeout reached: Reading was cancelled before a message was received");
     }

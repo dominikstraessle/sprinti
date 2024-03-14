@@ -21,6 +21,21 @@ public class SerialServiceTests
         _service = new SerialService(_adapterMock.Object, options, NullLogger<SerialService>.Instance);
     }
 
+    public static TheoryData<ISerialCommand, string, ResponseState> TestCommandsData =>
+        new()
+        {
+            { new RotateCommand(90), "complete", Complete },
+            { new EjectCommand(Red), "complete", Complete },
+            { new LiftCommand(Down), "complete", Complete },
+            { new ResetCommand(), "complete", Complete },
+            { new ResetCommand(), "error invalid_argument", InvalidArgument },
+            { new ResetCommand(), "error not_implemented", NotImplemented },
+            { new ResetCommand(), "error machine_error", MachineError },
+            { new ResetCommand(), "error error", Error },
+            { new ResetCommand(), "some other response", Unknown },
+            { new FinishCommand(), "finish 10", Finished }
+        };
+
     [Fact]
     public async Task TestSendCommandWithParams()
     {
@@ -58,19 +73,4 @@ public class SerialServiceTests
         Assert.Equal(responseState, result.ResponseState);
         _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
     }
-
-    public static TheoryData<ISerialCommand, string, ResponseState> TestCommandsData =>
-        new()
-        {
-            { new RotateCommand(90), "complete", Complete },
-            { new EjectCommand(Red), "complete", Complete },
-            { new LiftCommand(Down), "complete", Complete },
-            { new ResetCommand(), "complete", Complete },
-            { new ResetCommand(), "error invalid_argument", InvalidArgument },
-            { new ResetCommand(), "error not_implemented", NotImplemented },
-            { new ResetCommand(), "error machine_error", MachineError },
-            { new ResetCommand(), "error error", Error },
-            { new ResetCommand(), "some other response", Unknown },
-            { new FinishCommand(), "finish 10", Finished }
-        };
 }

@@ -14,7 +14,6 @@ public class SerialConsole(SerialService serialService, ILogger<SerialConsole> l
         {
             logger.LogInformation("Start reading");
             while (!stoppingToken.IsCancellationRequested)
-            {
                 try
                 {
                     var response = await serialService.SendCommand(new EjectCommand(Red), stoppingToken);
@@ -28,7 +27,6 @@ public class SerialConsole(SerialService serialService, ILogger<SerialConsole> l
                 {
                     logger.LogError("Error: {e}", e);
                 }
-            }
         }, stoppingToken);
     }
 
