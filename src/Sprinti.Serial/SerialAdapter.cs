@@ -10,7 +10,7 @@ public interface ISerialAdapter : IDisposable
     string ReadLine();
 }
 
-public class SerialAdapter : SerialPort, ISerialAdapter
+internal class SerialAdapter : SerialPort, ISerialAdapter
 {
     private readonly ILogger<SerialAdapter> _logger;
 

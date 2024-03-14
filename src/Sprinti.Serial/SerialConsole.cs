@@ -1,11 +1,9 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using static Sprinti.Serial.EnumMapper.Color;
 
 namespace Sprinti.Serial;
 
-public class SerialConsole(SerialService serialService, ILogger<SerialConsole> logger)
-    : BackgroundService
+public class SerialConsole(ISerialService serialService, ILogger<SerialConsole> logger) : BackgroundService
 {
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -16,7 +14,7 @@ public class SerialConsole(SerialService serialService, ILogger<SerialConsole> l
             while (!stoppingToken.IsCancellationRequested)
                 try
                 {
-                    var response = await serialService.SendCommand(new EjectCommand(Red), stoppingToken);
+                    var response = await serialService.SendCommand(new EjectCommand(Color.Blue), stoppingToken);
                     logger.LogInformation("Message received: {response}", response);
                 }
                 catch (TimeoutException e)

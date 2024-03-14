@@ -13,7 +13,7 @@ public record RotateCommand(int Degree) : ISerialCommand
     }
 }
 
-public record EjectCommand(EnumMapper.Color Color) : ISerialCommand
+public record EjectCommand(Color Color) : ISerialCommand
 {
     public string ToAsciiCommand()
     {
@@ -21,7 +21,7 @@ public record EjectCommand(EnumMapper.Color Color) : ISerialCommand
     }
 }
 
-public record LiftCommand(EnumMapper.Direction Direction) : ISerialCommand
+public record LiftCommand(Direction Direction) : ISerialCommand
 {
     public string ToAsciiCommand()
     {
@@ -45,6 +45,6 @@ public record FinishCommand : ISerialCommand
     }
 }
 
-public record FinishedResponse(int PowerInWattHours, EnumMapper.ResponseState ResponseState);
+public record FinishedResponse(int PowerInWattHours, ResponseState ResponseState);
 
-public record CompletedResponse(EnumMapper.ResponseState ResponseState);
+public record CompletedResponse(ResponseState ResponseState);

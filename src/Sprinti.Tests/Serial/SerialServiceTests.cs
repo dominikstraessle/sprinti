@@ -2,10 +2,9 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Moq;
 using Sprinti.Serial;
-using static Sprinti.Serial.EnumMapper;
-using static Sprinti.Serial.EnumMapper.Color;
-using static Sprinti.Serial.EnumMapper.Direction;
-using static Sprinti.Serial.EnumMapper.ResponseState;
+using static Sprinti.Serial.Color;
+using static Sprinti.Serial.Direction;
+using static Sprinti.Serial.ResponseState;
 
 namespace Sprinti.Tests.Serial;
 

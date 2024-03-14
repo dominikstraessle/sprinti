@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Lastschalten.Tests"/>
+        <InternalsVisibleTo Include="Sprinti.Tests"/>
     </ItemGroup>
 
 </Project>

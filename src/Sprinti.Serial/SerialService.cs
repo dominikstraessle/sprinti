@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using static Sprinti.Serial.EnumMapper;
 
 namespace Sprinti.Serial;
 
@@ -10,7 +9,10 @@ public interface ISerialService
     Task<FinishedResponse> SendCommand(FinishCommand command, CancellationToken cancellationToken);
 }
 
-public class SerialService(ISerialAdapter serialAdapter, IOptions<SerialOptions> options, ILogger<SerialService> logger)
+internal class SerialService(
+    ISerialAdapter serialAdapter,
+    IOptions<SerialOptions> options,
+    ILogger<SerialService> logger)
     : ISerialService
 {
     private TimeSpan Timeout => TimeSpan.FromMilliseconds(options.Value.ReadTimeoutInMilliseconds);

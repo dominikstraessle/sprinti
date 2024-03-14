@@ -1,32 +1,31 @@
 namespace Sprinti.Serial;
 
-public static class EnumMapper
+public enum Color
 {
-    public enum Color
-    {
-        Red = 0,
-        Blue = 1,
-        Yellow = 2
-    }
+    Red = 0,
+    Blue = 1,
+    Yellow = 2
+}
 
-    public enum Direction
-    {
-        Up = 0,
-        Down = 1
-    }
+public enum Direction
+{
+    Up = 0,
+    Down = 1
+}
 
-    public enum ResponseState
-    {
-        Complete,
-        InvalidArgument,
-        NotImplemented,
-        MachineError,
-        Error,
-        Unknown,
-        Finished
-    }
+public enum ResponseState
+{
+    Complete,
+    InvalidArgument,
+    NotImplemented,
+    MachineError,
+    Error,
+    Unknown,
+    Finished
+}
 
-
+public static class CommandEnums
+{
     public static string Map(this Color color)
     {
         return color switch
