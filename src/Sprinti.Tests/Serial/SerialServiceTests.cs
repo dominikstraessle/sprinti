@@ -71,6 +71,6 @@ public class SerialServiceTests
             { new ResetCommand(), "error machine_error", MachineError },
             { new ResetCommand(), "error error", Error },
             { new ResetCommand(), "some other response", Unknown },
-            { new FinishCommand(), "finish 10", Finished },
+            { new FinishCommand(), "finish 10", Finished }
         };
 }
