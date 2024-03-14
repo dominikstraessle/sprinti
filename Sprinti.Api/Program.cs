@@ -19,6 +19,7 @@ public static class Program
 
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
+        builder.Services.AddLogging();
         builder.Services.AddOptions<SerialOptions>()
             .Bind(builder.Configuration.GetSection(SerialOptions.ConfigurationSectionName))
             .ValidateOnStart();
