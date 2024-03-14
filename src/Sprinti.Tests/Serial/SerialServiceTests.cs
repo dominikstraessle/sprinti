@@ -4,6 +4,7 @@ using Moq;
 using Sprinti.Serial;
 using static Sprinti.Serial.EnumMapper;
 using static Sprinti.Serial.EnumMapper.Color;
+using static Sprinti.Serial.EnumMapper.Direction;
 using static Sprinti.Serial.EnumMapper.ResponseState;
 
 namespace Sprinti.Tests.Serial;
@@ -47,7 +48,7 @@ public class SerialServiceTests
     }
 
     [Theory]
-    [ClassData(typeof(CommandsTheoryData))]
+    [MemberData(nameof(TestCommandsData))]
     public async Task TestCommands(ISerialCommand command, string response, ResponseState responseState)
     {
         _adapterMock.Setup(adapter => adapter.ReadLine()).Returns(response);
@@ -57,4 +58,19 @@ public class SerialServiceTests
         Assert.Equal(responseState, result.ResponseState);
         _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
     }
+
+    public static TheoryData<ISerialCommand, string, ResponseState> TestCommandsData =>
+        new()
+        {
+            { new RotateCommand(90), "complete", Complete },
+            { new EjectCommand(Red), "complete", Complete },
+            { new LiftCommand(Down), "complete", Complete },
+            { new ResetCommand(), "complete", Complete },
+            { new ResetCommand(), "error invalid_argument", InvalidArgument },
+            { new ResetCommand(), "error not_implemented", NotImplemented },
+            { new ResetCommand(), "error machine_error", MachineError },
+            { new ResetCommand(), "error error", Error },
+            { new ResetCommand(), "some other response", Unknown },
+            { new FinishCommand(), "finish 10", Finished },
+        };
 }
