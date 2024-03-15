@@ -3,6 +3,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Sprinti.Serial\Sprinti.Serial.csproj" />
         <ProjectReference Include="..\Sprinti.Domain\Sprinti.Domain.csproj" />
+        <ProjectReference Include="..\Sprinti.Instruction\Sprinti.Instruction.csproj" />
     </ItemGroup>
 
     <PropertyGroup>
