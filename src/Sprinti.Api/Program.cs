@@ -19,11 +19,16 @@ public static class Program
 
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
+        builder.Configuration.AddEnvironmentVariables();
         builder.Services.AddLogging();
+        var serialOptions = builder.Configuration.GetSection(SerialOptions.ConfigurationSectionName);
+        var serialOptionsValue = serialOptions.Get<SerialOptions>();
         builder.Services.AddOptions<SerialOptions>()
-            .Bind(builder.Configuration.GetSection(SerialOptions.ConfigurationSectionName))
+            .Bind(serialOptions)
             .ValidateOnStart();
-        builder.Services.AddSerialModule();
-        builder.Services.AddHostedService<SerialConsole>();
+        if (serialOptionsValue is { Enabled: true })
+        {
+            builder.Services.AddSerialModule();
+        }
     }
 }
