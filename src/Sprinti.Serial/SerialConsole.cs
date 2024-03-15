@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sprinti.Domain;
 
 namespace Sprinti.Serial;
 

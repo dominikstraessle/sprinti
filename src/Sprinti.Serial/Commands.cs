@@ -1,3 +1,5 @@
+using Sprinti.Domain;
+
 namespace Sprinti.Serial;
 
 public interface ISerialCommand

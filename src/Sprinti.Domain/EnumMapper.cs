@@ -1,35 +1,12 @@
-namespace Sprinti.Serial;
+namespace Sprinti.Domain;
 
-public enum Color
-{
-    Red = 0,
-    Blue = 1,
-    Yellow = 2
-}
-
-public enum Direction
-{
-    Up = 0,
-    Down = 1
-}
-
-public enum ResponseState
-{
-    Complete,
-    InvalidArgument,
-    NotImplemented,
-    MachineError,
-    Error,
-    Unknown,
-    Finished
-}
-
-public static class CommandEnums
+public static class EnumMapper
 {
     public static string Map(this Color color)
     {
         return color switch
         {
+            Color.None => "",
             Color.Red => "red",
             Color.Blue => "blue",
             Color.Yellow => "yellow",

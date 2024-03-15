@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprinti.Api", "Sprinti.Api\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprinti.Tests", "Sprinti.Tests\Sprinti.Tests.csproj", "{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprinti.Domain", "Sprinti.Domain\Sprinti.Domain.csproj", "{363B1F60-C94F-47DB-B443-993CE4B585EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{363B1F60-C94F-47DB-B443-993CE4B585EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{363B1F60-C94F-47DB-B443-993CE4B585EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{363B1F60-C94F-47DB-B443-993CE4B585EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{363B1F60-C94F-47DB-B443-993CE4B585EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
