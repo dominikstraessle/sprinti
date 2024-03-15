@@ -23,7 +23,7 @@ internal class SerialAdapter : SerialPort, ISerialAdapter
         DataBits = options.Value.DataBits;
         StopBits = options.Value.StopBits;
         ReadTimeout = options.Value.ReadTimeoutInMilliseconds;
-        WriteTimeout = options.Value.WriteTimeout;
+        WriteTimeout = options.Value.WriteTimeoutInMilliseconds;
         logger.LogInformation("Opening serial connection");
         Open();
     }

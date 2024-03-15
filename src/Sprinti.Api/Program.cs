@@ -6,7 +6,8 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateSlimBuilder(args);
+        var builder = WebApplication.CreateBuilder();
+        // builder.Configuration.AddJsonFile("appsettings.json", optional: false);
 
         ConfigureBuilder(builder);
 
@@ -21,11 +22,10 @@ public static class Program
     {
         builder.Configuration.AddEnvironmentVariables();
         builder.Services.AddLogging();
-        var serialOptions = builder.Configuration.GetSection(SerialOptions.ConfigurationSectionName);
+
+        var serialOptions = builder.Configuration.GetSection(SerialOptions.Serial);
+        builder.Services.Configure<SerialOptions>(serialOptions);
         var serialOptionsValue = serialOptions.Get<SerialOptions>();
-        builder.Services.AddOptions<SerialOptions>()
-            .Bind(serialOptions)
-            .ValidateOnStart();
         if (serialOptionsValue is { Enabled: true })
         {
             builder.Services.AddSerialModule();
