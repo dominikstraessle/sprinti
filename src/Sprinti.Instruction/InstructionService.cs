@@ -4,6 +4,8 @@ namespace Sprinti.Instruction;
 
 public class InstructionService
 {
+    private const int QuarterToDegree = 90;
+
     private int[] _actualPositions =
     [
         (int)Color.None,
@@ -12,8 +14,6 @@ public class InstructionService
         (int)Color.Red
     ];
 
-    private const int QuarterToDegree = 90;
-
 
     public IList<ISerialCommand> GetInstructionSequence(SortedDictionary<int, Color> config)
     {
@@ -21,10 +21,7 @@ public class InstructionService
 
         foreach (var (index, color) in config)
         {
-            if (color == Color.None)
-            {
-                continue;
-            }
+            if (color == Color.None) continue;
 
             var position = IndexToPosition(index);
             var numberOfRequiredRotations = GetNumberOfRequiredRotations(color, position);
@@ -52,16 +49,19 @@ public class InstructionService
         return numberOfQuarterRotations;
     }
 
-    private static RotateCommand GetOptimizedRotateCommand(int rotation) => rotation switch
+    private static RotateCommand GetOptimizedRotateCommand(int rotation)
     {
-        // 270 should become -90
-        > 2 => new RotateCommand((rotation - 4) * QuarterToDegree),
-        // -270 should become 90
-        // -180 should become 180 -> always prefer positive
-        <= -2 => new RotateCommand((rotation + 4) * QuarterToDegree),
-        // +-90 is already optimal
-        _ => new RotateCommand(rotation * QuarterToDegree)
-    };
+        return rotation switch
+        {
+            // 270 should become -90
+            > 2 => new RotateCommand((rotation - 4) * QuarterToDegree),
+            // -270 should become 90
+            // -180 should become 180 -> always prefer positive
+            <= -2 => new RotateCommand((rotation + 4) * QuarterToDegree),
+            // +-90 is already optimal
+            _ => new RotateCommand(rotation * QuarterToDegree)
+        };
+    }
 
     private static int IndexToPosition(int index)
     {

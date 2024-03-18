@@ -200,7 +200,7 @@ public class InstructionServiceTests
                     new LiftCommand(Direction.Down),
                     new FinishCommand()
                 ]
-            },
+            }
         };
 
     [Theory]
@@ -211,9 +211,5 @@ public class InstructionServiceTests
         var sequence = _instructionService.GetInstructionSequence(config);
         Assert.NotNull(sequence);
         Assert.Equal(expectedCommands, sequence);
-        for (var i = 0; i < expectedCommands.Count; i++)
-        {
-            Assert.Equal(expectedCommands[i], sequence[i]);
-        }
     }
 }

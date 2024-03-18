@@ -26,9 +26,6 @@ public static class Program
         var serialOptions = builder.Configuration.GetSection(SerialOptions.Serial);
         builder.Services.Configure<SerialOptions>(serialOptions);
         var serialOptionsValue = serialOptions.Get<SerialOptions>();
-        if (serialOptionsValue is { Enabled: true })
-        {
-            builder.Services.AddSerialModule();
-        }
+        if (serialOptionsValue is { Enabled: true }) builder.Services.AddSerialModule();
     }
 }
