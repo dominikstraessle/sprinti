@@ -14,11 +14,6 @@ public class InstructionService
 
     private const int QuarterToDegree = 90;
 
-    private int GetMovementToColorPosition(Color color, int position)
-    {
-        var numberOfQuarterRotations = _actualPositions[(int)color] - position;
-        return numberOfQuarterRotations;
-    }
 
     public IList<ISerialCommand> GetInstructionSequence(SortedDictionary<int, Color> config)
     {
@@ -32,10 +27,11 @@ public class InstructionService
             }
 
             var position = IndexToPosition(index);
-            var rotation = GetMovementToColorPosition(color, position);
-            if (rotation != 0)
+            var numberOfRequiredRotations = GetNumberOfRequiredRotations(color, position);
+            if (numberOfRequiredRotations != 0)
             {
-                var rotateCommand = GetRotateCommandAndUpdateActualPosition(rotation);
+                var rotateCommand = GetOptimizedRotateCommand(numberOfRequiredRotations);
+                UpdateActualPosition(numberOfRequiredRotations);
                 sequence.Add(rotateCommand);
             }
 
@@ -45,11 +41,27 @@ public class InstructionService
         return FinishSequence(sequence);
     }
 
-    private RotateCommand GetRotateCommandAndUpdateActualPosition(int rotation)
+    private void UpdateActualPosition(int numberOfRequiredRotations)
     {
-        _actualPositions = _actualPositions.Select(colorPos => (colorPos - rotation) % 4).ToArray();
-        return new RotateCommand(rotation * QuarterToDegree);
+        _actualPositions = _actualPositions.Select(colorPos => (colorPos - numberOfRequiredRotations) % 4).ToArray();
     }
+
+    private int GetNumberOfRequiredRotations(Color color, int position)
+    {
+        var numberOfQuarterRotations = _actualPositions[(int)color] - position;
+        return numberOfQuarterRotations;
+    }
+
+    private static RotateCommand GetOptimizedRotateCommand(int rotation) => rotation switch
+    {
+        // 270 should become -90
+        > 2 => new RotateCommand((rotation - 4) * QuarterToDegree),
+        // -270 should become 90
+        // -180 should become 180 -> always prefer positive
+        <= -2 => new RotateCommand((rotation + 4) * QuarterToDegree),
+        // +-90 is already optimal
+        _ => new RotateCommand(rotation * QuarterToDegree)
+    };
 
     private static int IndexToPosition(int index)
     {

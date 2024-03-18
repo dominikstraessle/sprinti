@@ -167,6 +167,40 @@ public class InstructionServiceTests
                     new FinishCommand()
                 ]
             },
+            {
+                new SortedDictionary<int, Color>
+                {
+                    { 1, Color.Red },
+                    { 2, Color.Yellow },
+                    { 3, Color.Red },
+                    { 4, Color.Blue },
+                    { 5, Color.Yellow },
+                    { 6, Color.Red },
+                    { 7, Color.Blue },
+                    { 8, Color.Yellow }
+                },
+                [
+                    new ResetCommand(),
+                    new RotateCommand(-90),
+                    new EjectCommand(Color.Red),
+                    new RotateCommand(90),
+                    new EjectCommand(Color.Yellow),
+                    new RotateCommand(90),
+                    new EjectCommand(Color.Red),
+                    new RotateCommand(180),
+                    new EjectCommand(Color.Blue),
+                    new RotateCommand(180),
+                    new EjectCommand(Color.Yellow),
+                    new RotateCommand(90),
+                    new EjectCommand(Color.Red),
+                    new RotateCommand(180),
+                    new EjectCommand(Color.Blue),
+                    new RotateCommand(180),
+                    new EjectCommand(Color.Yellow),
+                    new LiftCommand(Direction.Down),
+                    new FinishCommand()
+                ]
+            },
         };
 
     [Theory]
