@@ -96,20 +96,77 @@ public class InstructionServiceTests
                     new FinishCommand()
                 ]
             },
-            // {
-            //     new SortedDictionary<int, Color>
-            //     {
-            //         { 1, Color.None },
-            //         { 2, Color.Yellow },
-            //         { 3, Color.Blue },
-            //         { 4, Color.Red },
-            //         { 5, Color.None },
-            //         { 6, Color.None },
-            //         { 7, Color.None },
-            //         { 8, Color.None }
-            //     },
-            //     []
-            // }
+            {
+                new SortedDictionary<int, Color>
+                {
+                    { 1, Color.None },
+                    { 2, Color.Yellow },
+                    { 3, Color.Blue },
+                    { 4, Color.Red },
+                    { 5, Color.None },
+                    { 6, Color.None },
+                    { 7, Color.None },
+                    { 8, Color.None }
+                },
+                [
+                    new ResetCommand(),
+                    new EjectCommand(Color.Yellow),
+                    new EjectCommand(Color.Blue),
+                    new EjectCommand(Color.Red),
+                    new LiftCommand(Direction.Down),
+                    new FinishCommand()
+                ]
+            },
+            {
+                new SortedDictionary<int, Color>
+                {
+                    { 1, Color.None },
+                    { 2, Color.Yellow },
+                    { 3, Color.Blue },
+                    { 4, Color.Red },
+                    { 5, Color.None },
+                    { 6, Color.Yellow },
+                    { 7, Color.Blue },
+                    { 8, Color.Red }
+                },
+                [
+                    new ResetCommand(),
+                    new EjectCommand(Color.Yellow),
+                    new EjectCommand(Color.Blue),
+                    new EjectCommand(Color.Red),
+                    new EjectCommand(Color.Yellow),
+                    new EjectCommand(Color.Blue),
+                    new EjectCommand(Color.Red),
+                    new LiftCommand(Direction.Down),
+                    new FinishCommand()
+                ]
+            },
+            {
+                new SortedDictionary<int, Color>
+                {
+                    { 1, Color.None },
+                    { 2, Color.Red },
+                    { 3, Color.Red },
+                    { 4, Color.None },
+                    { 5, Color.None },
+                    { 6, Color.Red },
+                    { 7, Color.Red },
+                    { 8, Color.None }
+                },
+                [
+                    new ResetCommand(),
+                    new RotateCommand(180),
+                    new EjectCommand(Color.Red),
+                    new RotateCommand(-90),
+                    new EjectCommand(Color.Red),
+                    new RotateCommand(90),
+                    new EjectCommand(Color.Red),
+                    new RotateCommand(-90),
+                    new EjectCommand(Color.Red),
+                    new LiftCommand(Direction.Down),
+                    new FinishCommand()
+                ]
+            },
         };
 
     [Theory]
