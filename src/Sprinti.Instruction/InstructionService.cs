@@ -4,13 +4,20 @@ namespace Sprinti.Instruction;
 
 public class InstructionService
 {
-    private int _actualPosition;
+    private int[] _actualPositions =
+    [
+        (int)Color.None,
+        (int)Color.Yellow,
+        (int)Color.Blue,
+        (int)Color.Red
+    ];
+
     private const int QuarterToDegree = 90;
 
-    private int GetMovementToPosition(int position)
+    private int GetMovementToColorPosition(Color color, int position)
     {
-        var numberOfQuarterRotations = position - _actualPosition;
-        return numberOfQuarterRotations * QuarterToDegree;
+        var numberOfQuarterRotations = _actualPositions[(int)color] - position;
+        return numberOfQuarterRotations;
     }
 
     public IList<ISerialCommand> GetInstructionSequence(SortedDictionary<int, Color> config)
@@ -25,17 +32,23 @@ public class InstructionService
             }
 
             var position = IndexToPosition(index);
-            var rotation = GetMovementToPosition(position);
+            var rotation = GetMovementToColorPosition(color, position);
             if (rotation != 0)
             {
-                _actualPosition = position;
-                sequence.Add(new RotateCommand(rotation));
+                var rotateCommand = GetRotateCommandAndUpdateActualPosition(rotation);
+                sequence.Add(rotateCommand);
             }
 
             sequence.Add(new EjectCommand(color));
         }
 
         return FinishSequence(sequence);
+    }
+
+    private RotateCommand GetRotateCommandAndUpdateActualPosition(int rotation)
+    {
+        _actualPositions = _actualPositions.Select(colorPos => (colorPos - rotation) % 4).ToArray();
+        return new RotateCommand(rotation * QuarterToDegree);
     }
 
     private static int IndexToPosition(int index)

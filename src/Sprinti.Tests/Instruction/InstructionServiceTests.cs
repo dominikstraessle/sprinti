@@ -43,7 +43,6 @@ public class InstructionServiceTests
                 },
                 [
                     new ResetCommand(),
-                    new RotateCommand(90),
                     new EjectCommand(Color.Yellow),
                     new LiftCommand(Direction.Down),
                     new FinishCommand()
@@ -63,8 +62,9 @@ public class InstructionServiceTests
                 },
                 [
                     new ResetCommand(),
-                    new EjectCommand(Color.Yellow),
                     new RotateCommand(90),
+                    new EjectCommand(Color.Yellow),
+                    new RotateCommand(-90),
                     new EjectCommand(Color.Yellow),
                     new LiftCommand(Direction.Down),
                     new FinishCommand()
@@ -84,12 +84,13 @@ public class InstructionServiceTests
                 },
                 [
                     new ResetCommand(),
-                    new EjectCommand(Color.Yellow),
                     new RotateCommand(90),
                     new EjectCommand(Color.Yellow),
-                    new RotateCommand(90),
+                    new RotateCommand(-90),
                     new EjectCommand(Color.Yellow),
-                    new RotateCommand(90),
+                    new RotateCommand(-90),
+                    new EjectCommand(Color.Yellow),
+                    new RotateCommand(-90),
                     new EjectCommand(Color.Yellow),
                     new LiftCommand(Direction.Down),
                     new FinishCommand()
@@ -118,7 +119,7 @@ public class InstructionServiceTests
     {
         var sequence = _instructionService.GetInstructionSequence(config);
         Assert.NotNull(sequence);
-        Assert.Equal(expectedCommands.Count, sequence.Count);
+        Assert.Equal(expectedCommands, sequence);
         for (var i = 0; i < expectedCommands.Count; i++)
         {
             Assert.Equal(expectedCommands[i], sequence[i]);
