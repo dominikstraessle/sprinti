@@ -33,7 +33,7 @@ namespace Sprinti.Api.Button
 
         private async void PostConfig(string jsonString)
         {
-            var Url = new Uri(@"URL/cubes/teamxx/config");
+            var Url = @"URL/cubes/teamxx/config";
             using var httpClient = new HttpClient();
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             try
@@ -61,8 +61,8 @@ namespace Sprinti.Api.Button
         {
             try
             {
-                var uri = new Uri(@"http://52.58.217.104:5000/cubes");
-                HttpResponseMessage response = await _client.GetAsync(uri, cancellationToken);
+                var url = @"http://52.58.217.104:5000/cubes";
+                HttpResponseMessage response = await _client.PostAsync(url, null);
                 var responseBody = await response.Content.ReadAsStringAsync();
                 return responseBody;
             }
