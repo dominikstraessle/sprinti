@@ -2,7 +2,12 @@
 
 namespace Sprinti.Instruction;
 
-public class InstructionService
+public interface IInstructionService
+{
+    IList<ISerialCommand> GetInstructionSequence(SortedDictionary<int, Color> config);
+}
+
+internal class InstructionService : IInstructionService
 {
     private const int QuarterToDegree = 90;
 

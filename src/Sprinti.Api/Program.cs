@@ -1,3 +1,4 @@
+using Sprinti.Instruction;
 using Sprinti.Serial;
 
 namespace Sprinti.Api;
@@ -7,7 +8,6 @@ public static class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder();
-        // builder.Configuration.AddJsonFile("appsettings.json", optional: false);
 
         ConfigureBuilder(builder);
 
@@ -27,5 +27,6 @@ public static class Program
         builder.Services.Configure<SerialOptions>(serialOptions);
         var serialOptionsValue = serialOptions.Get<SerialOptions>();
         if (serialOptionsValue is { Enabled: true }) builder.Services.AddSerialModule();
+        builder.Services.AddInstructionModule();
     }
 }
