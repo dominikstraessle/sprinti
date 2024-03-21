@@ -10,3 +10,7 @@ public enum ResponseState
     Unknown,
     Finished
 }
+
+public record FinishedResponse(int PowerInWattHours, ResponseState ResponseState);
+
+public record CompletedResponse(ResponseState ResponseState);

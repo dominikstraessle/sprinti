@@ -1,6 +1,5 @@
-﻿namespace Sprinti.Api.Button
+﻿namespace Sprinti.Api.Button;
+
+public interface IConfirmationAdapter
 {
-    public interface IConfirmationAdapter
-    {
-    }
 }
