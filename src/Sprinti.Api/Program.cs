@@ -27,7 +27,7 @@ public static class Program
         builder.Services.Configure<SerialOptions>(serialOptions);
         var serialOptionsValue = serialOptions.Get<SerialOptions>();
         if (serialOptionsValue is { Enabled: true }) builder.Services.AddSerialModule();
-        builder.Services.AddInstructionModule();
+        // builder.Services.AddInstructionModule();
         builder.Services.AddHostedService<VideoStream>();
     }
 }
