@@ -17,4 +17,7 @@
         <InternalsVisibleTo Include="Sprinti.Tests"/>
     </ItemGroup>
 
+    <PropertyGroup>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    </PropertyGroup>
 </Project>

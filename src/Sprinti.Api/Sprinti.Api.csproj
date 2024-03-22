@@ -30,5 +30,8 @@
 <!--        <PublishAot>true</PublishAot>-->
         <UserSecretsId>6db71617-19bc-4861-bf1c-bc00e11d1a5c</UserSecretsId>
     </PropertyGroup>
+    <PropertyGroup>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    </PropertyGroup>
 
 </Project>
