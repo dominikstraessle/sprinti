@@ -8,7 +8,9 @@
     packages.x86_64-linux.cvsharp =
       nixpkgs.legacyPackages.x86_64-linux.callPackage ./cvsharp.nix { };
     packages.x86_64-linux.sprinti =
-      nixpkgs.legacyPackages.x86_64-linux.callPackage ./sprinti.nix { };
+      nixpkgs.legacyPackages.x86_64-linux.callPackage ./sprinti.nix {
+        inherit (self.packages.x86_64-linux) cvsharp;
+      };
 
     packages.x86_64-linux.default = self.packages.x86_64-linux.sprinti;
 

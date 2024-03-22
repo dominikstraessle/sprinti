@@ -1,4 +1,4 @@
-{ buildDotnetModule, dotnetCorePackages, opencv, gcc }:
+{ buildDotnetModule, dotnetCorePackages, opencv, gcc, cvsharp }:
 
 buildDotnetModule rec {
   pname = "sprinti";
@@ -18,14 +18,9 @@ buildDotnetModule rec {
   nativeBuildInputs = [ gcc ];
 
   #  packNupkg = true; # This packs the project as "foo-0.1.nupkg" at `$out/share`.
-  dotnetFlags = [
-    #        "-p:PublishTrimmed=true"
-    #    "--self-contained"
-    #"--runtime linux-arm64 --self-contained"
-  ];
   runtimeDeps = [
     opencv
-    dotnetCorePackages.dotnet_8.runtime
+    cvsharp
   ]; # This will wrap ffmpeg's library path into `LD_LIBRARY_PATH`.
 }
 

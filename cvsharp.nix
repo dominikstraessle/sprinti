@@ -19,8 +19,8 @@ stdenv.mkDerivation rec {
     make -j
   '';
   installPhase = ''
-    mkdir -p $out/
-    cp OpenCvSharpExtern/libOpenCvSharpExtern.so $out/
+    mkdir -p $out/lib
+    cp OpenCvSharpExtern/libOpenCvSharpExtern.so $out/lib
   '';
   runtimeDeps = [ opencv ];
 }
