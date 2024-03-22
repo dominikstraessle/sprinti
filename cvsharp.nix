@@ -12,13 +12,12 @@ stdenv.mkDerivation rec {
     rev = version;
     sha256 = "sha256-jXE8WLQ6C0SOjz/m01xn0Znw0lZA56OW0odL5BxpokY=";
   };
-  dontConfigure = "true";
-
-  buildPhase = ''
+  configurePhase = ''
     cmake -D CMAKE_INSTALL_PREFIX=${opencv} $src/src
+  '';
+  buildPhase = ''
     make -j
   '';
-
   installPhase = ''
     mkdir -p $out/
     cp OpenCvSharpExtern/libOpenCvSharpExtern.so $out/
