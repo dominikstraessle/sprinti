@@ -3,16 +3,19 @@
 
   inputs = { nixpkgs.url = "nixpkgs"; };
 
-  outputs = { self, nixpkgs }: {
+  outputs = { self, nixpkgs }:
+    let forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
+    in {
+      packages = forAllSystems (system:
+        let pkgs = nixpkgs.legacyPackages.${system};
+        in {
+          cvsharp = pkgs.callPackage ./cvsharp.nix { };
+          sprinti = pkgs.callPackage ./sprinti.nix {
+            inherit (self.packages.${system}) cvsharp;
+          };
 
-    packages.x86_64-linux.cvsharp =
-      nixpkgs.legacyPackages.x86_64-linux.callPackage ./cvsharp.nix { };
-    packages.x86_64-linux.sprinti =
-      nixpkgs.legacyPackages.x86_64-linux.callPackage ./sprinti.nix {
-        inherit (self.packages.x86_64-linux) cvsharp;
-      };
+          default = self.packages.${system}.sprinti;
+        });
 
-    packages.x86_64-linux.default = self.packages.x86_64-linux.sprinti;
-
-  };
+    };
 }
