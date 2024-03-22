@@ -1,9 +1,12 @@
+using Microsoft.Extensions.Options;
 using OpenCvSharp;
 
 namespace Sprinti.Api.Video;
 
-public class VideoStream(ILogger<VideoStream> logger) : BackgroundService
+public class VideoStream(ILogger<VideoStream> logger, IOptions<StreamOptions> options) : BackgroundService
 {
+    private string Source => $"rtsp://{options.Value.Username}:{options.Value.Password}@{options.Value.Host}";
+
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Started Reader");
@@ -18,7 +21,7 @@ public class VideoStream(ILogger<VideoStream> logger) : BackgroundService
             //         fs.Write("mat", tempMat);
             //     }
             // }
-            var capture = new VideoCapture(0);
+            var capture = new VideoCapture(Source);
             using var image = new Mat();
             // When the movie playback reaches end, Mat.data becomes NULL.
             while (!stoppingToken.IsCancellationRequested)

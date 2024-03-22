@@ -1,4 +1,5 @@
 using Sprinti.Api.Video;
+using Sprinti.Instruction;
 using Sprinti.Serial;
 
 namespace Sprinti.Api;
@@ -27,7 +28,12 @@ public static class Program
         builder.Services.Configure<SerialOptions>(serialOptions);
         var serialOptionsValue = serialOptions.Get<SerialOptions>();
         if (serialOptionsValue is { Enabled: true }) builder.Services.AddSerialModule();
-        // builder.Services.AddInstructionModule();
-        builder.Services.AddHostedService<VideoStream>();
+
+        var streamOptions = builder.Configuration.GetSection(StreamOptions.Stream);
+        builder.Services.Configure<StreamOptions>(streamOptions);
+        var streamOptionsValue = streamOptions.Get<StreamOptions>();
+        if (streamOptionsValue is { Enabled: true }) builder.Services.AddHostedService<VideoStream>();
+
+        builder.Services.AddInstructionModule();
     }
 }
