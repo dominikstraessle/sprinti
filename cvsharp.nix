@@ -1,6 +1,6 @@
 { stdenv, fetchFromGitHub, opencv, cmake }:
 
-stdenv.mkDerivation (_finalAttrs: {
+stdenv.mkDerivation rec {
   pname = "opencvsharp";
   version = "4.9.0.20240106";
 
@@ -8,8 +8,8 @@ stdenv.mkDerivation (_finalAttrs: {
 
   src = fetchFromGitHub {
     owner = "shimat";
-    repo = "opencvsharp";
-    rev = "4.9.0.20240106";
+    repo = pname;
+    rev = version;
     sha256 = "sha256-jXE8WLQ6C0SOjz/m01xn0Znw0lZA56OW0odL5BxpokY=";
   };
   dontConfigure = "true";
@@ -23,4 +23,4 @@ stdenv.mkDerivation (_finalAttrs: {
     mkdir -p $out/
     cp OpenCvSharpExtern/libOpenCvSharpExtern.so $out/
   '';
-})
+}
