@@ -22,4 +22,5 @@ stdenv.mkDerivation rec {
     mkdir -p $out/
     cp OpenCvSharpExtern/libOpenCvSharpExtern.so $out/
   '';
+  runtimeDeps = [ opencv ];
 }
