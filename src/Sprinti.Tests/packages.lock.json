@@ -498,7 +498,7 @@
           "xunit.extensibility.core": "[2.7.0]"
         }
       },
-      "sprinti.api": {
+      "sprinti": {
         "type": "Project",
         "dependencies": {
           "OpenCvSharp4": "[4.9.0.20240103, )",

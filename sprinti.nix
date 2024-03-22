@@ -10,6 +10,7 @@ buildDotnetModule rec {
   testProjectFile = "src/Sprinti.Tests/Sprinti.Tests.csproj";
   nugetDeps = ./deps.nix; # nix build .\#sprinti.passthru.fetch-deps
 
+  # ./updater.sh deps.nix
   passthru.updateScript = ./updater.sh;
 
   doCheck = true;
@@ -17,7 +18,7 @@ buildDotnetModule rec {
   dotnet-sdk = dotnetCorePackages.dotnet_8.sdk;
   selfContainedBuild = true;
   executables = [
-    "Sprinti.Api"
+    "sprinti"
   ]; # This wraps "$out/lib/$pname/Sprinti.Api" to `$out/bin/Sprinti.Api`.
 
   runtimeDeps = [
