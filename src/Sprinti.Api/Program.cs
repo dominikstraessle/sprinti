@@ -8,7 +8,7 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder();
+        var builder = WebApplication.CreateBuilder(args);
 
         ConfigureBuilder(builder);
 
@@ -21,7 +21,6 @@ public static class Program
 
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
-        builder.Configuration.AddEnvironmentVariables();
         builder.Services.AddLogging();
 
         var serialOptions = builder.Configuration.GetSection(SerialOptions.Serial);

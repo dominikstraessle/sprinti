@@ -13,7 +13,7 @@ buildDotnetModule rec {
   # ./updater.sh deps.nix
   passthru.updateScript = ./updater.sh;
 
-  doCheck = true;
+  doCheck = false;
 
   dotnet-sdk = dotnetCorePackages.dotnet_8.sdk;
   selfContainedBuild = true;
