@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Sprinti.Api.Video;
 
@@ -11,11 +13,10 @@ public class VideoStream(ILogger<VideoStream> logger, IOptions<StreamOptions> op
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Started Reader");
-        return Task.Run(() =>
+        return Task.Run(async () =>
         {
-            var dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
             var currentWorkingDir = Directory.GetCurrentDirectory();
-            var imageDirectory = Path.Combine(currentWorkingDir, options.Value.SaveImagePathFromProjectRoot, dateTime);
+            var imageDirectory = Path.Combine(currentWorkingDir, options.Value.SaveImagePathFromProjectRoot);
             Directory.CreateDirectory(imageDirectory);
             logger.LogInformation("Created new image directory: {path}", imageDirectory);
 
@@ -26,11 +27,17 @@ public class VideoStream(ILogger<VideoStream> logger, IOptions<StreamOptions> op
             while (!stoppingToken.IsCancellationRequested)
             {
                 capture.Read(image);
+                if (_imageIndex % options.Value.CaptureIntervalInSeconds == 0)
+                {
+                    var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
+                    image.SaveImage(imageFilePath);
+                    logger.LogInformation("Received image: {rows}x{cols}, saved to {path}", image.Rows, image.Cols,
+                        imageFilePath);
+                }
 
-                var imageFilePath = Path.Combine(imageDirectory, $"{_imageIndex++}.png");
-                image.SaveImage(imageFilePath);
-                logger.LogInformation("Received image: {rows}x{cols}, saved to {path}", image.Rows, image.Cols,
-                    imageFilePath);
+                _imageIndex += 1;
+                _imageIndex %= options.Value.CaptureIntervalInSeconds;
+                await Task.Delay(1000, stoppingToken);
             }
         }, stoppingToken);
     }
