@@ -17,11 +17,6 @@
         <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.9.0.20240103"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Domain\"/>
-        <Folder Include="Video\img\"/>
-    </ItemGroup>
-
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
@@ -31,13 +26,14 @@
         <UserSecretsId>6db71617-19bc-4861-bf1c-bc00e11d1a5c</UserSecretsId>
         <AssemblyName>sprinti</AssemblyName>
         <OutputType>Exe</OutputType>
+        <RootNamespace>Sprinti.Api</RootNamespace>
     </PropertyGroup>
     <PropertyGroup>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Sprinti.Tests"/>
+        <InternalsVisibleTo Include="Tests"/>
     </ItemGroup>
 
 </Project>

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprinti.Api", "Sprinti.Api\Sprinti.Api.csproj", "{E1140460-A45A-4446-88B0-A3FAD8ED69FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprinti", "Sprinti\Sprinti.csproj", "{E1140460-A45A-4446-88B0-A3FAD8ED69FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprinti.Tests", "Sprinti.Tests\Sprinti.Tests.csproj", "{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

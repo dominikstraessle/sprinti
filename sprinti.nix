@@ -6,8 +6,8 @@ buildDotnetModule rec {
 
   src = ./.;
 
-  projectFile = "src/Sprinti.Api/Sprinti.Api.csproj";
-  testProjectFile = "src/Sprinti.Tests/Sprinti.Tests.csproj";
+  projectFile = "src/Sprinti/Sprinti.csproj";
+  testProjectFile = "src/Tests/Tests.csproj";
   # nix build .\#sprinti.passthru.fetch-deps
   # mv result updater.sh
   nugetDeps = ./deps.nix;

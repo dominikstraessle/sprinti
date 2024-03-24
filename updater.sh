@@ -1,1 +1,1 @@
-/nix/store/7yfjpsrz886iq3vnm0d1lkcib64j8x70-fetch-sprinti-deps
+/nix/store/wi21dni50ks3p16047z1r4g1p4cnrp8a-fetch-sprinti-deps
