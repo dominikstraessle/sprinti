@@ -1,6 +1,6 @@
 using Sprinti.Api.Instruction;
 using Sprinti.Api.Serial;
-using Sprinti.Api.Video;
+using Sprinti.Api.Stream;
 
 namespace Sprinti.Api;
 
@@ -32,10 +32,5 @@ public static class Program
         if (streamOptionsValue is { Enabled: true }) builder.Services.AddStreamModule();
 
         builder.Services.AddInstructionModule();
-    }
-
-    private static void AddStreamModule(this IServiceCollection services)
-    {
-        services.AddHostedService<VideoStream>();
     }
 }

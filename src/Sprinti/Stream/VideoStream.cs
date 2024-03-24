@@ -1,11 +1,10 @@
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
 
-namespace Sprinti.Api.Video;
+namespace Sprinti.Api.Stream;
 
 public class VideoStream(ILogger<VideoStream> logger, IOptions<StreamOptions> options) : BackgroundService
 {
-    private string Source => $"rtsp://{options.Value.Username}:{options.Value.Password}@{options.Value.Host}";
     private int _imageIndex;
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -18,7 +17,7 @@ public class VideoStream(ILogger<VideoStream> logger, IOptions<StreamOptions> op
             Directory.CreateDirectory(imageDirectory);
             logger.LogInformation("Created new image directory: {path}", imageDirectory);
 
-            var capture = new VideoCapture(Source);
+            var capture = new VideoCapture(options.Value.RtspSource);
             using var image = new Mat();
 
             // When the movie playback reaches end, Mat.data becomes NULL.

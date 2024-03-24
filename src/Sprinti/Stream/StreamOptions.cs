@@ -1,4 +1,4 @@
-namespace Sprinti.Api.Video;
+namespace Sprinti.Api.Stream;
 
 public class StreamOptions
 {
@@ -9,4 +9,5 @@ public class StreamOptions
     public string Host { get; set; } = "147.88.48.131/axis-media/media.amp?streamprofile=pren_profile_small";
     public string SaveImagePathFromProjectRoot { get; set; } = "img";
     public int CaptureIntervalInSeconds { get; set; } = 5;
+    public string RtspSource => $"rtsp://{Username}:{Password}@{Host}";
 }
