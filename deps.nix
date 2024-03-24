@@ -228,6 +228,36 @@
     sha256 = "15mfqkyf32d4whzcnvqig064r22y8wr4babfpr6l55pin8anvf0x";
   })
   (fetchNuGet {
+    pname = "runtime.linux-arm.runtime.native.System.IO.Ports";
+    version = "8.0.0";
+    sha256 = "0qgrgf155mgsnakh0pxfg41zfwfn5as16g91q4k355v1nrvsi7wv";
+  })
+  (fetchNuGet {
+    pname = "runtime.linux-arm64.runtime.native.System.IO.Ports";
+    version = "8.0.0";
+    sha256 = "1clc032fbynp9f8f57fh11lk6k8y7g0nlyb9nm44a0zpfkfcc1i2";
+  })
+  (fetchNuGet {
+    pname = "runtime.linux-x64.runtime.native.System.IO.Ports";
+    version = "8.0.0";
+    sha256 = "0l623wmc1kswkv76fv15s2l35c3j2a4jvbv0v5jl6wz1466jx2p3";
+  })
+  (fetchNuGet {
+    pname = "runtime.native.System.IO.Ports";
+    version = "8.0.0";
+    sha256 = "13w1w8f9ky7h7fkc2vamjv4vvs6b7nb3mcz9zgl3w7pk9xak3886";
+  })
+  (fetchNuGet {
+    pname = "runtime.osx-arm64.runtime.native.System.IO.Ports";
+    version = "8.0.0";
+    sha256 = "08a88k2ps72206pigjq47r3xvp2j1ncmrr82bzgjskxj9kmhalx0";
+  })
+  (fetchNuGet {
+    pname = "runtime.osx-x64.runtime.native.System.IO.Ports";
+    version = "8.0.0";
+    sha256 = "1wbdzmcmp2fczv4c3pzvdbap9mnzrm2hp3gclshx0cm7rc6psqkg";
+  })
+  (fetchNuGet {
     pname = "System.Diagnostics.DiagnosticSource";
     version = "8.0.0";
     sha256 = "0nzra1i0mljvmnj1qqqg37xs7bl71fnpl68nwmdajchh65l878zr";
@@ -241,6 +271,11 @@
     pname = "System.Diagnostics.EventLog";
     version = "8.0.0";
     sha256 = "1xnvcidh2qf6k7w8ij1rvj0viqkq84cq47biw0c98xhxg5rk3pxf";
+  })
+  (fetchNuGet {
+    pname = "System.IO.Ports";
+    version = "8.0.0";
+    sha256 = "113vfqanh1fbxx264db2z207qkm02x7mnr854igkc1xb8xrzvj0v";
   })
   (fetchNuGet {
     pname = "System.Memory";
