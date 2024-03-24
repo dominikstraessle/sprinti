@@ -1,11 +1,11 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Moq;
-using Sprinti.Domain;
-using Sprinti.Serial;
-using static Sprinti.Domain.Color;
-using static Sprinti.Domain.Direction;
-using static Sprinti.Serial.ResponseState;
+using Sprinti.Api.Domain;
+using Sprinti.Api.Serial;
+using static Sprinti.Api.Domain.Color;
+using static Sprinti.Api.Domain.Direction;
+using static Sprinti.Api.Serial.ResponseState;
 
 namespace Sprinti.Tests.Serial;
 

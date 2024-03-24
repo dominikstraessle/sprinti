@@ -1,6 +1,6 @@
-﻿using Sprinti.Domain;
+﻿using Sprinti.Api.Domain;
 
-namespace Sprinti.Instruction;
+namespace Sprinti.Api.Instruction;
 
 public interface IInstructionService
 {

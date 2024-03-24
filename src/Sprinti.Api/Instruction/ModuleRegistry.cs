@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Sprinti.Instruction;
+namespace Sprinti.Api.Instruction;
 
 public static class ModuleRegistry
 {

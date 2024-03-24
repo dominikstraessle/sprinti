@@ -502,9 +502,7 @@
         "type": "Project",
         "dependencies": {
           "OpenCvSharp4": "[4.9.0.20240103, )",
-          "Sprinti.Domain": "[1.0.0, )",
-          "Sprinti.Instruction": "[1.0.0, )",
-          "Sprinti.Serial": "[1.0.0, )"
+          "System.IO.Ports": "[8.0.0, )"
         }
       },
       "sprinti.domain": {

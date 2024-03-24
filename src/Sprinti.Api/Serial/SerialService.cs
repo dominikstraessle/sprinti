@@ -1,8 +1,7 @@
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Sprinti.Domain;
+using Sprinti.Api.Domain;
 
-namespace Sprinti.Serial;
+namespace Sprinti.Api.Serial;
 
 public interface ISerialService
 {

@@ -1,8 +1,7 @@
 using System.IO.Ports;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Sprinti.Serial;
+namespace Sprinti.Api.Serial;
 
 public interface ISerialAdapter : IDisposable
 {

@@ -1,6 +1,6 @@
+using Sprinti.Api.Instruction;
+using Sprinti.Api.Serial;
 using Sprinti.Api.Video;
-using Sprinti.Instruction;
-using Sprinti.Serial;
 
 namespace Sprinti.Api;
 
@@ -21,8 +21,6 @@ public static class Program
 
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
-        builder.Services.AddLogging();
-
         var serialOptions = builder.Configuration.GetSection(SerialOptions.Serial);
         builder.Services.Configure<SerialOptions>(serialOptions);
         var serialOptionsValue = serialOptions.Get<SerialOptions>();
@@ -31,8 +29,13 @@ public static class Program
         var streamOptions = builder.Configuration.GetSection(StreamOptions.Stream);
         builder.Services.Configure<StreamOptions>(streamOptions);
         var streamOptionsValue = streamOptions.Get<StreamOptions>();
-        if (streamOptionsValue is { Enabled: true }) builder.Services.AddHostedService<VideoStream>();
+        if (streamOptionsValue is { Enabled: true }) builder.Services.AddStreamModule();
 
         builder.Services.AddInstructionModule();
+    }
+
+    private static void AddStreamModule(this IServiceCollection services)
+    {
+        services.AddHostedService<VideoStream>();
     }
 }

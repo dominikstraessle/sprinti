@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Sprinti.Serial;
+namespace Sprinti.Api.Serial;
 
 public static class ModuleRegistry
 {

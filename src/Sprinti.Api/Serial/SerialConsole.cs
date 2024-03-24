@@ -1,8 +1,6 @@
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Sprinti.Domain;
+using Sprinti.Api.Domain;
 
-namespace Sprinti.Serial;
+namespace Sprinti.Api.Serial;
 
 public class SerialConsole(ISerialService serialService, ILogger<SerialConsole> logger) : BackgroundService
 {

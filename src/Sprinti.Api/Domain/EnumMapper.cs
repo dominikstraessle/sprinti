@@ -1,4 +1,4 @@
-namespace Sprinti.Domain;
+namespace Sprinti.Api.Domain;
 
 public static class EnumMapper
 {

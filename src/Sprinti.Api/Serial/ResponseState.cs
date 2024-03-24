@@ -1,4 +1,4 @@
-namespace Sprinti.Serial;
+namespace Sprinti.Api.Serial;
 
 public enum ResponseState
 {

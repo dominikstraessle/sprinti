@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sprinti.Serial;
+using Sprinti.Api.Serial;
 
 namespace Sprinti.Tests;
 

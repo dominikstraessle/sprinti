@@ -1,7 +1,5 @@
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Sprinti.Api.Video;
 
