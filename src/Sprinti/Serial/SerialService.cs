@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
-using Sprinti.Api.Domain;
+using Sprinti.Domain;
 
-namespace Sprinti.Api.Serial;
+namespace Sprinti.Serial;
 
 public interface ISerialService
 {

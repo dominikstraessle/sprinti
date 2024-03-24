@@ -1,6 +1,6 @@
 using System.IO.Ports;
 
-namespace Sprinti.Api.Serial;
+namespace Sprinti.Serial;
 
 public class SerialOptions
 {

@@ -1,8 +1,8 @@
-using Sprinti.Api.Instruction;
-using Sprinti.Api.Serial;
-using Sprinti.Api.Stream;
+using Sprinti.Instruction;
+using Sprinti.Serial;
+using Sprinti.Stream;
 
-namespace Sprinti.Api;
+namespace Sprinti;
 
 public static class Program
 {

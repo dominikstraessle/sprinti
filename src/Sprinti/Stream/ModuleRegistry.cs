@@ -1,7 +1,8 @@
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
+using Sprinti.Stream;
 
-namespace Sprinti.Api.Stream;
+namespace Sprinti.Stream;
 
 public static class ModuleRegistry
 {

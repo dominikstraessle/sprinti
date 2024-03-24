@@ -26,7 +26,7 @@
         <UserSecretsId>6db71617-19bc-4861-bf1c-bc00e11d1a5c</UserSecretsId>
         <AssemblyName>sprinti</AssemblyName>
         <OutputType>Exe</OutputType>
-        <RootNamespace>Sprinti.Api</RootNamespace>
+        <RootNamespace>Sprinti</RootNamespace>
     </PropertyGroup>
     <PropertyGroup>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>

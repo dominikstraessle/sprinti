@@ -1,6 +1,6 @@
-using Sprinti.Api.Domain;
+using Sprinti.Domain;
 
-namespace Sprinti.Api.Serial;
+namespace Sprinti.Serial;
 
 public class SerialConsole(ISerialService serialService, ILogger<SerialConsole> logger) : BackgroundService
 {

@@ -1,5 +1,5 @@
-using Sprinti.Api.Domain;
-using Sprinti.Api.Instruction;
+using Sprinti.Domain;
+using Sprinti.Instruction;
 using Sprinti.Tests.Serial;
 
 namespace Sprinti.Tests.Instruction;

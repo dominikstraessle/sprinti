@@ -1,4 +1,4 @@
-namespace Sprinti.Api.Domain;
+namespace Sprinti.Domain;
 
 public interface ISerialCommand
 {

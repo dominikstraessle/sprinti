@@ -13,7 +13,10 @@
           sprinti = pkgs.callPackage ./sprinti.nix {
             inherit (self.packages.${system}) cvsharp;
           };
-
+          # sprinti user needs to be in trusted-users in /etc/nix/nix.conf of the raspberry
+          # nix copy --to ssh-ng://sprinti@sprinti.secure.straessle.me .\#packages.aarch64-linux.sprinti
+          # or
+          # nix copy --no-check-sigs --from ssh-ng://dominik@100.117.127.123 /nix/store/sxzvplbnl0m51qq5zkrc4jm4q4g8n3n2-sprinti-0.1
           default = self.packages.${system}.sprinti;
         });
 

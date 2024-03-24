@@ -1,4 +1,4 @@
-namespace Sprinti.Api.Stream;
+namespace Sprinti.Stream;
 
 public class StreamOptions
 {

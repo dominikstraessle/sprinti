@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
 
-namespace Sprinti.Api.Stream;
+namespace Sprinti.Stream;
 
 public class VideoStream(VideoCapture capture, ILogger<VideoStream> logger, IOptions<StreamOptions> options)
     : BackgroundService

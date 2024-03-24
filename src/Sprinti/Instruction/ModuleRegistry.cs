@@ -1,4 +1,4 @@
-namespace Sprinti.Api.Instruction;
+namespace Sprinti.Instruction;
 
 public static class ModuleRegistry
 {
