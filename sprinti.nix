@@ -9,11 +9,9 @@ buildDotnetModule rec {
   projectFile = "src/Sprinti/Sprinti.csproj";
   testProjectFile = "src/Tests/Tests.csproj";
   # nix build .\#sprinti.passthru.fetch-deps
-  # mv result updater.sh
+  # ./result deps.nix
   nugetDeps = ./deps.nix;
 
-  # ./updater.sh deps.nix
-  passthru.updateScript = ./updater.sh;
 
   doCheck = false;
 
