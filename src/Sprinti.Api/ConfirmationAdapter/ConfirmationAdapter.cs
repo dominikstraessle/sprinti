@@ -1,6 +1,7 @@
 ﻿using Sprinti.Domain;
 using Newtonsoft.Json;
 using System.Text;
+using Sprinti.Api.ConfirmationAdapter;
 
 namespace Sprinti.Api.Button
 {
@@ -8,29 +9,18 @@ namespace Sprinti.Api.Button
     {
         private static readonly HttpClient _client = new HttpClient();
         public ILogger<ConfirmationAdapter>? _logger;
+        private ConnectionsOption _connectionOptions;
 
         public void Confirmation(CubeConfig cubeConfig)
         {
-            var config = cubeConfig;
-            var configDictionary = new SortedDictionary<int, Color>();
-            foreach (var entry in config.Config)
-            {
-                configDictionary.Add(entry.Key, entry.Value);
-            }
-            var ConfigModel = new CubeConfig
-            {
-                Time = DateTime.Now,
-                Config = configDictionary
-            };
-
-            string jsonString = JsonConvert.SerializeObject(ConfigModel);
+            string jsonString = JsonConvert.SerializeObject(cubeConfig);
             PostConfig(jsonString);
 
         }
 
         private async void PostConfig(string jsonString)
         {
-            var Url = @"URL/cubes/teamxx/config";
+            var Url = _connectionOptions + "/config";
             using var httpClient = new HttpClient();
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             try
@@ -54,26 +44,50 @@ namespace Sprinti.Api.Button
 
         }
 
-        public async Task<string> StartAsync(CancellationToken cancellationToken)
+        public async void StartAsync(CancellationToken cancellationToken)
         {
-            try
+            if (testConnection == true)
             {
-                var url = @"http://52.58.217.104:5000/cubes";
-                HttpResponseMessage response = await _client.PostAsync(url, null);
-                var responseBody = await response.Content.ReadAsStringAsync();
-                return responseBody;
-            }
-            catch (OperationCanceledException e)
-            {
-                Console.WriteLine("Request was canceled.", e.Message);
-                return "Request was canceled.";
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine("Message :{0} ", ex.Message);
-                return $"Error: {ex.Message}";
+                
+                try
+                {
+                    var url = @"http://52.58.217.104:5000/cubes";
+                    HttpResponseMessage response = await _client.PostAsync(url, null);
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                }
+                catch (OperationCanceledException e)
+                {
+                    Console.WriteLine("Request was canceled.", e.Message);
+                    _logger.LogError($"{e.Message}");
+                }
+                catch (HttpRequestException ex)
+                {
+                    Console.WriteLine("Message :{0} ", ex.Message);
+                    _logger.LogError($"Error: {ex.Message}");
+                }
             }
         }
 
+
+        public void EndAysnc(CancellationToken cancellation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> TestConnection(HttpClient httpClient)
+        {
+            var url = _connectionOptions.TestConnectionString;
+            try
+            {
+                using HttpResponseMessage response = await httpClient.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+            }catch(HttpRequestException ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+        }
     }
 }

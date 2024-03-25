@@ -1,3 +1,4 @@
+using Sprinti.Api.ConfirmationAdapter;
 using Sprinti.Serial;
 
 namespace Sprinti.Api;
@@ -30,5 +31,6 @@ public static class Program
         {
             builder.Services.AddSerialModule();
         }
+        builder.Services.Configure<ConnectionsOption>(builder.Configuration.GetSection(ConnectionsOption.Connection));
     }
 }
