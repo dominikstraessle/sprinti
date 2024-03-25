@@ -1,5 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-
 namespace Sprinti.Instruction;
 
 public static class ModuleRegistry
