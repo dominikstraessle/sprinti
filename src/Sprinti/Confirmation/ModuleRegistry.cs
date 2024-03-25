@@ -6,13 +6,13 @@ public static class ModuleRegistry
 {
     public static void AddConfirmationModule(this IServiceCollection services)
     {
-        services.AddHttpClient<IConfirmationAdapter>(ConfigureClient);
+        services.AddHttpClient<IConfirmationAdapter>((provider, client) =>
+            ConfigureClient(provider.GetRequiredService<IOptions<ConfirmationOptions>>().Value, client));
         services.AddTransient<IConfirmationAdapter, ConfirmationAdapter>();
     }
 
-    private static void ConfigureClient(IServiceProvider provider, HttpClient client)
+    internal static void ConfigureClient(ConfirmationOptions confirmationOptions, HttpClient client)
     {
-        var confirmationOptions = provider.GetRequiredService<IOptions<ConfirmationOptions>>().Value;
         client.BaseAddress = confirmationOptions.BaseAddress;
         client.DefaultRequestHeaders.Add("Auth", confirmationOptions.Password);
     }
