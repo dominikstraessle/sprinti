@@ -3,6 +3,9 @@
 public class ConfirmationOptions
 {
     public const string Confirmation = "Connection";
-    public string ConnectionString { get; set; } = "http://52.58.217.104:5000/cubes/team29";
-    public string TestConnectionString { get; set; } = "http://52.58.217.104:5000/cubes";
+    public Uri BaseAddress { get; set; } = new("http://52.58.217.104:5000");
+    public string TeamName { get; set; } = "team29";
+    public string Password { get; set; } = "noauth";
+
+    public string StartPath => $"{BaseAddress}/cubes/{TeamName}/start";
 }

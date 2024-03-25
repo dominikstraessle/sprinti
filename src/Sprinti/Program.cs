@@ -34,6 +34,8 @@ public static class Program
 
         builder.Services.AddInstructionModule();
 
-        builder.Services.Configure<ConfirmationOptions>(builder.Configuration.GetSection(ConfirmationOptions.Confirmation));
+        builder.Services.Configure<ConfirmationOptions>(
+            builder.Configuration.GetSection(ConfirmationOptions.Confirmation));
+        builder.Services.AddConfirmationModule();
     }
 }

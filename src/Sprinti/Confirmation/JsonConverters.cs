@@ -5,7 +5,7 @@ using Sprinti.Domain;
 
 namespace Sprinti.Confirmation;
 
-public class CustomDateTimeConverter(string format) : JsonConverter<DateTime>
+public class JsonConverters(string format) : JsonConverter<DateTime>
 {
     public override void Write(Utf8JsonWriter writer, DateTime date, JsonSerializerOptions options)
     {
@@ -18,7 +18,7 @@ public class CustomDateTimeConverter(string format) : JsonConverter<DateTime>
     }
 }
 
-public class CustomColorConverter() : JsonConverter<Color>
+public class CustomColorConverter : JsonConverter<Color>
 {
     public override void Write(Utf8JsonWriter writer, Color color, JsonSerializerOptions options)
     {

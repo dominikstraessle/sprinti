@@ -1,3 +1,8 @@
+using System.Net;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
+using Moq;
+using Moq.Protected;
 using Sprinti.Confirmation;
 using Sprinti.Domain;
 
@@ -5,6 +10,29 @@ namespace Sprinti.Tests.Confirmation;
 
 public class ConfirmationAdapterTests
 {
+    private readonly ConfirmationAdapter _adapter;
+
+    public ConfirmationAdapterTests()
+    {
+        Mock<HttpMessageHandler> mockHttpMessageHandler = new();
+        mockHttpMessageHandler.Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK
+            });
+
+        var client = new HttpClient(mockHttpMessageHandler.Object);
+        var options = new OptionsWrapper<ConfirmationOptions>(new ConfirmationOptions
+        {
+            BaseAddress = new Uri("http://52.58.217.104:5000"),
+            TeamName = "team29",
+            Password = "noauth"
+        });
+        _adapter = new ConfirmationAdapter(client, options, new NullLogger<ConfirmationAdapter>());
+    }
+
     [Fact]
     public void TestConfirmationSerialization()
     {
@@ -30,5 +58,12 @@ public class ConfirmationAdapterTests
 
         var result = ConfirmationAdapter.SerializeCubeConfig(config);
         Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public async Task TestStartAsync()
+    {
+        var exceptionAsync = await Record.ExceptionAsync(() => _adapter.StartAsync(CancellationToken.None));
+        Assert.Null(exceptionAsync);
     }
 }

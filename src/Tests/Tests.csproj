@@ -34,7 +34,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Sprinti\Sprinti.csproj" />
+        <ProjectReference Include="..\Sprinti\Sprinti.csproj"/>
     </ItemGroup>
 
     <PropertyGroup>
