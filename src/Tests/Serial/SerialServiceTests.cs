@@ -21,7 +21,7 @@ public class SerialServiceTests
         _service = new SerialService(_adapterMock.Object, options, NullLogger<SerialService>.Instance);
     }
 
-    public static TheoryData<ISerialCommand, string, ResponseState> TestCommandsData =>
+    public static TheoryData3<ISerialCommand, string, ResponseState> TestCommandsData =>
         new()
         {
             { new RotateCommand(90), "complete", Complete },

@@ -1,5 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-
 namespace Sprinti.Serial;
 
 public static class ModuleRegistry

@@ -1,6 +1,4 @@
-using Sprinti.Domain;
-
-namespace Sprinti.Serial;
+namespace Sprinti.Domain;
 
 public interface ISerialCommand
 {
@@ -46,7 +44,3 @@ public record FinishCommand : ISerialCommand
         return "finish";
     }
 }
-
-public record FinishedResponse(int PowerInWattHours, ResponseState ResponseState);
-
-public record CompletedResponse(ResponseState ResponseState);
