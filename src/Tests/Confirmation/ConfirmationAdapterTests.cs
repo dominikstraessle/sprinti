@@ -42,8 +42,8 @@ public class ConfirmationAdapterTests
         var client = new HttpClient();
         ConfigureClient(_confirmationOptions, client);
         Assert.Equal(_confirmationOptions.BaseAddress, client.BaseAddress);
-        Assert.True(client.DefaultRequestHeaders.Contains("Auth"));
-        Assert.Equal(_confirmationOptions.Password, client.DefaultRequestHeaders.GetValues("Auth").First());
+        Assert.True(client.DefaultRequestHeaders.Contains(AuthHeaderName));
+        Assert.Equal(_confirmationOptions.Password, client.DefaultRequestHeaders.GetValues(AuthHeaderName).First());
     }
 
     [Fact]
