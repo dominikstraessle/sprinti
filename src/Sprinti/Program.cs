@@ -1,3 +1,4 @@
+using Sprinti.Confirmation;
 using Sprinti.Instruction;
 using Sprinti.Serial;
 using Sprinti.Stream;
@@ -32,5 +33,7 @@ public static class Program
         if (streamOptionsValue is { Enabled: true }) builder.Services.AddStreamModule();
 
         builder.Services.AddInstructionModule();
+
+        builder.Services.Configure<ConfirmationOptions>(builder.Configuration.GetSection(ConfirmationOptions.Confirmation));
     }
 }
