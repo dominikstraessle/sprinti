@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using Sprinti.Confirmation;
 using Sprinti.Instruction;
 using Sprinti.Serial;
@@ -15,9 +16,26 @@ public static class Program
 
         var app = builder.Build();
 
+        Configure(app);
 
         // socat -d -d pty,raw,echo=0 pty,raw,echo=0
         app.Run();
+    }
+
+    private static void Configure(WebApplication app)
+    {
+        // Enable middleware to serve generated Swagger as a JSON endpoint
+        app.UseSwagger();
+
+        // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
+            c.RoutePrefix = "";
+        });
+
+        app.UseRouting();
+        app.MapControllers();
     }
 
     private static void ConfigureBuilder(WebApplicationBuilder builder)
@@ -37,5 +55,11 @@ public static class Program
         builder.Services.Configure<ConfirmationOptions>(
             builder.Configuration.GetSection(ConfirmationOptions.Confirmation));
         builder.Services.AddConfirmationModule();
+
+        builder.Services.AddControllers();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sprinti Api", Version = "v1" });
+        });
     }
 }
