@@ -14,13 +14,6 @@ public class InfoController(
     IOptions<StreamOptions> streamOptions
 ) : ControllerBase
 {
-    public class InfoDto
-    {
-        public required SerialOptions Serial { get; init; }
-        public required ConfirmationOptions Confirmation { get; init; }
-        public required StreamOptions Stream { get; init; }
-    }
-
     [HttpGet]
     [ProducesResponseType(typeof(InfoDto), 200)]
     public IActionResult Get()
@@ -31,5 +24,12 @@ public class InfoController(
             Confirmation = confirmationOptions.Value,
             Serial = serialOptions.Value
         });
+    }
+
+    public class InfoDto
+    {
+        public required SerialOptions Serial { get; init; }
+        public required ConfirmationOptions Confirmation { get; init; }
+        public required StreamOptions Stream { get; init; }
     }
 }

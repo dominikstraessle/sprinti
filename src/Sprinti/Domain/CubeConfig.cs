@@ -9,6 +9,5 @@ public class CubeConfig
     [JsonConverter(typeof(DateTimeConverter))]
     public required DateTime Time { get; set; }
 
-    [JsonPropertyName("config")]
-    public required SortedDictionary<int, Color> Config { get; set; }
+    [JsonPropertyName("config")] public required SortedDictionary<int, Color> Config { get; set; }
 }

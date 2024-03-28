@@ -48,6 +48,7 @@ public static class JsonConverters
             throw new NotImplementedException();
         }
     }
+
     public class DirectionJsonConverter : JsonConverter<Direction>
     {
         public override void Write(Utf8JsonWriter writer, Direction value, JsonSerializerOptions options)

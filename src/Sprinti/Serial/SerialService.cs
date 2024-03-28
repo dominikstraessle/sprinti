@@ -7,7 +7,7 @@ public interface ISerialService
 {
     Task<CompletedResponse> SendCommand(ISerialCommand command, CancellationToken cancellationToken);
     Task<FinishedResponse> SendCommand(FinishCommand command, CancellationToken cancellationToken);
-    Task<string> RawCommandReply(string command, CancellationToken stoppingToken);
+    Task<string> SendRawCommand(string command, CancellationToken stoppingToken);
 }
 
 internal class SerialService(
@@ -32,6 +32,17 @@ internal class SerialService(
         return responseState is ResponseState.Finished
             ? new FinishedResponse(GetPowerInWatts(message), responseState)
             : new FinishedResponse(0, responseState);
+    }
+
+    public async Task<string> SendRawCommand(string command, CancellationToken stoppingToken)
+    {
+        var readTask = Task.Run(() => ReadResponse(stoppingToken), stoppingToken);
+
+        serialAdapter.WriteLine(command);
+
+        var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
+        logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
+        return responseLine;
     }
 
     private static ResponseState ParseResponseState(string response)
@@ -72,17 +83,6 @@ internal class SerialService(
         var readTask = Task.Run(() => ReadResponse(stoppingToken), stoppingToken);
 
         serialAdapter.WriteLine(command.ToAsciiCommand());
-
-        var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
-        logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
-        return responseLine;
-    }
-
-    public async Task<string> RawCommandReply(string command, CancellationToken stoppingToken)
-    {
-        var readTask = Task.Run(() => ReadResponse(stoppingToken), stoppingToken);
-
-        serialAdapter.WriteLine(command);
 
         var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
         logger.LogInformation("Received serial response: '{responseLine}'", responseLine);

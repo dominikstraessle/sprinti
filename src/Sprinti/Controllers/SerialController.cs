@@ -13,7 +13,7 @@ public class SerialController(ISerialService service) : ControllerBase
     [ProducesResponseType(typeof(FinishedResponse), 201)]
     public async Task<IActionResult> Raw([FromQuery] string command, CancellationToken cancellationToken)
     {
-        var response = await service.RawCommandReply(command, cancellationToken);
+        var response = await service.SendRawCommand(command, cancellationToken);
         return Ok(response);
     }
 
