@@ -1,5 +1,9 @@
+using System.Text.Json.Serialization;
+using static Sprinti.Confirmation.JsonConverters;
+
 namespace Sprinti.Serial;
 
+[JsonConverter(typeof(ResponseStateJsonConverter))]
 public enum ResponseState
 {
     Complete,

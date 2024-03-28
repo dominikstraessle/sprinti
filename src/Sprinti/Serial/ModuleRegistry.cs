@@ -6,6 +6,6 @@ public static class ModuleRegistry
     {
         services.AddSingleton<ISerialAdapter, SerialAdapter>();
         services.AddSingleton<ISerialService, SerialService>();
-        services.AddHostedService<SerialConsole>();
+        // services.AddHostedService<SerialConsole>();
     }
 }

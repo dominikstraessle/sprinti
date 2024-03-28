@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Sprinti.Domain;
+using Sprinti.Serial;
 
 namespace Sprinti.Confirmation;
 
@@ -22,25 +23,41 @@ public static class JsonConverters
         }
     }
 
-    public class ConfigDictionaryConverter : JsonConverter<SortedDictionary<int, Color>>
+    public class ResponseStateJsonConverter : JsonConverter<ResponseState>
     {
-        public override SortedDictionary<int, Color>? Read(ref Utf8JsonReader reader, Type typeToConvert,
-            JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, ResponseState value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.Map());
+        }
+
+        public override ResponseState Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             throw new NotImplementedException();
         }
+    }
 
-        public override void Write(Utf8JsonWriter writer, SortedDictionary<int, Color> value,
-            JsonSerializerOptions options)
+    public class ColorJsonConverter : JsonConverter<Color>
+    {
+        public override void Write(Utf8JsonWriter writer, Color value, JsonSerializerOptions options)
         {
-            writer.WriteStartObject();
-            foreach (var pair in value)
-            {
-                writer.WritePropertyName(pair.Key.ToString());
-                JsonSerializer.Serialize(writer, pair.Value.Map(), options);
-            }
+            writer.WriteStringValue(value.Map());
+        }
 
-            writer.WriteEndObject();
+        public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class DirectionJsonConverter : JsonConverter<Direction>
+    {
+        public override void Write(Utf8JsonWriter writer, Direction value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.Map());
+        }
+
+        public override Direction Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            throw new NotImplementedException();
         }
     }
 }
