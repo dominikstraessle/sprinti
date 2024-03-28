@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Sprinti.Confirmation;
 using Sprinti.Instruction;
@@ -56,7 +58,10 @@ public static class Program
             builder.Configuration.GetSection(ConfirmationOptions.Confirmation));
         builder.Services.AddConfirmationModule();
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+        });
         builder.Services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sprinti Api", Version = "v1" });
