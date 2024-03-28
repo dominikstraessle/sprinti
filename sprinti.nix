@@ -12,7 +12,6 @@ buildDotnetModule rec {
   # ./result deps.nix
   nugetDeps = ./deps.nix;
 
-
   doCheck = false;
 
   dotnet-sdk = dotnetCorePackages.dotnet_8.sdk;
