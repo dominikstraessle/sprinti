@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
-using Sprinti.Stream;
 
 namespace Sprinti.Stream;
 

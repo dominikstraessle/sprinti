@@ -7,6 +7,7 @@ public interface ISerialService
 {
     Task<CompletedResponse> SendCommand(ISerialCommand command, CancellationToken cancellationToken);
     Task<FinishedResponse> SendCommand(FinishCommand command, CancellationToken cancellationToken);
+    Task<string> SendRawCommand(string command, CancellationToken stoppingToken);
 }
 
 internal class SerialService(
@@ -33,6 +34,17 @@ internal class SerialService(
             : new FinishedResponse(0, responseState);
     }
 
+    public async Task<string> SendRawCommand(string command, CancellationToken stoppingToken)
+    {
+        var readTask = Task.Run(() => ReadResponse(stoppingToken), stoppingToken);
+
+        serialAdapter.WriteLine(command);
+
+        var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
+        logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
+        return responseLine;
+    }
+
     private static ResponseState ParseResponseState(string response)
     {
         return response switch
@@ -49,20 +61,20 @@ internal class SerialService(
 
     private static bool IsFinished(string s)
     {
-        var splitted = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (splitted is not ["finish", _]) return false;
+        var split = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (split is not ["finish", _]) return false;
 
-        return int.TryParse(splitted[1], out var number) && number >= 1;
+        return int.TryParse(split[1], out var number) && number >= 1;
     }
 
     private static int GetPowerInWatts(string s)
     {
-        var splitted = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (splitted is not ["finish", _]) throw new ArgumentException(nameof(s), s);
+        var split = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (split is not ["finish", _]) throw new ArgumentException(s, nameof(s));
 
-        if (int.TryParse(splitted[1], out var number) && number >= 1) return number;
+        if (int.TryParse(split[1], out var number) && number >= 1) return number;
 
-        throw new ArgumentException(nameof(s), s);
+        throw new ArgumentException(s, nameof(s));
     }
 
 
