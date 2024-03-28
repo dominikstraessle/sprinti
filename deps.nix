@@ -33,6 +33,11 @@
     sha256 = "1gljgi69k0fz8vy8bn6xlyxabj6q4vls2zza9wz7ng6ix3irm89r";
   })
   (fetchNuGet {
+    pname = "Microsoft.Extensions.ApiDescription.Server";
+    version = "6.0.5";
+    sha256 = "1pi2bm3cm0a7jzqzmfc2r7bpcdkmk3hhjfvb2c81j7wl7xdw3624";
+  })
+  (fetchNuGet {
     pname = "Microsoft.Extensions.Configuration";
     version = "8.0.0";
     sha256 = "080kab87qgq2kh0ijry5kfdiq9afyzb8s0k3jqi5zbbi540yq4zl";
@@ -203,6 +208,11 @@
     sha256 = "0x3fsfkv2gcilhsj31pjgg2vfibq2xvqhprw3hpm4gig4c2qi4fg";
   })
   (fetchNuGet {
+    pname = "Microsoft.OpenApi";
+    version = "1.2.3";
+    sha256 = "07b19k89whj69j87afkz86gp9b3iybw8jqwvlgcn43m7fb2y99rr";
+  })
+  (fetchNuGet {
     pname = "Microsoft.TestPlatform.ObjectModel";
     version = "17.9.0";
     sha256 = "1kgsl9w9fganbm9wvlkqgk0ag9hfi58z88rkfybc6kvg78bx89ca";
@@ -226,6 +236,11 @@
     pname = "OpenCvSharp4";
     version = "4.9.0.20240103";
     sha256 = "15mfqkyf32d4whzcnvqig064r22y8wr4babfpr6l55pin8anvf0x";
+  })
+  (fetchNuGet {
+    pname = "RichardSzalay.MockHttp";
+    version = "7.0.0";
+    sha256 = "167r48r1mbjgq8wc9w7lhh63vy853sc2dvxjld372zh8mqi5aasz";
   })
   (fetchNuGet {
     pname = "runtime.linux-arm.runtime.native.System.IO.Ports";
@@ -256,6 +271,26 @@
     pname = "runtime.osx-x64.runtime.native.System.IO.Ports";
     version = "8.0.0";
     sha256 = "1wbdzmcmp2fczv4c3pzvdbap9mnzrm2hp3gclshx0cm7rc6psqkg";
+  })
+  (fetchNuGet {
+    pname = "Swashbuckle.AspNetCore";
+    version = "6.5.0";
+    sha256 = "0k61chpz5j59s1yax28vx0mppx20ff8vg8grwja112hfrzj1f45n";
+  })
+  (fetchNuGet {
+    pname = "Swashbuckle.AspNetCore.Swagger";
+    version = "6.5.0";
+    sha256 = "1s6axf6fin8sss3bvzp0s039rxrx71vx4rl559miw12bz3lld8kc";
+  })
+  (fetchNuGet {
+    pname = "Swashbuckle.AspNetCore.SwaggerGen";
+    version = "6.5.0";
+    sha256 = "0hq93gy5vyrigpdk9lhqwxglxwkbxa8ydllwcqs4bwfcsspzrs83";
+  })
+  (fetchNuGet {
+    pname = "Swashbuckle.AspNetCore.SwaggerUI";
+    version = "6.5.0";
+    sha256 = "17hx7kc187higm0gk67dndng3n7932sn3fwyj48l45cvyr3025h7";
   })
   (fetchNuGet {
     pname = "System.Diagnostics.DiagnosticSource";
