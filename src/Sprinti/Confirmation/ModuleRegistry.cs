@@ -5,6 +5,7 @@ namespace Sprinti.Confirmation;
 public static class ModuleRegistry
 {
     public const string AuthHeaderName = "Auth";
+
     public static void AddConfirmationModule(this IServiceCollection services)
     {
         services.AddHttpClient<IConfirmationAdapter>((provider, client) =>

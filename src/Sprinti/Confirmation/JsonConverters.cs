@@ -5,28 +5,42 @@ using Sprinti.Domain;
 
 namespace Sprinti.Confirmation;
 
-public class JsonConverters(string format) : JsonConverter<DateTime>
+public static class JsonConverters
 {
-    public override void Write(Utf8JsonWriter writer, DateTime date, JsonSerializerOptions options)
+    public class DateTimeConverter : JsonConverter<DateTime>
     {
-        writer.WriteStringValue(date.ToString(format));
+        private const string Format = "yyyy-mm-dd HH:mm:ss";
+
+        public override void Write(Utf8JsonWriter writer, DateTime date, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(date.ToString(Format));
+        }
+
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return DateTime.ParseExact(reader.GetString() ?? string.Empty, Format, DateTimeFormatInfo.InvariantInfo);
+        }
     }
 
-    public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public class ConfigDictionaryConverter : JsonConverter<SortedDictionary<int, Color>>
     {
-        return DateTime.ParseExact(reader.GetString() ?? string.Empty, format, DateTimeFormatInfo.InvariantInfo);
-    }
-}
+        public override SortedDictionary<int, Color>? Read(ref Utf8JsonReader reader, Type typeToConvert,
+            JsonSerializerOptions options)
+        {
+            throw new NotImplementedException();
+        }
 
-public class CustomColorConverter : JsonConverter<Color>
-{
-    public override void Write(Utf8JsonWriter writer, Color color, JsonSerializerOptions options)
-    {
-        writer.WriteStringValue(color.Map());
-    }
+        public override void Write(Utf8JsonWriter writer, SortedDictionary<int, Color> value,
+            JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+            foreach (var pair in value)
+            {
+                writer.WritePropertyName(pair.Key.ToString());
+                JsonSerializer.Serialize(writer, pair.Value.Map(), options);
+            }
 
-    public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
+            writer.WriteEndObject();
+        }
     }
 }

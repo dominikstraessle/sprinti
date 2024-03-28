@@ -12,6 +12,11 @@ public class ConfirmationAdapter(
     ILogger<ConfirmationAdapter> logger)
     : IConfirmationAdapter
 {
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+
     private readonly ConfirmationOptions _connectionOptions = options.Value;
 
     public async Task StartAsync(CancellationToken cancellation)
@@ -31,13 +36,6 @@ public class ConfirmationAdapter(
 
     public static string SerializeCubeConfig(CubeConfig cubeConfig)
     {
-        var jsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
-        jsonSerializerOptions.Converters.Add(new JsonConverters("yyyy-mm-dd HH:mm:ss"));
-        jsonSerializerOptions.Converters.Add(new CustomColorConverter());
-
-        return JsonSerializer.Serialize(cubeConfig, jsonSerializerOptions);
+        return JsonSerializer.Serialize(cubeConfig, JsonSerializerOptions);
     }
 }
