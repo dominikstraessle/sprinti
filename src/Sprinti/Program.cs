@@ -27,7 +27,14 @@ public static class Program
     private static void Configure(WebApplication app)
     {
         // Enable middleware to serve generated Swagger as a JSON endpoint
-        app.UseSwagger();
+        app.UseSwagger(c =>
+        {
+            c.PreSerializeFilters.Add((swagger, httpReq) =>
+            {
+                swagger.Servers = new List<OpenApiServer>
+                    { new() { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
+            });
+        });
 
         // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint
         app.UseSwaggerUI(c =>
@@ -58,13 +65,18 @@ public static class Program
             builder.Configuration.GetSection(ConfirmationOptions.Confirmation));
         builder.Services.AddConfirmationModule();
 
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
         });
         builder.Services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sprinti Api", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Sprinti Api", Version = "v1"
+            });
         });
     }
 }

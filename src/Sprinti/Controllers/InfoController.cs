@@ -6,17 +6,15 @@ using Sprinti.Stream;
 
 namespace Sprinti.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
 public class InfoController(
     IOptions<SerialOptions> serialOptions,
     IOptions<ConfirmationOptions> confirmationOptions,
     IOptions<StreamOptions> streamOptions
-) : ControllerBase
+) : ApiController
 {
-    [HttpGet]
+    [HttpGet(nameof(Info), Name = nameof(Info))]
     [ProducesResponseType(typeof(InfoDto), 200)]
-    public IActionResult Get()
+    public IActionResult Info()
     {
         return Ok(new InfoDto
         {

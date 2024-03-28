@@ -4,12 +4,9 @@ using Sprinti.Serial;
 
 namespace Sprinti.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class SerialController(ISerialService service) : ControllerBase
+public class SerialController(ISerialService service) : ApiController
 {
-    [HttpPost]
-    [Route("")]
+    [HttpPost(nameof(Raw), Name = nameof(Raw))]
     [ProducesResponseType(typeof(FinishedResponse), 201)]
     public async Task<IActionResult> Raw([FromQuery] string command, CancellationToken cancellationToken)
     {
@@ -17,8 +14,7 @@ public class SerialController(ISerialService service) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost]
-    [Route("rotate")]
+    [HttpPost(nameof(Rotate), Name = nameof(Rotate))]
     [ProducesResponseType(typeof(CompletedResponse), 201)]
     public async Task<IActionResult> Rotate([FromQuery] int degree, CancellationToken cancellationToken)
     {
@@ -26,8 +22,7 @@ public class SerialController(ISerialService service) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost]
-    [Route("eject")]
+    [HttpPost(nameof(Eject), Name = nameof(Eject))]
     [ProducesResponseType(typeof(CompletedResponse), 201)]
     public async Task<IActionResult> Eject([FromQuery] Color color, CancellationToken cancellationToken)
     {
@@ -35,8 +30,7 @@ public class SerialController(ISerialService service) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost]
-    [Route("lift")]
+    [HttpPost(nameof(Lift), Name = nameof(Lift))]
     [ProducesResponseType(typeof(CompletedResponse), 201)]
     public async Task<IActionResult> Lift([FromQuery] Direction direction, CancellationToken cancellationToken)
     {
@@ -44,8 +38,7 @@ public class SerialController(ISerialService service) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost]
-    [Route("reset")]
+    [HttpPost(nameof(Reset), Name = nameof(Reset))]
     [ProducesResponseType(typeof(CompletedResponse), 201)]
     public async Task<IActionResult> Reset(CancellationToken cancellationToken)
     {
@@ -53,8 +46,7 @@ public class SerialController(ISerialService service) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost]
-    [Route("finish")]
+    [HttpPost(nameof(Finish), Name = nameof(Finish))]
     [ProducesResponseType(typeof(FinishedResponse), 201)]
     public async Task<IActionResult> Finish(CancellationToken cancellationToken)
     {
