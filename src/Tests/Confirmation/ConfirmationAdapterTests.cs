@@ -1,8 +1,7 @@
 using System.Net;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
-using Moq;
-using Moq.Protected;
+using RichardSzalay.MockHttp;
 using Sprinti.Confirmation;
 using Sprinti.Domain;
 using static Sprinti.Confirmation.ModuleRegistry;
@@ -20,20 +19,15 @@ public class ConfirmationAdapterTests
         Password = "noauth"
     };
 
+    private readonly MockHttpMessageHandler _mockHttp;
+    private readonly OptionsWrapper<ConfirmationOptions> _options;
+
+
     public ConfirmationAdapterTests()
     {
-        Mock<HttpMessageHandler> mockHttpMessageHandler = new();
-        mockHttpMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
-                ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK
-            });
-
-        var client = new HttpClient(mockHttpMessageHandler.Object);
-        var options = new OptionsWrapper<ConfirmationOptions>(_confirmationOptions);
-        _adapter = new ConfirmationAdapter(client, options, new NullLogger<ConfirmationAdapter>());
+        _mockHttp = new MockHttpMessageHandler();
+        _options = new OptionsWrapper<ConfirmationOptions>(_confirmationOptions);
+        _adapter = new ConfirmationAdapter(_mockHttp.ToHttpClient(), _options, new NullLogger<ConfirmationAdapter>());
     }
 
     [Fact]
@@ -47,7 +41,23 @@ public class ConfirmationAdapterTests
     }
 
     [Fact]
-    public void TestConfirmationSerialization()
+    public async Task TestStartAsync()
+    {
+        _mockHttp.When(_options.Value.CubesTeamStartPath).Respond(HttpStatusCode.OK);
+        var exceptionAsync = await Record.ExceptionAsync(() => _adapter.StartAsync(CancellationToken.None));
+        Assert.Null(exceptionAsync);
+    }
+
+    [Fact]
+    public async Task TestEndAsync()
+    {
+        _mockHttp.When(_options.Value.CubesTeamEndPath).Respond(HttpStatusCode.OK);
+        var exceptionAsync = await Record.ExceptionAsync(() => _adapter.EndAsync(CancellationToken.None));
+        Assert.Null(exceptionAsync);
+    }
+
+    [Fact]
+    public async Task TestConfirmAsync()
     {
         var config = new CubeConfig
         {
@@ -64,19 +74,48 @@ public class ConfirmationAdapterTests
                 { 8, Color.Red }
             }
         };
-        const string expected = """
-                                {"time":"2023-10-10 17:10:05","config":{"1":"red","2":"blue","3":"red","4":"yellow","5":"","6":"","7":"yellow","8":"red"}}
-                                """;
 
+        const string expectedCubeConfigJson = """
+                                              {"time":"2023-10-10 17:10:05","config":{"1":"red","2":"blue","3":"red","4":"yellow","5":"","6":"","7":"yellow","8":"red"}}
+                                              """;
 
-        var result = ConfirmationAdapter.SerializeCubeConfig(config);
-        Assert.Equal(expected, result);
+        _mockHttp.When(_options.Value.CubesTeamConfigPath)
+            .WithContent(expectedCubeConfigJson)
+            .Respond(HttpStatusCode.OK);
+        var exceptionAsync = await Record.ExceptionAsync(() => _adapter.ConfirmAsync(config, CancellationToken.None));
+        Assert.Null(exceptionAsync);
     }
 
     [Fact]
-    public async Task TestStartAsync()
+    public async Task TestHealthCheckAsyncOk()
     {
-        var exceptionAsync = await Record.ExceptionAsync(() => _adapter.StartAsync(CancellationToken.None));
-        Assert.Null(exceptionAsync);
+        _mockHttp.When(_options.Value.CubesPath).Respond(HttpStatusCode.OK);
+        var result = await _adapter.HealthCheckAsync(CancellationToken.None);
+        Assert.True(result);
+    }
+
+    [Fact]
+    public async Task TestHealthCheckAsyncNotOk()
+    {
+        _mockHttp.When(_options.Value.CubesPath).Respond(HttpStatusCode.InternalServerError);
+        var result = await _adapter.HealthCheckAsync(CancellationToken.None);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public async Task TestHealthCheckAsyncError()
+    {
+        _mockHttp.When(_options.Value.CubesPath).Throw(new TimeoutException("simulated timeout"));
+        var result = await _adapter.HealthCheckAsync(CancellationToken.None);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void TestPaths()
+    {
+        Assert.Equal("http://52.58.217.104:5000/cubes", _options.Value.CubesPath);
+        Assert.Equal("http://52.58.217.104:5000/cubes/team29/start", _options.Value.CubesTeamStartPath);
+        Assert.Equal("http://52.58.217.104:5000/cubes/team29/config", _options.Value.CubesTeamConfigPath);
+        Assert.Equal("http://52.58.217.104:5000/cubes/team29/end", _options.Value.CubesTeamEndPath);
     }
 }

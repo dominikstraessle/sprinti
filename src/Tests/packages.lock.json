@@ -98,6 +98,12 @@
           "Castle.Core": "5.1.1"
         }
       },
+      "RichardSzalay.MockHttp": {
+        "type": "Direct",
+        "requested": "[7.0.0, )",
+        "resolved": "7.0.0",
+        "contentHash": "QwnauYiaywp65QKFnP+wvgiQ2D8Pv888qB2dyfd7MSVDF06sIvxqASenk+RxsWybyyt+Hu1Y251wQxpHTv3UYg=="
+      },
       "xunit": {
         "type": "Direct",
         "requested": "[2.7.0, )",
@@ -502,29 +508,6 @@
         "type": "Project",
         "dependencies": {
           "OpenCvSharp4": "[4.9.0.20240103, )",
-          "System.IO.Ports": "[8.0.0, )"
-        }
-      },
-      "sprinti.domain": {
-        "type": "Project"
-      },
-      "sprinti.instruction": {
-        "type": "Project",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.1, )",
-          "Sprinti.Domain": "[1.0.0, )"
-        }
-      },
-      "sprinti.serial": {
-        "type": "Project",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.1, )",
-          "Microsoft.Extensions.Hosting": "[8.0.0, )",
-          "Microsoft.Extensions.Hosting.Abstractions": "[8.0.0, )",
-          "Microsoft.Extensions.Logging": "[8.0.0, )",
-          "Microsoft.Extensions.Logging.Abstractions": "[8.0.0, )",
-          "Microsoft.Extensions.Options": "[8.0.0, )",
-          "Sprinti.Domain": "[1.0.0, )",
           "System.IO.Ports": "[8.0.0, )"
         }
       }

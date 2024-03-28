@@ -7,5 +7,9 @@ public class ConfirmationOptions
     public string TeamName { get; set; } = "team29";
     public string Password { get; set; } = "noauth";
 
-    public string StartPath => $"{BaseAddress}/cubes/{TeamName}/start";
+    public string CubesPath => $"{BaseAddress}cubes";
+    private string CubesTeamPath => $"{CubesPath}/{TeamName}";
+    public string CubesTeamStartPath => $"{CubesTeamPath}/start";
+    public string CubesTeamEndPath => $"{CubesTeamPath}/end";
+    public string CubesTeamConfigPath => $"{CubesTeamPath}/config";
 }
