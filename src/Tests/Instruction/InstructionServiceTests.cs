@@ -24,7 +24,7 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
+                    new StartCommand(),
                     new LiftCommand(Direction.Down),
                     new FinishCommand()
                 ]
@@ -42,7 +42,7 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
+                    new StartCommand(),
                     new EjectCommand(Color.Yellow),
                     new LiftCommand(Direction.Down),
                     new FinishCommand()
@@ -61,7 +61,7 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
+                    new StartCommand(),
                     new RotateCommand(90),
                     new EjectCommand(Color.Yellow),
                     new RotateCommand(-90),
@@ -83,7 +83,7 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
+                    new StartCommand(),
                     new RotateCommand(90),
                     new EjectCommand(Color.Yellow),
                     new RotateCommand(-90),
@@ -109,7 +109,7 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
+                    new StartCommand(),
                     new EjectCommand(Color.Yellow),
                     new EjectCommand(Color.Blue),
                     new EjectCommand(Color.Red),
@@ -130,7 +130,7 @@ public class InstructionServiceTests
                     { 8, Color.Red }
                 },
                 [
-                    new ResetCommand(),
+                    new StartCommand(),
                     new EjectCommand(Color.Yellow),
                     new EjectCommand(Color.Blue),
                     new EjectCommand(Color.Red),
@@ -154,7 +154,7 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
+                    new StartCommand(),
                     new RotateCommand(180),
                     new EjectCommand(Color.Red),
                     new RotateCommand(-90),
@@ -180,7 +180,7 @@ public class InstructionServiceTests
                     { 8, Color.Yellow }
                 },
                 [
-                    new ResetCommand(),
+                    new StartCommand(),
                     new RotateCommand(-90),
                     new EjectCommand(Color.Red),
                     new RotateCommand(90),

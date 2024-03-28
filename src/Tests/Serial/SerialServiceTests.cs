@@ -27,12 +27,12 @@ public class SerialServiceTests
             { new RotateCommand(90), "complete", Complete },
             { new EjectCommand(Red), "complete", Complete },
             { new LiftCommand(Down), "complete", Complete },
-            { new ResetCommand(), "complete", Complete },
-            { new ResetCommand(), "error invalid_argument", InvalidArgument },
-            { new ResetCommand(), "error not_implemented", NotImplemented },
-            { new ResetCommand(), "error machine_error", MachineError },
-            { new ResetCommand(), "error error", Error },
-            { new ResetCommand(), "some other response", Unknown },
+            { new StartCommand(), "complete", Complete },
+            { new StartCommand(), "error invalid_argument", InvalidArgument },
+            { new StartCommand(), "error not_implemented", NotImplemented },
+            { new StartCommand(), "error machine_error", MachineError },
+            { new StartCommand(), "error error", Error },
+            { new StartCommand(), "some other response", Unknown },
             { new FinishCommand(), "finish 10", Finished }
         };
 

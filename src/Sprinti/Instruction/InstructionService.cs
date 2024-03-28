@@ -82,6 +82,6 @@ internal class InstructionService : IInstructionService
 
     private static List<ISerialCommand> InitSequence()
     {
-        return [new ResetCommand()];
+        return [new StartCommand()];
     }
 }

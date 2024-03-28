@@ -11,6 +11,12 @@ public enum ResponseState
     Finished
 }
 
+/**
+ * Sendet die verbrauchte Energie in Watt-Stunden (Wh).
+ */
 public record FinishedResponse(int PowerInWattHours, ResponseState ResponseState);
 
+/**
+ * Bestätigt dass die angegebene Transaktion erfolgreich ausgeführt wurde.
+ */
 public record CompletedResponse(ResponseState ResponseState);
