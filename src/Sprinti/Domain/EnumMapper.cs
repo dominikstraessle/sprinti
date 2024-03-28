@@ -16,6 +16,18 @@ public static class EnumMapper
         };
     }
 
+    public static Color Map(string color)
+    {
+        return color switch
+        {
+            "" => Color.None,
+            "red" => Color.Red,
+            "blue" => Color.Blue,
+            "yellow" => Color.Yellow,
+            _ => throw new ArgumentOutOfRangeException(nameof(color), color, null)
+        };
+    }
+
     public static string Map(this Direction direction)
     {
         return direction switch
