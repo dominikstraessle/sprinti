@@ -8,9 +8,10 @@ public static class ModuleRegistry
 
     public static void AddConfirmationModule(this IServiceCollection services)
     {
-        services.AddHttpClient<IConfirmationAdapter>((provider, client) =>
-            ConfigureClient(provider.GetRequiredService<IOptions<ConfirmationOptions>>().Value, client));
+        // Order is important: Register the adapter before the http client
         services.AddTransient<IConfirmationAdapter, ConfirmationAdapter>();
+        services.AddHttpClient<IConfirmationAdapter, ConfirmationAdapter>((provider, client) =>
+            ConfigureClient(provider.GetRequiredService<IOptions<ConfirmationOptions>>().Value, client));
     }
 
     internal static void ConfigureClient(ConfirmationOptions confirmationOptions, HttpClient client)

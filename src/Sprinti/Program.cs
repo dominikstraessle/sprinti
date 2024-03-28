@@ -73,6 +73,7 @@ public static class Program
         });
         builder.Services.AddSwaggerGen(c =>
         {
+            c.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["controller"]}{e.ActionDescriptor.AttributeRouteInfo?.Name}");
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "Sprinti Api", Version = "v1"

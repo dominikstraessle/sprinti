@@ -12,9 +12,9 @@ public class InfoController(
     IOptions<StreamOptions> streamOptions
 ) : ApiController
 {
-    [HttpGet(nameof(Info), Name = nameof(Info))]
+    [HttpGet(nameof(Config), Name = nameof(Config))]
     [ProducesResponseType(typeof(InfoDto), 200)]
-    public IActionResult Info()
+    public IActionResult Config()
     {
         return Ok(new InfoDto
         {
