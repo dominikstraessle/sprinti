@@ -32,7 +32,10 @@ public static class Program
             c.PreSerializeFilters.Add((swagger, httpReq) =>
             {
                 swagger.Servers = new List<OpenApiServer>
-                    { new() { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
+                {
+                    new() { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" },
+                    new() { Url = $"http://sprinti.secure.straessle.me:5000" }
+                };
             });
         });
 
@@ -73,7 +76,8 @@ public static class Program
         });
         builder.Services.AddSwaggerGen(c =>
         {
-            c.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["controller"]}{e.ActionDescriptor.AttributeRouteInfo?.Name}");
+            c.CustomOperationIds(e =>
+                $"{e.ActionDescriptor.RouteValues["controller"]}{e.ActionDescriptor.AttributeRouteInfo?.Name}");
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "Sprinti Api", Version = "v1"
