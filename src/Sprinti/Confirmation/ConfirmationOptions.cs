@@ -3,7 +3,7 @@
 public class ConfirmationOptions
 {
     public const string Confirmation = "Connection";
-    public Uri BaseAddress { get; set; } = new("http://52.58.217.104:5000");
+    public Uri BaseAddress { get; set; } = new("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com");
     public string TeamName { get; set; } = "team00";
     public string Password { get; set; } = "aTdpCRIrI9CLS1";
 

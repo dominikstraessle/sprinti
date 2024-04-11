@@ -24,14 +24,12 @@ public class SerialServiceTests
     public static TheoryData3<ISerialCommand, string, ResponseState> TestCommandsData =>
         new()
         {
-            { new RotateCommand(90), "complete", Complete },
-            { new EjectCommand(Red), "complete", Complete },
-            { new LiftCommand(Down), "complete", Complete },
-            { new StartCommand(), "complete", Complete },
-            { new StartCommand(), "error invalid_argument", InvalidArgument },
-            { new StartCommand(), "error not_implemented", NotImplemented },
-            { new StartCommand(), "error machine_error", MachineError },
-            { new StartCommand(), "error error", Error },
+            { new RotateCommand(90), "error 0", Complete },
+            { new EjectCommand(Red), "error 0", Complete },
+            { new LiftCommand(Down), "error 0", Complete },
+            { new StartCommand(), "error 0", Complete },
+            { new StartCommand(), "error 1", NotImplemented },
+            { new StartCommand(), "error 2", Error },
             { new StartCommand(), "some other response", Unknown },
             { new FinishCommand(), "finish 10", Finished }
         };
@@ -39,7 +37,7 @@ public class SerialServiceTests
     [Fact]
     public async Task TestSendCommandWithParams()
     {
-        _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("complete");
+        _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
         var command = new EjectCommand(Blue);
 
         var result = await _service.SendCommand(command, CancellationToken.None);

@@ -49,12 +49,10 @@ internal class SerialService(
     {
         return response switch
         {
-            "complete" => ResponseState.Complete,
+            "error 0" => ResponseState.Complete,
             _ when IsFinished(response) => ResponseState.Finished,
-            "error invalid_argument" => ResponseState.InvalidArgument,
-            "error not_implemented" => ResponseState.NotImplemented,
-            "error machine_error" => ResponseState.MachineError,
-            "error error" => ResponseState.Error,
+            "error 1" => ResponseState.NotImplemented,
+            "error 2" => ResponseState.Error,
             _ => ResponseState.Unknown
         };
     }
