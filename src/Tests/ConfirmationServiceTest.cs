@@ -1,6 +1,6 @@
 ﻿namespace Sprinti.Tests;
 
-public class ConfirmationAdapterTest
+public class ConfirmationServiceTest
 {
     // [Fact]
     // public async Task StartAsync_ReturnsExpectedResponseBody()

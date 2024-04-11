@@ -3,13 +3,13 @@ using Sprinti.Confirmation;
 
 namespace Sprinti.Controllers;
 
-public class ConfirmationController(IConfirmationAdapter confirmationAdapter) : ApiController
+public class ConfirmationController(IConfirmationService confirmationService) : ApiController
 {
     [HttpPost(nameof(Health), Name = nameof(Health))]
     [ProducesResponseType(typeof(bool), 202)]
     public async Task<IActionResult> Health(CancellationToken cancellationToken)
     {
-        var isHealthy = await confirmationAdapter.HealthCheckAsync(cancellationToken);
+        var isHealthy = await confirmationService.HealthCheckAsync(cancellationToken);
         return Accepted(isHealthy);
     }
 
@@ -17,7 +17,7 @@ public class ConfirmationController(IConfirmationAdapter confirmationAdapter) : 
     [ProducesResponseType(202)]
     public async Task<IActionResult> StartPren(CancellationToken cancellationToken)
     {
-        await confirmationAdapter.StartAsync(cancellationToken);
+        await confirmationService.StartAsync(cancellationToken);
         return Accepted();
     }
 
@@ -25,7 +25,7 @@ public class ConfirmationController(IConfirmationAdapter confirmationAdapter) : 
     [ProducesResponseType(202)]
     public async Task<IActionResult> End(CancellationToken cancellationToken)
     {
-        await confirmationAdapter.EndAsync(cancellationToken);
+        await confirmationService.EndAsync(cancellationToken);
         return Accepted();
     }
 }

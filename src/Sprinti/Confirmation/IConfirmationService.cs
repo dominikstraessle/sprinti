@@ -2,7 +2,7 @@
 
 namespace Sprinti.Confirmation;
 
-public interface IConfirmationAdapter
+public interface IConfirmationService
 {
     /**
      * Übermittelt den Start eines neuen Durchlaufs von Team XX, XX bezeichnet die zweistellige Nummer des Teams.
