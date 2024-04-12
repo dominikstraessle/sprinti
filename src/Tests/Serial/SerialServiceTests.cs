@@ -74,6 +74,41 @@ public class SerialServiceTests
         _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
     }
 
+    [Fact]
+    public async Task TestRunSequence()
+    {
+        var expectedSequence = new List<ISerialCommand>
+        {
+            new StartCommand(),
+            new RotateCommand(90),
+            new EjectCommand(Red),
+            new LiftCommand(Down),
+            new FinishCommand()
+        };
+        const int powerInWattHours = 10;
+        foreach (var serialCommand in expectedSequence)
+        {
+            if (serialCommand is FinishCommand)
+            {
+                _adapterMock.Setup(adapter => adapter.ReadLine()).Returns($"finish {powerInWattHours}");
+                return;
+            }
+
+            _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
+        }
+
+        var resultPower = await _service.RunInstructionsAndFinish([
+            new RotateCommand(90),
+            new EjectCommand(Red)
+        ], CancellationToken.None);
+
+        Assert.Equal(powerInWattHours, resultPower);
+        foreach (var command in expectedSequence)
+        {
+            _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
+        }
+    }
+
     [Theory]
     [MemberData(nameof(TestCommandsData))]
     public async Task TestCommands(ISerialCommand command, string response, ResponseState responseState)

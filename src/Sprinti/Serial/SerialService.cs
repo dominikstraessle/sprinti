@@ -9,7 +9,7 @@ public interface ISerialService
     Task<FinishedResponse> SendCommand(FinishCommand command, CancellationToken cancellationToken);
     Task<string> SendRawCommand(string command, CancellationToken stoppingToken);
 
-    Task<int> RunInstructions(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken);
+    Task<int> RunInstructionsAndFinish(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken);
 }
 
 internal class SerialService(
@@ -47,20 +47,18 @@ internal class SerialService(
         return responseLine;
     }
 
-    public async Task<int> RunInstructions(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken)
+    public async Task<int> RunInstructionsAndFinish(IEnumerable<ISerialCommand> instructions,
+        CancellationToken cancellationToken)
     {
+        await SendCommand(new StartCommand(), cancellationToken);
         foreach (var command in instructions)
         {
-            if (command is FinishCommand finishCommand)
-            {
-                var response = await SendCommand(finishCommand, cancellationToken);
-                return response.PowerInWattHours;
-            }
-
             await SendCommand(command, cancellationToken);
         }
 
-        throw new InvalidOperationException();
+        await SendCommand(new LiftCommand(Direction.Down), cancellationToken);
+        var finishedResponse = await SendCommand(new FinishCommand(), cancellationToken);
+        return finishedResponse.PowerInWattHours;
     }
 
     private static ResponseState ParseResponseState(string response)
