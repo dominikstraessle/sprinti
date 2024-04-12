@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
+using Sprinti.Button;
 using Sprinti.Confirmation;
 using Sprinti.Instruction;
 using Sprinti.Serial;
@@ -67,6 +68,10 @@ public static class Program
         builder.Services.Configure<ConfirmationOptions>(
             builder.Configuration.GetSection(ConfirmationOptions.Confirmation));
         builder.Services.AddConfirmationModule();
+
+        builder.Services.Configure<ButtonOptions>(
+            builder.Configuration.GetSection(ButtonOptions.Button));
+        builder.Services.AddButtonModule();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

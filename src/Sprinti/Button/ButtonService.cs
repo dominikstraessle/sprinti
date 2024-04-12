@@ -6,16 +6,18 @@ public class ButtonService(ButtonBase button, ILogger<ButtonService> logger) : I
 {
     public Task WaitForSignalAsync(CancellationToken cancellationToken)
     {
-        var pressed = false;
-        button.Press += (_, _) => { pressed = true; };
-        while (!cancellationToken.IsCancellationRequested)
+        var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        button.Press += (_, _) =>
         {
-            if (!pressed) continue;
+            tcs.TrySetResult(true);
             logger.LogInformation("Button pressed");
-            return Task.CompletedTask;
-        }
+        };
+        cancellationToken.Register(() =>
+        {
+            tcs.TrySetException(new TimeoutException("Timeout reached: No button pressed in timeout interval"));
+            logger.LogError("No button pressed in timeout interval");
+        });
 
-        logger.LogError("No button pressed in timeout interval");
-        throw new TimeoutException("Timeout reached: No button pressed in timeout interval");
+        return tcs.Task;
     }
 }
