@@ -1,14 +1,10 @@
+using Sprinti.Button;
 using Sprinti.Confirmation;
 using Sprinti.Domain;
 using Sprinti.Instruction;
 using Sprinti.Serial;
 
 namespace Sprinti.Workflow;
-
-public interface IButtonService
-{
-    Task WaitForSignalAsync(CancellationToken cancellationToken);
-}
 
 public interface IVideoService
 {
