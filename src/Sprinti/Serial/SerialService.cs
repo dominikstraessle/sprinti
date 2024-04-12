@@ -31,9 +31,7 @@ internal class SerialService(
     {
         var message = await CommandReply(command, cancellationToken);
         var responseState = ParseResponseState(message);
-        return responseState is ResponseState.Finished
-            ? new FinishedResponse(GetPowerInWatts(message), responseState)
-            : new FinishedResponse(0, responseState);
+        return new FinishedResponse(GetPowerInWatts(message), responseState);
     }
 
     public async Task<string> SendRawCommand(string command, CancellationToken stoppingToken)
@@ -106,6 +104,7 @@ internal class SerialService(
     private string ReadResponse(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
+        {
             try
             {
                 return serialAdapter.ReadLine();
@@ -114,7 +113,9 @@ internal class SerialService(
             {
                 logger.LogTrace("No message received in timeout interval");
             }
+        }
 
+        logger.LogTrace("No message received in timeout interval");
         throw new TimeoutException("Timeout reached: Reading was cancelled before a message was received");
     }
 }
