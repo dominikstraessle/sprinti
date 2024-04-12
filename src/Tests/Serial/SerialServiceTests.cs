@@ -75,7 +75,7 @@ public class SerialServiceTests
     }
 
     [Fact]
-    public async Task TestRunSequence()
+    public async Task TestRunInstructionsAndFinish()
     {
         var expectedSequence = new List<ISerialCommand>
         {
@@ -91,7 +91,7 @@ public class SerialServiceTests
             if (serialCommand is FinishCommand)
             {
                 _adapterMock.Setup(adapter => adapter.ReadLine()).Returns($"finish {powerInWattHours}");
-                return;
+                continue;
             }
 
             _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
