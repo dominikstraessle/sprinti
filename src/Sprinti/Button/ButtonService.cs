@@ -1,3 +1,5 @@
+using System.Device.Gpio;
+using Iot.Device.Board;
 using Iot.Device.Button;
 
 namespace Sprinti.Button;
@@ -6,6 +8,7 @@ public class ButtonService(ButtonBase button, ILogger<ButtonService> logger) : I
 {
     public Task WaitForSignalAsync(CancellationToken cancellationToken)
     {
+
         var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         button.Press += (_, _) =>
         {
