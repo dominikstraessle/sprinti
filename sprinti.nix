@@ -23,6 +23,5 @@ buildDotnetModule rec {
   runtimeDeps = [
     opencv
     cvsharp
-    libgpiod
   ]; # This will wrap opencv's library path into `LD_LIBRARY_PATH`.
 }

@@ -12,9 +12,9 @@ public static class ModuleRegistry
         services.AddSingleton<Board>(_ => Board.Create());
         services.AddScoped<ButtonBase>(provider => new GpioButton(
             provider.GetRequiredService<IOptions<ButtonOptions>>().Value.Pin,
-            provider.GetRequiredService<IOptions<ButtonOptions>>().Value.IsPullUp,
-            provider.GetRequiredService<IOptions<ButtonOptions>>().Value.UseExternalResistor,
-            provider.GetRequiredService<Board>().CreateGpioController()
+            isPullUp: provider.GetRequiredService<IOptions<ButtonOptions>>().Value.IsPullUp,
+            hasExternalResistor: provider.GetRequiredService<IOptions<ButtonOptions>>().Value.UseExternalResistor,
+            gpio: provider.GetRequiredService<Board>().CreateGpioController()
         ));
         services.AddScoped<IButtonService, ButtonService>();
     }
