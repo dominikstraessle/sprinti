@@ -1,5 +1,3 @@
-using System.Device.Gpio;
-using Iot.Device.Board;
 using Iot.Device.Button;
 
 namespace Sprinti.Button;
