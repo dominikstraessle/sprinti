@@ -22,7 +22,7 @@ internal class InstructionService : IInstructionService
 
     public IList<ISerialCommand> GetInstructionSequence(SortedDictionary<int, Color> config)
     {
-        var sequence = InitSequence();
+        var sequence = new List<ISerialCommand>();
 
         foreach (var (index, color) in config)
         {
@@ -40,7 +40,7 @@ internal class InstructionService : IInstructionService
             sequence.Add(new EjectCommand(color));
         }
 
-        return FinishSequence(sequence);
+        return sequence;
     }
 
     private void UpdateActualPosition(int numberOfRequiredRotations)

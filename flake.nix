@@ -15,7 +15,7 @@
           };
           # restish api sync sprinti
           # restish sprinti info-config
-          restish = pkgs.restish;
+          inherit (pkgs) restish;
           # sprinti user needs to be in trusted-users in /etc/nix/nix.conf of the raspberry
           # nix copy --to ssh-ng://sprinti@sprinti.secure.straessle.me .\#packages.aarch64-linux.sprinti
           # or

@@ -8,6 +8,8 @@ public interface ISerialService
     Task<CompletedResponse> SendCommand(ISerialCommand command, CancellationToken cancellationToken);
     Task<FinishedResponse> SendCommand(FinishCommand command, CancellationToken cancellationToken);
     Task<string> SendRawCommand(string command, CancellationToken stoppingToken);
+
+    Task<int> RunInstructionsAndFinish(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken);
 }
 
 internal class SerialService(
@@ -29,9 +31,7 @@ internal class SerialService(
     {
         var message = await CommandReply(command, cancellationToken);
         var responseState = ParseResponseState(message);
-        return responseState is ResponseState.Finished
-            ? new FinishedResponse(GetPowerInWatts(message), responseState)
-            : new FinishedResponse(0, responseState);
+        return new FinishedResponse(GetPowerInWatts(message), responseState);
     }
 
     public async Task<string> SendRawCommand(string command, CancellationToken stoppingToken)
@@ -43,6 +43,17 @@ internal class SerialService(
         var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
         logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
         return responseLine;
+    }
+
+    public async Task<int> RunInstructionsAndFinish(IEnumerable<ISerialCommand> instructions,
+        CancellationToken cancellationToken)
+    {
+        await SendCommand(new StartCommand(), cancellationToken);
+        foreach (var command in instructions) await SendCommand(command, cancellationToken);
+
+        await SendCommand(new LiftCommand(Direction.Down), cancellationToken);
+        var finishedResponse = await SendCommand(new FinishCommand(), cancellationToken);
+        return finishedResponse.PowerInWattHours;
     }
 
     private static ResponseState ParseResponseState(string response)
@@ -99,6 +110,7 @@ internal class SerialService(
                 logger.LogTrace("No message received in timeout interval");
             }
 
+        logger.LogTrace("No message received in timeout interval");
         throw new TimeoutException("Timeout reached: Reading was cancelled before a message was received");
     }
 }

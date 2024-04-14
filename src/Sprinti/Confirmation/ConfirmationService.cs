@@ -3,11 +3,11 @@ using Sprinti.Domain;
 
 namespace Sprinti.Confirmation;
 
-public class ConfirmationAdapter(
+public class ConfirmationService(
     HttpClient client,
     IOptions<ConfirmationOptions> options,
-    ILogger<ConfirmationAdapter> logger)
-    : IConfirmationAdapter
+    ILogger<ConfirmationService> logger)
+    : IConfirmationService
 {
     private readonly ConfirmationOptions _connectionOptions = options.Value;
 

@@ -61,4 +61,19 @@ public class SerialController(ISerialService service) : ApiController
         var response = await service.SendCommand(new FinishCommand(), cancellationToken);
         return Accepted(response);
     }
+
+    [HttpPost(nameof(RunInstructionsAndFinish), Name = nameof(RunInstructionsAndFinish))]
+    [ProducesResponseType(typeof(int), 202)]
+    public async Task<IActionResult> RunInstructionsAndFinish(CancellationToken cancellationToken)
+    {
+        var powerInWattHours = await service.RunInstructionsAndFinish(new List<ISerialCommand>
+        {
+            new StartCommand(),
+            new RotateCommand(90),
+            new EjectCommand(Color.Red),
+            new LiftCommand(Direction.Down),
+            new FinishCommand()
+        }, cancellationToken);
+        return Accepted(powerInWattHours);
+    }
 }
