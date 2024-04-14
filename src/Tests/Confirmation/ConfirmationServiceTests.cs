@@ -10,8 +10,6 @@ namespace Sprinti.Tests.Confirmation;
 
 public class ConfirmationServiceTests
 {
-    private readonly ConfirmationService _service;
-
     private readonly ConfirmationOptions _confirmationOptions = new()
     {
         BaseAddress = new Uri("http://52.58.217.104:5000"),
@@ -21,6 +19,7 @@ public class ConfirmationServiceTests
 
     private readonly MockHttpMessageHandler _mockHttp;
     private readonly OptionsWrapper<ConfirmationOptions> _options;
+    private readonly ConfirmationService _service;
 
 
     public ConfirmationServiceTests()

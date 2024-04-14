@@ -7,7 +7,7 @@ buildDotnetModule rec {
   src = ./.;
 
   projectFile = "src/Sprinti/Sprinti.csproj";
-#  testProjectFile = "src/Tests/Tests.csproj";
+  #  testProjectFile = "src/Tests/Tests.csproj";
   # nix build .\#sprinti.passthru.fetch-deps
   # ./result deps.nix
   nugetDeps = ./deps.nix;

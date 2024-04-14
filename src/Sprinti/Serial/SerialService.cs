@@ -49,10 +49,7 @@ internal class SerialService(
         CancellationToken cancellationToken)
     {
         await SendCommand(new StartCommand(), cancellationToken);
-        foreach (var command in instructions)
-        {
-            await SendCommand(command, cancellationToken);
-        }
+        foreach (var command in instructions) await SendCommand(command, cancellationToken);
 
         await SendCommand(new LiftCommand(Direction.Down), cancellationToken);
         var finishedResponse = await SendCommand(new FinishCommand(), cancellationToken);
@@ -104,7 +101,6 @@ internal class SerialService(
     private string ReadResponse(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
-        {
             try
             {
                 return serialAdapter.ReadLine();
@@ -113,7 +109,6 @@ internal class SerialService(
             {
                 logger.LogTrace("No message received in timeout interval");
             }
-        }
 
         logger.LogTrace("No message received in timeout interval");
         throw new TimeoutException("Timeout reached: Reading was cancelled before a message was received");

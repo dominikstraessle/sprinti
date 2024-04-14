@@ -35,7 +35,7 @@ public static class Program
                 swagger.Servers = new List<OpenApiServer>
                 {
                     new() { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" },
-                    new() { Url = $"http://sprinti.secure.straessle.me:5000" }
+                    new() { Url = "http://sprinti.secure.straessle.me:5000" }
                 };
             });
         });

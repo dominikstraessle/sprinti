@@ -11,7 +11,7 @@ public static class ModuleRegistry
     {
         // The button must be transient and only used a single time. Otherwise the
         services.AddScoped<GpioDriver>(provider =>
-            new LibGpiodDriver(gpioChip: provider.GetRequiredService<IOptions<ButtonOptions>>().Value.GpioChip));
+            new LibGpiodDriver(provider.GetRequiredService<IOptions<ButtonOptions>>().Value.GpioChip));
         services.AddScoped<GpioController>(provider =>
             new GpioController(PinNumberingScheme.Logical, provider.GetRequiredService<GpioDriver>()));
         services.AddScoped<ButtonBase>(provider =>
@@ -19,9 +19,9 @@ public static class ModuleRegistry
             var buttonOptions = provider.GetRequiredService<IOptions<ButtonOptions>>().Value;
             return new GpioButton(
                 buttonOptions.Pin,
-                isPullUp: buttonOptions.IsPullUp,
-                hasExternalResistor: buttonOptions.UseExternalResistor,
-                gpio: provider.GetRequiredService<GpioController>()
+                buttonOptions.IsPullUp,
+                buttonOptions.UseExternalResistor,
+                provider.GetRequiredService<GpioController>()
             );
         });
         services.AddScoped<IButtonService, ButtonService>();

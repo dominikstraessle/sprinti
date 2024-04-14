@@ -104,9 +104,7 @@ public class SerialServiceTests
 
         Assert.Equal(powerInWattHours, resultPower);
         foreach (var command in expectedSequence)
-        {
             _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
-        }
     }
 
     [Theory]
