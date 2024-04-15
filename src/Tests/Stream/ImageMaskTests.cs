@@ -27,6 +27,10 @@ public class ImageMaskTests
         var actualWhite = ImageMask.WhiteMask(image);
         var expectedWhite = Cv2.ImRead(TestFiles.GetTestFileFullName("1-white-mask.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedWhite, actualWhite));
+
+        var actualNone = ImageMask.NoneMask(image);
+        var expectedNone = Cv2.ImRead(TestFiles.GetTestFileFullName("1-none-mask.png"), ImreadModes.Grayscale);
+        Assert.True(EqualImages(expectedNone, actualNone));
     }
 
     private static bool EqualImages(Mat image1, Mat image2)

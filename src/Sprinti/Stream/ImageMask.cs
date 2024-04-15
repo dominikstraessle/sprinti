@@ -27,6 +27,14 @@ public static class ImageMask
         return mask;
     }
 
+    public static Mat NoneMask(Mat image)
+    {
+        var mask = new Mat();
+        Cv2.BitwiseOr(RedMask(image), YellowMask(image), mask);
+        Cv2.BitwiseOr(BlueMask(image), mask, mask);
+        return mask;
+    }
+
     private static Mat GetMask(Mat imageBgr, Scalar lower, Scalar upper)
     {
         // Convert the image to HSV color space
