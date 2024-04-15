@@ -3,7 +3,11 @@ using OpenCvSharp;
 
 namespace Sprinti.Stream;
 
-public class VideoStream(VideoCapture capture, ILogger<VideoStream> logger, IOptions<StreamOptions> options)
+public class VideoStream(
+    VideoCapture capture,
+    ImageSelector selector,
+    ILogger<VideoStream> logger,
+    IOptions<StreamOptions> options)
     : BackgroundService
 {
     private int _imageIndex;
@@ -31,9 +35,9 @@ public class VideoStream(VideoCapture capture, ILogger<VideoStream> logger, IOpt
             {
                 var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
 
-                var blueMask = ImageMask.RedMask(image);
+                selector.TrySelectImage(image, out _);
+
                 image.SaveImage(imageFilePath);
-                blueMask.SaveImage($"{imageFilePath}.red.png");
                 logger.LogInformation("Received image: {rows}x{cols}, saved to {path}", image.Rows, image.Cols,
                     imageFilePath);
             }

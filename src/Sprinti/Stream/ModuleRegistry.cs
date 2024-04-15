@@ -7,6 +7,7 @@ public static class ModuleRegistry
 {
     public static void AddStreamModule(this IServiceCollection services)
     {
+        services.AddTransient<ImageSelector>();
         services.AddTransient<VideoCapture>(provider =>
         {
             var options = provider.GetRequiredService<IOptions<StreamOptions>>();

@@ -4,8 +4,8 @@ namespace Sprinti.Stream;
 
 public static class ImageMask
 {
-    public static readonly Scalar LowerBlue = new(100, 90, 0);
-    public static readonly Scalar UpperBlue = new(120, 255, 255);
+    private static readonly Scalar LowerBlue = new(100, 90, 0);
+    private static readonly Scalar UpperBlue = new(120, 255, 255);
     private static readonly Scalar LowerYellow = new(22, 93, 0);
     private static readonly Scalar UpperYellow = new(50, 255, 255);
     private static readonly Scalar LowerRed1 = new(0, 50, 50);
@@ -15,7 +15,6 @@ public static class ImageMask
     private static readonly Scalar LowerWhite = new(0, 0, 210);
     private static readonly Scalar UpperWhite = new(255, 50, 255);
 
-
     public static Mat BlueMask(Mat image) => GetMask(image, LowerBlue, UpperBlue);
     public static Mat YellowMask(Mat image) => GetMask(image, LowerYellow, UpperYellow);
     public static Mat WhiteMask(Mat image) => GetMask(image, LowerWhite, UpperWhite);
@@ -23,22 +22,27 @@ public static class ImageMask
     public static Mat RedMask(Mat image)
     {
         var mask = new Mat();
-        Cv2.BitwiseOr(GetMask(image, LowerRed1, UpperRed1), GetMask(image, LowerRed2, UpperRed2), mask);
+        using var redMask1 = GetMask(image, LowerRed1, UpperRed1);
+        using var redMask2 = GetMask(image, LowerRed2, UpperRed2);
+        Cv2.BitwiseOr(redMask1, redMask2, mask);
         return mask;
     }
 
     public static Mat NoneMask(Mat image)
     {
         var mask = new Mat();
-        Cv2.BitwiseOr(RedMask(image), YellowMask(image), mask);
-        Cv2.BitwiseOr(BlueMask(image), mask, mask);
+        using var redMask = RedMask(image);
+        using var yellowMask = YellowMask(image);
+        using var blueMask = BlueMask(image);
+        Cv2.BitwiseOr(redMask, yellowMask, mask);
+        Cv2.BitwiseOr(blueMask, mask, mask);
         return mask;
     }
 
     private static Mat GetMask(Mat imageBgr, Scalar lower, Scalar upper)
     {
         // Convert the image to HSV color space
-        var imageHsv = new Mat();
+        using var imageHsv = new Mat();
         Cv2.CvtColor(imageBgr, imageHsv, ColorConversionCodes.BGR2HSV);
 
         // Create mask
