@@ -30,6 +30,9 @@ public class VideoStream(VideoCapture capture, ILogger<VideoStream> logger, IOpt
             if (_imageIndex % options.Value.CaptureIntervalInSeconds == 0)
             {
                 var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
+                Scalar lowerBlue = new Scalar(100, 90, 0);
+                Scalar upperBlue = new Scalar(120, 255, 255);
+                Mat blueMask = ImageSelector.GetMask(image, lowerBlue, upperBlue, true);
                 image.SaveImage(imageFilePath);
                 logger.LogInformation("Received image: {rows}x{cols}, saved to {path}", image.Rows, image.Cols,
                     imageFilePath);
