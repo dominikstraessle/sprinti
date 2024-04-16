@@ -23,8 +23,8 @@ public class ImageOptions
         ),
         new LookupConfig(
             [1, 0, 4, 7, 6, 2],
-            new Point(0, 0),
-            new Point(0, 0)
+            new Point(178, 292),
+            new Point(170, 115)
         ),
     ];
 

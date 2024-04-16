@@ -17,7 +17,7 @@ public class ImageSelectorTests
     }
 
     [Fact]
-    public void TrySelectImageTest()
+    public void TrySelectImage1Test()
     {
         var imagePath = TestFiles.GetTestFileFullName("1.png"); // Replace "YourImage.jpg" with the actual file name
         var image = Cv2.ImRead(imagePath);
@@ -29,9 +29,21 @@ public class ImageSelectorTests
     }
 
     [Fact]
-    public void TrySelectImageFailedTest()
+    public void TrySelectImage2Test()
     {
         var imagePath = TestFiles.GetTestFileFullName("2.png"); // Replace "YourImage.jpg" with the actual file name
+        var image = Cv2.ImRead(imagePath);
+
+        var result = _imageSelector.TrySelectImage(image, out var config);
+        Assert.True(result);
+        Assert.NotNull(config);
+        Assert.Equal(ImageOptions.DefaultLookupConfigs[1], config);
+    }
+
+    [Fact]
+    public void TrySelectImageFailedTest()
+    {
+        var imagePath = TestFiles.GetTestFileFullName("3.png"); // Replace "YourImage.jpg" with the actual file name
         var image = Cv2.ImRead(imagePath);
 
         var result = _imageSelector.TrySelectImage(image, out var config);
