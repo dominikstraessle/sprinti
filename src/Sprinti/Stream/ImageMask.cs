@@ -1,4 +1,5 @@
 using OpenCvSharp;
+using Sprinti.Domain;
 
 namespace Sprinti.Stream;
 
@@ -36,8 +37,18 @@ public static class ImageMask
         using var blueMask = BlueMask(image);
         Cv2.BitwiseOr(redMask, yellowMask, mask);
         Cv2.BitwiseOr(blueMask, mask, mask);
+        Cv2.BitwiseNot(mask, mask);
         return mask;
     }
+
+    public static Mat GetMask(Color color, Mat image) => color switch
+    {
+        Color.None => NoneMask(image),
+        Color.Red => RedMask(image),
+        Color.Blue => BlueMask(image),
+        Color.Yellow => YellowMask(image),
+        _ => throw new ArgumentOutOfRangeException(nameof(color), color, null)
+    };
 
     private static Mat GetMask(Mat imageBgr, Scalar lower, Scalar upper)
     {
