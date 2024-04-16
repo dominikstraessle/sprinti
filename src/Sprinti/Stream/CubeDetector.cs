@@ -6,7 +6,7 @@ namespace Sprinti.Stream;
 
 public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> logger)
 {
-    public int[][] DetectCubes(Mat image, int[] lookupTable, bool show = false)
+    public void DetectCubes(Mat image, int[] lookupTable, int[][] result, bool show = false)
     {
         var points = options.Value.CubePoints.ToArray();
         if (lookupTable.Length != points.Length)
@@ -15,7 +15,10 @@ public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> 
                 "Lookup Table must have same length as configured reference points");
         }
 
-        var result = InitResult();
+        if (result.Length != 8)
+        {
+            throw new ArgumentOutOfRangeException(nameof(result), result, "Result Table must be of length 8");
+        }
 
         var masks = GetColorMaskPairs(image);
 
@@ -34,8 +37,26 @@ public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> 
         }
 
         DisposeColorMasks(masks);
+    }
 
-        return result;
+    internal static bool IsCompleteResult(IEnumerable<int[]> result)
+    {
+        return result.Select(ints => ints.Max()).All(i => i > 0);
+    }
+
+    internal static Dictionary<int, Color> ResultToConfig(int[][] result)
+    {
+        var config = new Dictionary<int, Color>();
+        for (var i = 0; i < result.Length; i++)
+        {
+            var r = result[i];
+            var maxElement = r.Max();
+
+            var maxIndex = Array.IndexOf(r, maxElement);
+            config.Add(i + 1, (Color)maxIndex);
+        }
+
+        return config;
     }
 
     private static void Show(Mat mask, Point point, Color color)
@@ -62,7 +83,7 @@ public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> 
             .Select(color => new KeyValuePair<Color, Mat>(color, ImageMask.GetMask(color, image))).ToDictionary();
     }
 
-    private static int[][] InitResult()
+    public static int[][] InitResult()
     {
         var result = new int[8][];
         for (var i = 0; i < result.Length; i++)
