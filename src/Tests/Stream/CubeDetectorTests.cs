@@ -35,7 +35,7 @@ public class CubeDetectorTests
         ];
 
         var imagePath = TestFiles.GetTestFileFullName("1.png"); // Replace "YourImage.jpg" with the actual file name
-        var image = Cv2.ImRead(imagePath);
+        using var image = Cv2.ImRead(imagePath);
 
         var lookupTable = ImageOptions.DefaultLookupConfigs[0].LookupTable;
         _cubeDetector.DetectCubes(image, lookupTable, _result);
@@ -59,10 +59,39 @@ public class CubeDetectorTests
         ];
 
         var imagePath = TestFiles.GetTestFileFullName("2.png"); // Replace "YourImage.jpg" with the actual file name
-        var image = Cv2.ImRead(imagePath);
+        using var image = Cv2.ImRead(imagePath);
 
         var lookupTable = ImageOptions.DefaultLookupConfigs[1].LookupTable;
         _cubeDetector.DetectCubes(image, lookupTable, _result);
+        Assert.NotNull(_result);
+        Assert.Equal(expected, _result);
+    }
+
+    [Fact]
+    public void DetectCubes4FullTest()
+    {
+        int[][] expected =
+        [
+            [0, 2, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 2],
+            [0, 1, 0, 0],
+            [2, 0, 0, 0],
+            [0, 0, 1, 0],
+            [2, 0, 0, 0],
+            [1, 0, 0, 0]
+        ];
+
+        var imagePath1 = TestFiles.GetTestFileFullName("4.1.png"); // Replace "YourImage.jpg" with the actual file name
+        using var image1 = Cv2.ImRead(imagePath1);
+        var lookupTable1 = ImageOptions.DefaultLookupConfigs[0].LookupTable;
+        _cubeDetector.DetectCubes(image1, lookupTable1, _result);
+
+        var imagePath2 = TestFiles.GetTestFileFullName("4.2.png"); // Replace "YourImage.jpg" with the actual file name
+        using var image2 = Cv2.ImRead(imagePath2);
+        var lookupTable2 = ImageOptions.DefaultLookupConfigs[1].LookupTable;
+        _cubeDetector.DetectCubes(image2, lookupTable2, _result);
+
         Assert.NotNull(_result);
         Assert.Equal(expected, _result);
     }

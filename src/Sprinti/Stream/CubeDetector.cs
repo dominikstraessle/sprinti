@@ -6,7 +6,7 @@ namespace Sprinti.Stream;
 
 public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> logger)
 {
-    public void DetectCubes(Mat image, int[] lookupTable, int[][] result, bool show = false)
+    internal void DetectCubes(Mat image, int[] lookupTable, int[][] result, bool show = false)
     {
         var points = options.Value.CubePoints.ToArray();
         if (lookupTable.Length != points.Length)
@@ -28,8 +28,8 @@ public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> 
             foreach (var (color, mask) in masks)
             {
                 var maskedPixel = mask.Get<byte>(point.Y, point.X);
-                if (show) Show(mask, point, color);
                 if (maskedPixel != 255) continue;
+                if (show) Show(mask, point, color);
                 var lookupPosition = lookupTable[i];
                 logger.LogInformation("Detected cube: {Color} {P} at {position}", color, point, lookupPosition);
                 result[lookupPosition][(int)color]++;
