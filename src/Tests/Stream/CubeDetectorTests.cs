@@ -58,7 +58,7 @@ public class CubeDetectorTests
         var imagePath = TestFiles.GetTestFileFullName("2.png"); // Replace "YourImage.jpg" with the actual file name
         var image = Cv2.ImRead(imagePath);
 
-        var lookupTable = ImageOptions.DefaultLookupConfigs[0].LookupTable;
+        var lookupTable = ImageOptions.DefaultLookupConfigs[1].LookupTable;
         var actual = _cubeDetector.DetectCubes(image, lookupTable);
         Assert.NotNull(actual);
         Assert.Equal(expected, actual);
