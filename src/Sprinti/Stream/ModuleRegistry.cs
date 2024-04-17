@@ -14,6 +14,11 @@ public static class ModuleRegistry
             var capture = new VideoCapture(options.Value.RtspSource);
             return capture;
         });
+        services.AddTransient<IStreamCapture, StreamCapture>();
+        services.AddTransient<IImageSelector, ImageSelector>();
+        services.AddTransient<ICubeDetector, CubeDetector>();
+        services.AddTransient<IDetectionProcessor, DetectionProcessor>();
+        services.AddTransient<IVideoProcessor, VideoProcessor>();
         services.AddHostedService<VideoStream>();
     }
 }

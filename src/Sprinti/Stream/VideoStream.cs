@@ -4,7 +4,7 @@ using OpenCvSharp;
 namespace Sprinti.Stream;
 
 public class VideoStream(
-    VideoCapture capture,
+    IStreamCapture capture,
     ImageSelector selector,
     ILogger<VideoStream> logger,
     IOptions<StreamOptions> options)

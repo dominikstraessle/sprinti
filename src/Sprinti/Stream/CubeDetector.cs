@@ -4,9 +4,14 @@ using Sprinti.Domain;
 
 namespace Sprinti.Stream;
 
-public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> logger)
+public interface ICubeDetector
 {
-    internal void DetectCubes(Mat image, int[] lookupTable, int[][] result, bool show = false)
+    void DetectCubes(Mat image, int[] lookupTable, int[][] result, bool show = false);
+}
+
+public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> logger) : ICubeDetector
+{
+    public void DetectCubes(Mat image, int[] lookupTable, int[][] result, bool show = false)
     {
         var points = options.Value.CubePoints.ToArray();
         if (lookupTable.Length != points.Length)
@@ -62,5 +67,4 @@ public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> 
         return Enum.GetValues(typeof(Color)).Cast<Color>()
             .Select(color => new KeyValuePair<Color, Mat>(color, ImageMask.GetMask(color, image))).ToDictionary();
     }
-
 }

@@ -4,7 +4,12 @@ using Sprinti.Domain;
 
 namespace Sprinti.Stream;
 
-public class DetectionProcessor(ImageSelector selector, CubeDetector detector, ILogger<DetectionProcessor> logger)
+public interface IDetectionProcessor
+{
+    bool TryDetectCubes(Mat image, [MaybeNullWhen(false)] out CubeConfig config);
+}
+
+public class DetectionProcessor(IImageSelector selector, ICubeDetector detector, ILogger<DetectionProcessor> logger) : IDetectionProcessor
 {
     private readonly int[][] _result = InitResult();
 

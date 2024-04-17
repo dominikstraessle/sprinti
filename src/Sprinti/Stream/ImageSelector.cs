@@ -4,7 +4,12 @@ using OpenCvSharp;
 
 namespace Sprinti.Stream;
 
-public class ImageSelector(IOptions<ImageOptions> options, ILogger<ImageSelector> logger)
+public interface IImageSelector
+{
+    bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig);
+}
+
+public class ImageSelector(IOptions<ImageOptions> options, ILogger<ImageSelector> logger) : IImageSelector
 {
     public bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig)
     {
