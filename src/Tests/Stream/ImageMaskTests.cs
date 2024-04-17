@@ -9,7 +9,7 @@ public class ImageMaskTests
     public void TestMasks()
     {
         // Provide the relative path to your image file
-        var imagePath = TestFiles.GetTestFileFullName("1.png"); // Replace "YourImage.jpg" with the actual file name
+        var imagePath = TestFiles.GetTestFileFullName("1.png"); 
         using var image = Cv2.ImRead(imagePath);
 
         using var actualBlue = ImageMask.BlueMask(image);

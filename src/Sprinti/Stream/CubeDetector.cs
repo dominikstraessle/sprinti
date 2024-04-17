@@ -39,26 +39,6 @@ public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> 
         DisposeColorMasks(masks);
     }
 
-    internal static bool IsCompleteResult(IEnumerable<int[]> result)
-    {
-        return result.Select(ints => ints.Max()).All(i => i > 0);
-    }
-
-    internal static Dictionary<int, Color> ResultToConfig(int[][] result)
-    {
-        var config = new Dictionary<int, Color>();
-        for (var i = 0; i < result.Length; i++)
-        {
-            var r = result[i];
-            var maxElement = r.Max();
-
-            var maxIndex = Array.IndexOf(r, maxElement);
-            config.Add(i + 1, (Color)maxIndex);
-        }
-
-        return config;
-    }
-
     private static void Show(Mat mask, Point point, Color color)
     {
         using var debug = new Mat();
@@ -83,14 +63,4 @@ public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> 
             .Select(color => new KeyValuePair<Color, Mat>(color, ImageMask.GetMask(color, image))).ToDictionary();
     }
 
-    public static int[][] InitResult()
-    {
-        var result = new int[8][];
-        for (var i = 0; i < result.Length; i++)
-        {
-            result[i] = new int[4];
-        }
-
-        return result;
-    }
 }

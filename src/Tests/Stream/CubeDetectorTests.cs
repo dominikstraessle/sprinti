@@ -16,7 +16,7 @@ public class CubeDetectorTests
         var options = new OptionsWrapper<ImageOptions>(new ImageOptions());
 
         _cubeDetector = new CubeDetector(options, NullLogger<CubeDetector>.Instance);
-        _result = CubeDetector.InitResult();
+        _result = DetectionProcessor.InitResult();
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class CubeDetectorTests
             [0, 0, 0, 0]
         ];
 
-        var imagePath = TestFiles.GetTestFileFullName("1.png"); // Replace "YourImage.jpg" with the actual file name
+        var imagePath = TestFiles.GetTestFileFullName("1.png");
         using var image = Cv2.ImRead(imagePath);
 
         var lookupTable = ImageOptions.DefaultLookupConfigs[0].LookupTable;
@@ -58,7 +58,7 @@ public class CubeDetectorTests
             [1, 0, 0, 0]
         ];
 
-        var imagePath = TestFiles.GetTestFileFullName("2.png"); // Replace "YourImage.jpg" with the actual file name
+        var imagePath = TestFiles.GetTestFileFullName("2.png");
         using var image = Cv2.ImRead(imagePath);
 
         var lookupTable = ImageOptions.DefaultLookupConfigs[1].LookupTable;
@@ -82,12 +82,12 @@ public class CubeDetectorTests
             [1, 0, 0, 0]
         ];
 
-        var imagePath1 = TestFiles.GetTestFileFullName("4.1.png"); // Replace "YourImage.jpg" with the actual file name
+        var imagePath1 = TestFiles.GetTestFileFullName("4.1.png");
         using var image1 = Cv2.ImRead(imagePath1);
         var lookupTable1 = ImageOptions.DefaultLookupConfigs[0].LookupTable;
         _cubeDetector.DetectCubes(image1, lookupTable1, _result);
 
-        var imagePath2 = TestFiles.GetTestFileFullName("4.2.png"); // Replace "YourImage.jpg" with the actual file name
+        var imagePath2 = TestFiles.GetTestFileFullName("4.2.png");
         using var image2 = Cv2.ImRead(imagePath2);
         var lookupTable2 = ImageOptions.DefaultLookupConfigs[1].LookupTable;
         _cubeDetector.DetectCubes(image2, lookupTable2, _result);
@@ -110,7 +110,7 @@ public class CubeDetectorTests
             [0, 0, 0, 1],
             [1, 0, 0, 0]
         ];
-        var actual = CubeDetector.IsCompleteResult(result);
+        var actual = DetectionProcessor.IsCompleteResult(result);
         Assert.True(actual);
     }
 
@@ -128,7 +128,7 @@ public class CubeDetectorTests
             [0, 0, 0, 1],
             [1, 0, 0, 0]
         ];
-        var actual = CubeDetector.IsCompleteResult(result);
+        var actual = DetectionProcessor.IsCompleteResult(result);
         Assert.False(actual);
     }
 
@@ -146,7 +146,7 @@ public class CubeDetectorTests
             [0, 0, 0, 1],
             [1, 0, 0, 0]
         ];
-        var expected = new Dictionary<int, Color>
+        var expected = new SortedList<int, Color>
         {
             { 1, Color.None },
             { 2, Color.Red },
@@ -157,7 +157,7 @@ public class CubeDetectorTests
             { 7, Color.Red },
             { 8, Color.None }
         };
-        var actual = CubeDetector.ResultToConfig(result);
+        var actual = DetectionProcessor.ResultToConfig(result);
         Assert.Equal(expected, actual);
     }
 }
