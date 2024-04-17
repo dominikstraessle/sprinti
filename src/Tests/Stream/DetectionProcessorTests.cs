@@ -33,5 +33,6 @@ public class DetectionProcessorTests(IDetectionProcessor processor)
         };
 
         Assert.Equal(expected, config.Config);
+        Assert.True(DateTime.Now.Ticks >= config.Time.Ticks);
     }
 }

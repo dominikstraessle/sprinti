@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Domain;
 
@@ -12,8 +11,7 @@ public interface IVideoProcessor
 public class VideoProcessor(
     IStreamCapture capture,
     IDetectionProcessor processor,
-    ILogger<VideoStream> logger,
-    IOptions<StreamOptions> options
+    ILogger<VideoStream> logger
 ) : IVideoProcessor
 {
     public CubeConfig? RunDetection(CancellationToken stoppingToken)
