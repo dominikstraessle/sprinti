@@ -1,15 +1,10 @@
 using Sprinti.Button;
 using Sprinti.Confirmation;
-using Sprinti.Domain;
 using Sprinti.Instruction;
 using Sprinti.Serial;
+using Sprinti.Stream;
 
 namespace Sprinti.Workflow;
-
-public interface IVideoService
-{
-    Task<SortedDictionary<int, Color>> DetectFormation(CancellationToken cancellationToken);
-}
 
 public interface IDisplayService
 {
@@ -18,7 +13,7 @@ public interface IDisplayService
 
 public class WorkflowService(
     IButtonService buttonService,
-    IVideoService videoService,
+    IVideoProcessor videoService,
     ISerialService serialService,
     IInstructionService instructionService,
     IConfirmationService confirmationService,
@@ -32,15 +27,16 @@ public class WorkflowService(
         await displayService.UpdateProgress(1, "button pressed", cancellationToken);
         await confirmationService.StartAsync(cancellationToken);
         await displayService.UpdateProgress(2, "sent start", cancellationToken);
-        var config = await videoService.DetectFormation(cancellationToken);
-        await displayService.UpdateProgress(3, "detected formation", cancellationToken);
-        await confirmationService.ConfirmAsync(new CubeConfig
+        var config = videoService.RunDetection(cancellationToken);
+        if (config is null)
         {
-            Time = DateTime.Now,
-            Config = config
-        }, cancellationToken);
+            throw new ArgumentException("NOOOOOOOO");
+        }
+
+        await displayService.UpdateProgress(3, "detected formation", cancellationToken);
+        await confirmationService.ConfirmAsync(config, cancellationToken);
         await displayService.UpdateProgress(4, "sent confirmation", cancellationToken);
-        var instructions = instructionService.GetInstructionSequence(config);
+        var instructions = instructionService.GetInstructionSequence(config.Config);
         await displayService.UpdateProgress(5, "calculated instruction sequence", cancellationToken);
         var powerInWattHours = await serialService.RunInstructionsAndFinish(instructions, cancellationToken);
         await displayService.UpdateProgress(6, $"instructions completed: consumed power {powerInWattHours}",
