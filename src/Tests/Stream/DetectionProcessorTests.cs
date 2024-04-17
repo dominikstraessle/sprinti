@@ -1,25 +1,11 @@
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Domain;
 using Sprinti.Stream;
 
 namespace Sprinti.Tests.Stream;
 
-public class DetectionProcessorTests
+public class DetectionProcessorTests(IDetectionProcessor processor)
 {
-    private readonly DetectionProcessor _processor;
-
-    public DetectionProcessorTests()
-    {
-        var selectorOptions = new OptionsWrapper<ImageOptions>(new ImageOptions());
-        var selector = new ImageSelector(selectorOptions, NullLogger<ImageSelector>.Instance);
-        var detectorOptions = new OptionsWrapper<ImageOptions>(new ImageOptions());
-        var cubeDetector = new CubeDetector(detectorOptions, NullLogger<CubeDetector>.Instance);
-
-        _processor = new DetectionProcessor(selector, cubeDetector, NullLogger<DetectionProcessor>.Instance);
-    }
-
     [Fact]
     public void TryDetectCubesTest()
     {
@@ -28,10 +14,10 @@ public class DetectionProcessorTests
         var imagePath2 = TestFiles.GetTestFileFullName("4.2.png");
         using var image2 = Cv2.ImRead(imagePath2);
 
-        Assert.False(_processor.TryDetectCubes(image1, out var config));
+        Assert.False(processor.TryDetectCubes(image1, out var config));
         Assert.Null(config);
 
-        Assert.True(_processor.TryDetectCubes(image2, out config));
+        Assert.True(processor.TryDetectCubes(image2, out config));
         Assert.NotNull(config);
 
         var expected = new SortedDictionary<int, Color>

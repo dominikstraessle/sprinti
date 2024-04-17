@@ -6,18 +6,9 @@ using Sprinti.Stream;
 
 namespace Sprinti.Tests.Stream;
 
-public class CubeDetectorTests
+public class CubeDetectorTests(ICubeDetector cubeDetector)
 {
-    private readonly CubeDetector _cubeDetector;
-    private readonly int[][] _result;
-
-    public CubeDetectorTests()
-    {
-        var options = new OptionsWrapper<ImageOptions>(new ImageOptions());
-
-        _cubeDetector = new CubeDetector(options, NullLogger<CubeDetector>.Instance);
-        _result = DetectionProcessor.InitResult();
-    }
+    private readonly int[][] _result = DetectionProcessor.InitResult();
 
     [Fact]
     public void DetectCubes1Test()
@@ -38,7 +29,7 @@ public class CubeDetectorTests
         using var image = Cv2.ImRead(imagePath);
 
         var lookupTable = ImageOptions.DefaultLookupConfigs[0].LookupTable;
-        _cubeDetector.DetectCubes(image, lookupTable, _result);
+        cubeDetector.DetectCubes(image, lookupTable, _result);
         Assert.NotNull(_result);
         Assert.Equal(expected, _result);
     }
@@ -62,7 +53,7 @@ public class CubeDetectorTests
         using var image = Cv2.ImRead(imagePath);
 
         var lookupTable = ImageOptions.DefaultLookupConfigs[1].LookupTable;
-        _cubeDetector.DetectCubes(image, lookupTable, _result);
+        cubeDetector.DetectCubes(image, lookupTable, _result);
         Assert.NotNull(_result);
         Assert.Equal(expected, _result);
     }
@@ -85,12 +76,12 @@ public class CubeDetectorTests
         var imagePath1 = TestFiles.GetTestFileFullName("4.1.png");
         using var image1 = Cv2.ImRead(imagePath1);
         var lookupTable1 = ImageOptions.DefaultLookupConfigs[0].LookupTable;
-        _cubeDetector.DetectCubes(image1, lookupTable1, _result);
+        cubeDetector.DetectCubes(image1, lookupTable1, _result);
 
         var imagePath2 = TestFiles.GetTestFileFullName("4.2.png");
         using var image2 = Cv2.ImRead(imagePath2);
         var lookupTable2 = ImageOptions.DefaultLookupConfigs[1].LookupTable;
-        _cubeDetector.DetectCubes(image2, lookupTable2, _result);
+        cubeDetector.DetectCubes(image2, lookupTable2, _result);
 
         Assert.NotNull(_result);
         Assert.Equal(expected, _result);

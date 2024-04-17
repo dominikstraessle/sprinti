@@ -14,7 +14,7 @@ public class StreamController(
     {
         using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
 
-        var config = videoProcessor.Run(cancellationTokenSource.Token);
+        var config = videoProcessor.RunDetection(cancellationTokenSource.Token);
         return Task.FromResult<IActionResult>(Ok(config));
     }
 }

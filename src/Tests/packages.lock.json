@@ -115,6 +115,16 @@
           "xunit.core": "[2.7.0]"
         }
       },
+      "Xunit.DependencyInjection": {
+        "type": "Direct",
+        "requested": "[9.1.0, )",
+        "resolved": "9.1.0",
+        "contentHash": "fi3BKFtNjU3DkPrF9vKCYIftrPlBfBXoGkFlWDqE2ecLJBVgMHxGBa5d9G+ib1PgLgcaJ1KcUQfMRXTiBAKDCw==",
+        "dependencies": {
+          "Microsoft.Extensions.Hosting": "8.0.0",
+          "xunit.extensibility.execution": "[2.4.2, 3.0.0)"
+        }
+      },
       "xunit.runner.visualstudio": {
         "type": "Direct",
         "requested": "[2.5.7, )",

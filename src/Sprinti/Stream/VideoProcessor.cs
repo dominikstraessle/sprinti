@@ -6,16 +6,17 @@ namespace Sprinti.Stream;
 
 public interface IVideoProcessor
 {
-    CubeConfig? Run(CancellationToken stoppingToken);
+    CubeConfig? RunDetection(CancellationToken stoppingToken);
 }
 
 public class VideoProcessor(
     IStreamCapture capture,
     IDetectionProcessor processor,
     ILogger<VideoStream> logger,
-    IOptions<StreamOptions> options) : IVideoProcessor
+    IOptions<StreamOptions> options
+) : IVideoProcessor
 {
-    public CubeConfig? Run(CancellationToken stoppingToken)
+    public CubeConfig? RunDetection(CancellationToken stoppingToken)
     {
         using var image = new Mat();
         while (!stoppingToken.IsCancellationRequested)
