@@ -61,6 +61,20 @@ public class SerialServiceTests
     }
 
     [Fact]
+    public async Task TestSendFinishWithInvalidResponse()
+    {
+        const int powerInWattHours = -1;
+        _adapterMock.Setup(adapter => adapter.ReadLine()).Returns($"finish NOOO");
+        var command = new FinishCommand();
+
+        var result = await _service.SendCommand(command, CancellationToken.None);
+
+        Assert.Equal(Unknown, result.ResponseState);
+        Assert.Equal(powerInWattHours, result.PowerInWattHours);
+        _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
+    }
+
+    [Fact]
     public async Task TestSendRawCommand()
     {
         const int powerInWattHours = 10;

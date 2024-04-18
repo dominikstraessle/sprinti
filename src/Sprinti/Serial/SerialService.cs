@@ -31,7 +31,13 @@ internal class SerialService(
     {
         var message = await CommandReply(command, cancellationToken);
         var responseState = ParseResponseState(message);
-        return new FinishedResponse(GetPowerInWatts(message), responseState);
+        var powerInWatts = -1;
+        if (responseState is ResponseState.Finished)
+        {
+            powerInWatts = GetPowerInWatts(message);
+        }
+
+        return new FinishedResponse(powerInWatts, responseState);
     }
 
     public async Task<string> SendRawCommand(string command, CancellationToken stoppingToken)
