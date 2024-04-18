@@ -46,9 +46,7 @@ internal class SerialService(
 
         serialAdapter.WriteLine(command);
 
-        var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
-        logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
-        return responseLine;
+        return await readTask.WaitAsync(Timeout, stoppingToken);
     }
 
     public async Task<int> RunInstructionsAndFinish(IEnumerable<ISerialCommand> instructions,
@@ -99,9 +97,7 @@ internal class SerialService(
 
         serialAdapter.WriteLine(command.ToAsciiCommand());
 
-        var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
-        logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
-        return responseLine;
+        return await readTask.WaitAsync(Timeout, stoppingToken);
     }
 
     private string ReadResponse(CancellationToken stoppingToken)
