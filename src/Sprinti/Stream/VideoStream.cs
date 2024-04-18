@@ -5,7 +5,6 @@ namespace Sprinti.Stream;
 
 public class VideoStream(
     IStreamCapture capture,
-    IImageSelector selector,
     ILogger<VideoStream> logger,
     IOptions<StreamOptions> options)
     : BackgroundService
@@ -21,7 +20,7 @@ public class VideoStream(
     private async Task CaptureFrames(CancellationToken stoppingToken)
     {
         var currentWorkingDir = Directory.GetCurrentDirectory();
-        var imageDirectory = Path.Combine(currentWorkingDir, options.Value.SaveImagePathFromProjectRoot);
+        var imageDirectory = Path.Combine(currentWorkingDir, options.Value.Capture.SaveImagePathFromProjectRoot);
         Directory.CreateDirectory(imageDirectory);
         logger.LogInformation("Created new image directory: {path}", imageDirectory);
 
@@ -31,11 +30,9 @@ public class VideoStream(
         while (!stoppingToken.IsCancellationRequested)
         {
             capture.Read(image);
-            if (_imageIndex % options.Value.CaptureIntervalInSeconds == 0)
+            if (_imageIndex % options.Value.Capture.CaptureIntervalInSeconds == 0)
             {
                 var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
-
-                selector.TrySelectImage(image, out _);
 
                 image.SaveImage(imageFilePath);
                 logger.LogInformation("Received image: {rows}x{cols}, saved to {path}", image.Rows, image.Cols,
@@ -43,7 +40,7 @@ public class VideoStream(
             }
 
             _imageIndex += 1;
-            _imageIndex %= options.Value.CaptureIntervalInSeconds;
+            _imageIndex %= options.Value.Capture.CaptureIntervalInSeconds;
             await Task.Delay(1000, stoppingToken);
         }
     }

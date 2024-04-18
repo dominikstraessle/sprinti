@@ -63,7 +63,7 @@ public static class Program
         var streamOptions = builder.Configuration.GetSection(StreamOptions.Stream);
         builder.Services.Configure<StreamOptions>(streamOptions);
         var streamOptionsValue = streamOptions.Get<StreamOptions>();
-        if (streamOptionsValue is { Enabled: true }) builder.Services.AddStreamModule();
+        if (streamOptionsValue is { Enabled: true }) builder.Services.AddStreamModule(streamOptionsValue);
 
         builder.Services.AddInstructionModule();
 

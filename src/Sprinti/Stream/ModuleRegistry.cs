@@ -5,7 +5,7 @@ namespace Sprinti.Stream;
 
 public static class ModuleRegistry
 {
-    public static void AddStreamModule(this IServiceCollection services)
+    public static void AddStreamModule(this IServiceCollection services, StreamOptions streamOptionsValue)
     {
         services.AddTransient<VideoCapture>(provider =>
         {
@@ -18,6 +18,9 @@ public static class ModuleRegistry
         services.AddTransient<ICubeDetector, CubeDetector>();
         services.AddTransient<IDetectionProcessor, DetectionProcessor>();
         services.AddTransient<IVideoProcessor, VideoProcessor>();
-        services.AddHostedService<VideoStream>();
+        if (streamOptionsValue is { Capture.Enabled: true })
+        {
+            services.AddHostedService<VideoStream>();
+        }
     }
 }
