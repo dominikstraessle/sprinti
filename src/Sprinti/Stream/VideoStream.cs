@@ -6,7 +6,8 @@ namespace Sprinti.Stream;
 public class VideoStream(
     IStreamCapture capture,
     ILogger<VideoStream> logger,
-    IOptions<StreamOptions> options)
+    IOptions<StreamOptions> options,
+    IHostEnvironment environment)
     : BackgroundService
 {
     private int _imageIndex;
@@ -19,10 +20,9 @@ public class VideoStream(
 
     private async Task CaptureFrames(CancellationToken stoppingToken)
     {
-        var currentWorkingDir = Directory.GetCurrentDirectory();
-        var imageDirectory = Path.Combine(currentWorkingDir, options.Value.Capture.SaveImagePathFromProjectRoot);
+        var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.Capture.ImagePathFromContentRoot);
         Directory.CreateDirectory(imageDirectory);
-        logger.LogInformation("Created new image directory: {path}", imageDirectory);
+        logger.LogInformation("Image directory: {path}", imageDirectory);
 
         using var image = new Mat();
 

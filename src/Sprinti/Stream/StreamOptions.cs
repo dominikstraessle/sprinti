@@ -14,6 +14,6 @@ public class StreamOptions
 public class Capture
 {
     public bool Enabled { get; set; } = true;
-    public string SaveImagePathFromProjectRoot { get; set; } = "img";
+    public string ImagePathFromContentRoot { get; set; } = "img";
     public int CaptureIntervalInSeconds { get; set; } = 5;
 }

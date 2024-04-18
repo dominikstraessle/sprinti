@@ -1,5 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Sprinti.Button;
 using Sprinti.Confirmation;
@@ -47,6 +49,21 @@ public static class Program
             c.RoutePrefix = "";
         });
 
+        var imagePath = app.Services.GetRequiredService<IOptions<StreamOptions>>().Value.Capture
+            .ImagePathFromContentRoot;
+        var imageFileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, imagePath));
+        PathString imageRequestPath = $"/{imagePath}";
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = imageFileProvider,
+            RequestPath = imageRequestPath
+        });
+        app.UseDirectoryBrowser(new DirectoryBrowserOptions
+        {
+            FileProvider = imageFileProvider,
+            RequestPath = imageRequestPath
+        });
+
         app.UseRouting();
         app.MapControllers();
     }
@@ -54,6 +71,7 @@ public static class Program
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
         builder.Configuration.AddJsonFile("sprinti.json", optional: true, reloadOnChange: true);
+        builder.Services.AddDirectoryBrowser();
 
         var serialOptions = builder.Configuration.GetSection(SerialOptions.Serial);
         builder.Services.Configure<SerialOptions>(serialOptions);
