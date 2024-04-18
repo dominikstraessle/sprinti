@@ -5,7 +5,7 @@ namespace Sprinti.Stream;
 
 public class VideoStream(
     IStreamCapture capture,
-    ImageSelector selector,
+    IImageSelector selector,
     ILogger<VideoStream> logger,
     IOptions<StreamOptions> options)
     : BackgroundService

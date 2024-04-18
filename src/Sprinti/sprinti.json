@@ -1,0 +1,28 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://0.0.0.0:5000"
+      }
+    }
+  },
+  "Stream": {
+    "Enabled": true
+  },
+  "Serial": {
+    "Enabled": true,
+    "PortName": "/dev/ttyACM0"
+  },
+  "Button": {
+    "Pin": 26,
+    "IsPullUp": true,
+    "UseExternalResistor": false
+  }
+}

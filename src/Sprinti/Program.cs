@@ -53,6 +53,8 @@ public static class Program
 
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
+        builder.Configuration.AddJsonFile("sprinti.json", optional: true, reloadOnChange: true);
+
         var serialOptions = builder.Configuration.GetSection(SerialOptions.Serial);
         builder.Services.Configure<SerialOptions>(serialOptions);
         var serialOptionsValue = serialOptions.Get<SerialOptions>();
