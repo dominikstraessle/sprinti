@@ -9,7 +9,8 @@ public interface IDetectionProcessor
     bool TryDetectCubes(Mat image, [MaybeNullWhen(false)] out CubeConfig config);
 }
 
-public class DetectionProcessor(IImageSelector selector, ICubeDetector detector, ILogger<DetectionProcessor> logger) : IDetectionProcessor
+public class DetectionProcessor(IImageSelector selector, ICubeDetector detector, ILogger<DetectionProcessor> logger)
+    : IDetectionProcessor
 {
     private readonly int[][] _result = InitResult();
 
@@ -18,7 +19,7 @@ public class DetectionProcessor(IImageSelector selector, ICubeDetector detector,
         config = null;
         if (!selector.TrySelectImage(image, out var lookupConfig))
         {
-            logger.LogInformation("No image selected");
+            logger.LogTrace("No image selected");
             return IsCompleteResult(_result);
         }
 
@@ -26,7 +27,7 @@ public class DetectionProcessor(IImageSelector selector, ICubeDetector detector,
 
         if (!IsCompleteResult(_result))
         {
-            logger.LogInformation("Result not complete after detection: {Result}", _result.ToString());
+            logger.LogInformation("Result not complete after detection: {Result}", ResultToConfig(_result));
             return false;
         }
 
@@ -35,8 +36,8 @@ public class DetectionProcessor(IImageSelector selector, ICubeDetector detector,
             Time = DateTime.Now,
             Config = ResultToConfig(_result)
         };
-        logger.LogInformation("Result complete after detection: {Result}", _result.ToString());
-        logger.LogInformation("Config detected: {Config}", config);
+        logger.LogInformation("Result complete after detection: {Result}", ResultToConfig(_result));
+        logger.LogInformation("Config detected at {time}: {Config}", config.Time, config.Config);
         return true;
     }
 

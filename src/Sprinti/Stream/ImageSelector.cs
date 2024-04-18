@@ -26,7 +26,7 @@ public class ImageSelector(IOptions<ImageOptions> options, ILogger<ImageSelector
             return true;
         }
 
-        logger.LogInformation("No image selected.");
+        logger.LogTrace("No image selected.");
         return false;
     }
 }
