@@ -1,14 +1,15 @@
 using Sprinti.Button;
 using Sprinti.Confirmation;
+using Sprinti.Display;
 using Sprinti.Instruction;
 using Sprinti.Serial;
 using Sprinti.Stream;
 
 namespace Sprinti.Workflow;
 
-public interface IDisplayService
+public interface IWorkflowService
 {
-    Task UpdateProgress(int stepNumber, string text, CancellationToken cancellationToken);
+    Task RunAsync(CancellationToken cancellationToken);
 }
 
 public class WorkflowService(
@@ -18,7 +19,7 @@ public class WorkflowService(
     IInstructionService instructionService,
     IConfirmationService confirmationService,
     IDisplayService displayService,
-    ILogger<WorkflowService> logger)
+    ILogger<WorkflowService> logger) : IWorkflowService
 {
     public async Task RunAsync(CancellationToken cancellationToken)
     {

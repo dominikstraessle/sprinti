@@ -5,9 +5,11 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Sprinti.Button;
 using Sprinti.Confirmation;
+using Sprinti.Display;
 using Sprinti.Instruction;
 using Sprinti.Serial;
 using Sprinti.Stream;
+using Sprinti.Workflow;
 
 namespace Sprinti;
 
@@ -92,6 +94,9 @@ public static class Program
         builder.Services.Configure<ButtonOptions>(
             builder.Configuration.GetSection(ButtonOptions.Button));
         builder.Services.AddButtonModule();
+
+        builder.Services.AddDisplayModule();
+        builder.Services.AddWorkflowModule();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

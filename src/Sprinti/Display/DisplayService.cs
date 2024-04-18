@@ -1,9 +1,10 @@
 namespace Sprinti.Display;
 
-public class DisplayService(ILogger<DisplayService> logger) : IDisplayService
+class DisplayService(ILogger<DisplayService> logger) : IDisplayService
 {
-    public Task Display(CancellationToken cancellationToken)
+    public Task UpdateProgress(int stepNumber, string text, CancellationToken cancellationToken)
     {
+        logger.LogInformation("Display: {step} - {text}", stepNumber, text);
         return Task.CompletedTask;
     }
 }

@@ -2,5 +2,5 @@ namespace Sprinti.Display;
 
 public interface IDisplayService
 {
-    Task Display(CancellationToken cancellationToken);
+    Task UpdateProgress(int stepNumber, string text, CancellationToken cancellationToken);
 }

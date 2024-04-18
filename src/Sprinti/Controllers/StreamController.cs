@@ -8,9 +8,9 @@ public class StreamController(
     IVideoProcessor videoProcessor
 ) : ApiController
 {
-    [HttpGet(nameof(Run), Name = nameof(Run))]
+    [HttpGet(nameof(RunDetection), Name = nameof(RunDetection))]
     [ProducesResponseType(typeof(CubeConfig), 200)]
-    public Task<IActionResult> Run([FromQuery] int timeout = 20)
+    public Task<IActionResult> RunDetection([FromQuery] int timeout = 20)
     {
         using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
 
