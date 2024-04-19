@@ -6,23 +6,23 @@ namespace Sprinti.Stream;
 
 public interface ICubeDetector
 {
-    void DetectCubes(Mat image, LookupConfig config, int[][] result, bool show = false);
+    void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, bool show = false);
 }
 
 public class CubeDetector(IOptions<DetectionOptions> options, ILogger<CubeDetector> logger) : ICubeDetector
 {
-    public void DetectCubes(Mat image, LookupConfig config, int[][] result, bool show = false)
+    public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, bool show = false)
     {
         if (result.Length != 8)
         {
             throw new ArgumentOutOfRangeException(nameof(result), result, "Result Table must be of length 8");
         }
 
-        var masks = GetColorMaskPairs(image);
+        var masks = GetColorMaskPairs(imageHsv);
 
-        for (var i = 0; i < config.Points.Count(); i++)
+        for (var i = 0; i < config.Points.Length; i++)
         {
-            var point = config.Points.ElementAt(i);
+            var point = config.Points[i];
             foreach (var (color, mask) in masks)
             {
                 var maskedPixel = mask.Get<byte>(point[1], point[0]);

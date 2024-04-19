@@ -50,12 +50,8 @@ public static class ImageMask
         _ => throw new ArgumentOutOfRangeException(nameof(color), color, null)
     };
 
-    private static Mat GetMask(Mat imageBgr, Scalar lower, Scalar upper)
+    private static Mat GetMask(Mat imageHsv, Scalar lower, Scalar upper)
     {
-        // Convert the image to HSV color space
-        using var imageHsv = new Mat();
-        Cv2.CvtColor(imageBgr, imageHsv, ColorConversionCodes.BGR2HSV);
-
         // Create mask
         var mask = new Mat();
         Cv2.InRange(imageHsv, lower, upper, mask);

@@ -36,9 +36,10 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
         foreach (var config in options.Value.LookupConfigs)
         {
             var imagePath = TestFiles.GetDetectionFileName(config.Filename);
-            using var image = Cv2.ImRead(imagePath);
+            using var imageHsv = Cv2.ImRead(imagePath);
+            Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
-            var result = imageSelector.TrySelectImage(image, out var actual);
+            var result = imageSelector.TrySelectImage(imageHsv, out var actual);
             var message = $"Invalid lookup selected for {config.Filename}: {config.Lookup}";
             Assert.True(result, message);
             Assert.NotNull(actual);
@@ -50,9 +51,10 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
     public void TrySelectImage1Test()
     {
         var imagePath = TestFiles.GetTestFileFullName("1.png");
-        using var image = Cv2.ImRead(imagePath);
+        using var imageHsv = Cv2.ImRead(imagePath);
+        Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
-        var result = imageSelector.TrySelectImage(image, out var config);
+        var result = imageSelector.TrySelectImage(imageHsv, out var config);
         Assert.True(result);
         Assert.NotNull(config);
         Assert.Equivalent(DetectionOptions.DefaultLookupConfigs[0].Lookup, config.Lookup);
@@ -62,9 +64,10 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
     public void TrySelectImage2Test()
     {
         var imagePath = TestFiles.GetTestFileFullName("2.png");
-        using var image = Cv2.ImRead(imagePath);
+        using var imageHsv = Cv2.ImRead(imagePath);
+        Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
-        var result = imageSelector.TrySelectImage(image, out var config);
+        var result = imageSelector.TrySelectImage(imageHsv, out var config);
         Assert.True(result);
         Assert.NotNull(config);
         Assert.Equivalent(DetectionOptions.DefaultLookupConfigs[1].Lookup, config.Lookup);
@@ -74,9 +77,10 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
     public void TrySelectImageFailedTest()
     {
         var imagePath = TestFiles.GetTestFileFullName("3.png");
-        using var image = Cv2.ImRead(imagePath);
+        using var imageHsv = Cv2.ImRead(imagePath);
+        Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
-        var result = imageSelector.TrySelectImage(image, out var config);
+        var result = imageSelector.TrySelectImage(imageHsv, out var config);
         Assert.False(result);
         Assert.Null(config);
     }

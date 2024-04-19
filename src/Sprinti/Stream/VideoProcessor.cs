@@ -17,17 +17,18 @@ public class VideoProcessor(
     public CubeConfig? RunDetection(CancellationToken stoppingToken)
     {
         logger.LogInformation("Start video processing: Checking for valid images.");
-        using var image = new Mat();
+        using var imageHsv = new Mat();
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (!capture.Read(image))
+            if (!capture.Read(imageHsv))
             {
                 logger.LogWarning("Failed to read image from stream");
             }
+            Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
-            logger.LogTrace("Received image: {rows}x{cols}", image.Rows, image.Cols);
+            logger.LogTrace("Received image: {rows}x{cols}", imageHsv.Rows, imageHsv.Cols);
 
-            if (processor.TryDetectCubes(image, out var config))
+            if (processor.TryDetectCubes(imageHsv, out var config))
             {
                 logger.LogInformation("Config detected at {time}: {Config}", config.Time, config.Config);
                 return config;

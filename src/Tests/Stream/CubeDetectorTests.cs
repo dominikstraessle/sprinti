@@ -26,10 +26,11 @@ public class CubeDetectorTests(ICubeDetector cubeDetector)
         ];
 
         var imagePath = TestFiles.GetTestFileFullName("1.png");
-        using var image = Cv2.ImRead(imagePath);
+        using var imageHsv = Cv2.ImRead(imagePath);
+        Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
         var lookupTable = DetectionOptions.DefaultLookupConfigs[0];
-        cubeDetector.DetectCubes(image, lookupTable, _result);
+        cubeDetector.DetectCubes(imageHsv, lookupTable, _result);
         Assert.NotNull(_result);
         Assert.Equal(expected, _result);
     }
@@ -50,10 +51,11 @@ public class CubeDetectorTests(ICubeDetector cubeDetector)
         ];
 
         var imagePath = TestFiles.GetTestFileFullName("2.png");
-        using var image = Cv2.ImRead(imagePath);
+        using var imageHsv = Cv2.ImRead(imagePath);
+        Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
         var lookupTable = DetectionOptions.DefaultLookupConfigs[1];
-        cubeDetector.DetectCubes(image, lookupTable, _result);
+        cubeDetector.DetectCubes(imageHsv, lookupTable, _result);
         Assert.NotNull(_result);
         Assert.Equal(expected, _result);
     }
@@ -74,14 +76,16 @@ public class CubeDetectorTests(ICubeDetector cubeDetector)
         ];
 
         var imagePath1 = TestFiles.GetDetectionFileName("4.1.png");
-        using var image1 = Cv2.ImRead(imagePath1);
+        using var imageHsv1 = Cv2.ImRead(imagePath1);
+        Cv2.CvtColor(imageHsv1, imageHsv1, ColorConversionCodes.BGR2HSV);
         var lookupTable1 = DetectionOptions.DefaultLookupConfigs[0];
-        cubeDetector.DetectCubes(image1, lookupTable1, _result);
+        cubeDetector.DetectCubes(imageHsv1, lookupTable1, _result);
 
         var imagePath2 = TestFiles.GetDetectionFileName("4.2.png");
-        using var image2 = Cv2.ImRead(imagePath2);
+        using var imageHsv2 = Cv2.ImRead(imagePath2);
+        Cv2.CvtColor(imageHsv2, imageHsv2, ColorConversionCodes.BGR2HSV);
         var lookupTable2 = DetectionOptions.DefaultLookupConfigs[1];
-        cubeDetector.DetectCubes(image2, lookupTable2, _result);
+        cubeDetector.DetectCubes(imageHsv2, lookupTable2, _result);
 
         Assert.NotNull(_result);
         Assert.Equal(expected, _result);
