@@ -10,6 +10,13 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
     [InlineData("20240419091756.png")]
     [InlineData("20240419091430.png")]
     [InlineData("20240419091435.png")]
+    [InlineData("20240419091440.png")]
+    [InlineData("20240419091445.png")]
+    [InlineData("20240419091455.png")]
+    [InlineData("20240419091500.png")]
+    [InlineData("20240419091505.png")]
+    [InlineData("20240419091510.png")]
+    [InlineData("20240419091515.png")]
     public void TrySelectAllTest(string filename)
     {
         var imagePath = TestFiles.GetDetectionFileName(filename);
