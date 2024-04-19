@@ -9,4 +9,9 @@ public static class TestFiles
     {
         return Path.Combine(TestPath, "Stream", "Images", fileName);
     }
+
+    public static string GetDetectionFileName(string fileName)
+    {
+        return Path.Combine("/home/dominik/aworkspace/study/pren/sprinti/src/Tests/Stream/Images/Detection", fileName);
+    }
 }

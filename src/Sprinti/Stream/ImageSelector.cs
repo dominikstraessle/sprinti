@@ -17,12 +17,13 @@ public class ImageSelector(IOptions<ImageOptions> options, ILogger<ImageSelector
         using var mask = ImageMask.WhiteMask(image);
         foreach (var config in options.Value.LookupConfigs)
         {
-            var p1 = mask.Get<byte>(config.P1.Y, config.P1.X);
-            var p2 = mask.Get<byte>(config.P2.Y, config.P2.X);
+            var selectorPoints = config.SelectorPoints;
+            var p1 = mask.Get<byte>(selectorPoints.P1.Y, selectorPoints.P1.X);
+            var p2 = mask.Get<byte>(selectorPoints.P2.Y, selectorPoints.P2.X);
             if (p1 != 255 || p2 != 255) continue;
             lookupConfig = config;
-            logger.LogInformation("Image selected by points: {P1} and {P2}. Lookup Table is {Table}", config.P1,
-                config.P2, config.LookupTable);
+            logger.LogInformation("Image selected by points: {P1} and {P2}. Lookup Table is {Table}", selectorPoints.P1,
+                selectorPoints.P2, config.Lookup);
             return true;
         }
 

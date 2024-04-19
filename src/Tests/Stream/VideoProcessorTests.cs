@@ -52,7 +52,7 @@ public class VideoProcessorTests
 
         public bool Read(Mat mat)
         {
-            var imagePath1 = TestFiles.GetTestFileFullName(files[_index]);
+            var imagePath1 = TestFiles.GetDetectionFileName(files[_index]);
             using var image = Cv2.ImRead(imagePath1);
             image.CopyTo(mat);
             _index++;

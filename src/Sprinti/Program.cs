@@ -96,7 +96,7 @@ public static class Program
         builder.Services.AddButtonModule();
 
         builder.Services.AddDisplayModule();
-        builder.Services.AddWorkflowModule();
+        // builder.Services.AddWorkflowModule();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
