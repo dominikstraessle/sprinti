@@ -9,7 +9,7 @@ public interface ICubeDetector
     void DetectCubes(Mat image, LookupConfig config, int[][] result, bool show = false);
 }
 
-public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> logger) : ICubeDetector
+public class CubeDetector(IOptions<DetectionOptions> options, ILogger<CubeDetector> logger) : ICubeDetector
 {
     public void DetectCubes(Mat image, LookupConfig config, int[][] result, bool show = false)
     {

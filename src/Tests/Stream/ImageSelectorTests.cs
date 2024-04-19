@@ -14,7 +14,7 @@ public class ImageSelectorTests(IImageSelector imageSelector)
         var result = imageSelector.TrySelectImage(image, out var config);
         Assert.True(result);
         Assert.NotNull(config);
-        Assert.Equal(ImageOptions.DefaultLookupConfigs[0], config);
+        Assert.Equal(DetectionOptions.DefaultLookupConfigs[0], config);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class ImageSelectorTests(IImageSelector imageSelector)
         var result = imageSelector.TrySelectImage(image, out var config);
         Assert.True(result);
         Assert.NotNull(config);
-        Assert.Equal(ImageOptions.DefaultLookupConfigs[1], config);
+        Assert.Equal(DetectionOptions.DefaultLookupConfigs[1], config);
     }
 
     [Fact]

@@ -1,13 +1,16 @@
 namespace Sprinti.Stream;
 
-public class ImageOptions
+public class DetectionOptions
 {
-    public const string Image = "Image";
+    public const string Detection = "Detection";
 
     public static readonly LookupConfig[] DefaultLookupConfigs =
     [
         new LookupConfig(
-            new SelectorPoints(new Point(435, 108), new Point(495, 269)),
+            new SelectorPoints(
+                [435, 108],
+                [495, 269]
+                ),
             new[]
             {
                 new Point(330, 220),
@@ -17,13 +20,13 @@ public class ImageOptions
                 new Point(390, 90),
                 new Point(385, 165)
             },
-            [3, 2, 6, 5, 4, 0],
-            "4.1.png"
+            [3, 2, 6, 5, 4, 0]
         ),
         new LookupConfig(
             new SelectorPoints(
-                new Point(178, 292),
-                new Point(170, 115)),
+                [178, 292],
+                [170, 115]
+                ),
             new[]
             {
                 new Point(330, 220),
@@ -33,8 +36,7 @@ public class ImageOptions
                 new Point(390, 90),
                 new Point(385, 165)
             },
-            [1, 0, 4, 7, 6, 2],
-            "4.2.png"
+            [1, 0, 4, 7, 6, 2]
         )
     ];
 
@@ -44,9 +46,8 @@ public class ImageOptions
 public record LookupConfig(
     SelectorPoints SelectorPoints,
     IEnumerable<Point> Points,
-    IEnumerable<int> Lookup,
-    string Filename);
+    IEnumerable<int> Lookup);
 
-public record SelectorPoints(Point P1, Point P2);
+public record SelectorPoints(int[] P1, int[] P2);
 
 public record Point(int X, int Y);
