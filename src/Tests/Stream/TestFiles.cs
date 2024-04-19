@@ -14,4 +14,8 @@ public static class TestFiles
     {
         return Path.Combine("/home/dominik/aworkspace/study/pren/sprinti/src/Tests/Stream/Images/Detection", fileName);
     }
+    public static string GetDebugPath(string fileName)
+    {
+        return Path.Combine("/home/dominik/aworkspace/study/pren/sprinti/src/Tests/Stream/Images/Detection/Debug", fileName);
+    }
 }
