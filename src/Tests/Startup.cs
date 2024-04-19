@@ -8,7 +8,7 @@ public abstract class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        var jsonString = File.ReadAllText("/home/dominik/aworkspace/study/pren/sprinti/src/Tests/detection.json");
+        var jsonString = File.ReadAllText("/home/dominik/aworkspace/study/pren/sprinti/detection/config.json");
 
         var detectionOptions = JsonSerializer.Deserialize<DetectionOptions>(jsonString);
         if (detectionOptions is null)
