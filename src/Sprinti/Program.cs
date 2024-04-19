@@ -73,6 +73,7 @@ public static class Program
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
         builder.Configuration.AddJsonFile("sprinti.json", optional: true, reloadOnChange: true);
+        builder.Configuration.AddJsonFile("detection.json", optional: false, reloadOnChange: true);
         builder.Services.AddDirectoryBrowser();
 
         var serialOptions = builder.Configuration.GetSection(SerialOptions.Serial);
@@ -80,6 +81,14 @@ public static class Program
         var serialOptionsValue = serialOptions.Get<SerialOptions>();
         if (serialOptionsValue is { Enabled: true }) builder.Services.AddSerialModule();
 
+
+        var detectionOptions = builder.Configuration.GetSection(DetectionOptions.Detection);
+        var detectionOptionsValue = detectionOptions.Get<DetectionOptions>();
+        if (!detectionOptionsValue.LookupConfigs.Any())
+        {
+            throw new ArgumentException($"No detections provided: ${nameof(DetectionOptions)}");
+        }
+        builder.Services.Configure<DetectionOptions>(detectionOptions);
         var streamOptions = builder.Configuration.GetSection(StreamOptions.Stream);
         builder.Services.Configure<StreamOptions>(streamOptions);
         var streamOptionsValue = streamOptions.Get<StreamOptions>();
@@ -96,7 +105,7 @@ public static class Program
         builder.Services.AddButtonModule();
 
         builder.Services.AddDisplayModule();
-        builder.Services.AddWorkflowModule();
+        // builder.Services.AddWorkflowModule();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

@@ -23,7 +23,7 @@ public class DetectionProcessor(IImageSelector selector, ICubeDetector detector,
             return IsCompleteResult(_result);
         }
 
-        detector.DetectCubes(image, lookupConfig.LookupTable, _result);
+        detector.DetectCubes(image, lookupConfig, _result);
 
         if (!IsCompleteResult(_result))
         {

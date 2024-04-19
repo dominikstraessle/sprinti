@@ -9,9 +9,9 @@ public class DetectionProcessorTests(IDetectionProcessor processor)
     [Fact]
     public void TryDetectCubesTest()
     {
-        var imagePath1 = TestFiles.GetTestFileFullName("4.1.png");
+        var imagePath1 = TestFiles.GetDetectionFileName("4.1.png");
         using var image1 = Cv2.ImRead(imagePath1);
-        var imagePath2 = TestFiles.GetTestFileFullName("4.2.png");
+        var imagePath2 = TestFiles.GetDetectionFileName("4.2.png");
         using var image2 = Cv2.ImRead(imagePath2);
 
         Assert.False(processor.TryDetectCubes(image1, out var config));

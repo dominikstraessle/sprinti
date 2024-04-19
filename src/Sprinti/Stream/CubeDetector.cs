@@ -6,20 +6,13 @@ namespace Sprinti.Stream;
 
 public interface ICubeDetector
 {
-    void DetectCubes(Mat image, int[] lookupTable, int[][] result, bool show = false);
+    void DetectCubes(Mat image, LookupConfig config, int[][] result, bool show = false);
 }
 
-public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> logger) : ICubeDetector
+public class CubeDetector(IOptions<DetectionOptions> options, ILogger<CubeDetector> logger) : ICubeDetector
 {
-    public void DetectCubes(Mat image, int[] lookupTable, int[][] result, bool show = false)
+    public void DetectCubes(Mat image, LookupConfig config, int[][] result, bool show = false)
     {
-        var points = options.Value.CubePoints.ToArray();
-        if (lookupTable.Length != points.Length)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookupTable), lookupTable,
-                "Lookup Table must have same length as configured reference points");
-        }
-
         if (result.Length != 8)
         {
             throw new ArgumentOutOfRangeException(nameof(result), result, "Result Table must be of length 8");
@@ -27,15 +20,15 @@ public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> 
 
         var masks = GetColorMaskPairs(image);
 
-        for (var i = 0; i < points.Length; i++)
+        for (var i = 0; i < config.Points.Count(); i++)
         {
-            var point = points[i];
+            var point = config.Points.ElementAt(i);
             foreach (var (color, mask) in masks)
             {
-                var maskedPixel = mask.Get<byte>(point.Y, point.X);
+                var maskedPixel = mask.Get<byte>(point[1], point[0]);
                 if (maskedPixel != 255) continue;
                 if (show) Show(mask, point, color);
-                var lookupPosition = lookupTable[i];
+                var lookupPosition = config.Lookup.ElementAt(i);
                 logger.LogInformation("Detected cube: {Color} {P} at {position}", color, point, lookupPosition);
                 result[lookupPosition][(int)color]++;
             }
@@ -44,12 +37,12 @@ public class CubeDetector(IOptions<ImageOptions> options, ILogger<CubeDetector> 
         DisposeColorMasks(masks);
     }
 
-    private static void Show(Mat mask, Point point, Color color)
+    private static void Show(Mat mask, int[] point, Color color)
     {
         using var debug = new Mat();
         mask.CopyTo(debug);
-        Cv2.Circle(debug, point.X, point.Y, 10, 255, 10);
-        Cv2.Circle(debug, point.X, point.Y, 5, 0, 5);
+        Cv2.Circle(debug, point[0], point[1], 10, 255, 10);
+        Cv2.Circle(debug, point[0], point[1], 5, 0, 5);
         Cv2.ImShow(color.ToString(), debug);
         Cv2.WaitKey();
     }

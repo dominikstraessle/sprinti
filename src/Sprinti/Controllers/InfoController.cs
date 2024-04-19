@@ -10,7 +10,7 @@ public class InfoController(
     IOptions<SerialOptions> serialOptions,
     IOptions<ConfirmationOptions> confirmationOptions,
     IOptions<StreamOptions> streamOptions,
-    IOptions<ImageOptions> imageOptions,
+    IOptions<DetectionOptions> imageOptions,
     IHostEnvironment environment
 ) : ApiController
 {
@@ -23,7 +23,7 @@ public class InfoController(
             Stream = streamOptions.Value,
             Confirmation = confirmationOptions.Value,
             Serial = serialOptions.Value,
-            Image = imageOptions.Value,
+            Detection = imageOptions.Value,
             Environment = environment.EnvironmentName
         });
     }
@@ -33,7 +33,7 @@ public class InfoController(
         public required SerialOptions Serial { get; init; }
         public required ConfirmationOptions Confirmation { get; init; }
         public required StreamOptions Stream { get; init; }
-        public required ImageOptions Image { get; init; }
+        public required DetectionOptions Detection { get; init; }
         public required string Environment { get; set; }
     }
 }
