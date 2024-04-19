@@ -1,10 +1,26 @@
+using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Stream;
 
 namespace Sprinti.Tests.Stream;
 
-public class ImageSelectorTests(IImageSelector imageSelector)
+public class ImageSelectorTests(IImageSelector imageSelector, IOptions<DetectionOptions> options)
 {
+    [Theory]
+    [InlineData("20240419091756.png")]
+    [InlineData("20240419091430.png")]
+    [InlineData("20240419091435.png")]
+    public void TrySelectAllTest(string filename)
+    {
+        var imagePath = TestFiles.GetDetectionFileName(filename);
+        using var image = Cv2.ImRead(imagePath);
+
+        var result = imageSelector.TrySelectImage(image, out var config);
+        Assert.True(result);
+        Assert.NotNull(config);
+        Assert.Contains(config, options.Value.LookupConfigs);
+    }
+
     [Fact]
     public void TrySelectImage1Test()
     {
