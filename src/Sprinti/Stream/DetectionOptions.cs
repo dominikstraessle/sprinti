@@ -44,6 +44,7 @@ public class DetectionOptions
 public record LookupConfig(
     SelectorPoints SelectorPoints,
     int[][] Points,
-    IEnumerable<int> Lookup);
+    IEnumerable<int> Lookup,
+    string Filename = "");
 
 public record SelectorPoints(int[] P1, int[] P2);
