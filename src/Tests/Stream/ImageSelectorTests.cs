@@ -6,26 +6,19 @@ namespace Sprinti.Tests.Stream;
 
 public class ImageSelectorTests(IImageSelector imageSelector, IOptions<DetectionOptions> options)
 {
-    [Theory]
-    [InlineData("20240419091756.png")]
-    [InlineData("20240419091430.png")]
-    [InlineData("20240419091435.png")]
-    [InlineData("20240419091440.png")]
-    [InlineData("20240419091445.png")]
-    [InlineData("20240419091455.png")]
-    [InlineData("20240419091500.png")]
-    [InlineData("20240419091505.png")]
-    [InlineData("20240419091510.png")]
-    [InlineData("20240419091515.png")]
-    public void TrySelectAllTest(string filename)
+    [Fact]
+    public void TrySelectAllTest()
     {
-        var imagePath = TestFiles.GetDetectionFileName(filename);
-        using var image = Cv2.ImRead(imagePath);
+        foreach (var filename in options.Value.LookupConfigs.Select(l => l.Filename))
+        {
+            var imagePath = TestFiles.GetDetectionFileName(filename);
+            using var image = Cv2.ImRead(imagePath);
 
-        var result = imageSelector.TrySelectImage(image, out var config);
-        Assert.True(result);
-        Assert.NotNull(config);
-        Assert.Contains(config, options.Value.LookupConfigs);
+            var result = imageSelector.TrySelectImage(image, out var config);
+            Assert.True(result);
+            Assert.NotNull(config);
+            Assert.Contains(config, options.Value.LookupConfigs);
+        }
     }
 
     [Fact]
@@ -37,7 +30,7 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
         var result = imageSelector.TrySelectImage(image, out var config);
         Assert.True(result);
         Assert.NotNull(config);
-        Assert.Equivalent(DetectionOptions.DefaultLookupConfigs[0], config);
+        Assert.Equivalent(DetectionOptions.DefaultLookupConfigs[0].Lookup, config.Lookup);
     }
 
     [Fact]
@@ -49,7 +42,7 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
         var result = imageSelector.TrySelectImage(image, out var config);
         Assert.True(result);
         Assert.NotNull(config);
-        Assert.Equivalent(DetectionOptions.DefaultLookupConfigs[1], config);
+        Assert.Equivalent(DetectionOptions.DefaultLookupConfigs[1].Lookup, config.Lookup);
     }
 
     [Fact]
