@@ -15,7 +15,7 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
             using var image = Cv2.ImRead(imagePath);
 
             var result = imageSelector.TrySelectImage(image, out var config);
-            Assert.True(result);
+            Assert.True(result, $"Invalid for {filename}");
             Assert.NotNull(config);
             Assert.Contains(config, options.Value.LookupConfigs);
         }
