@@ -68,6 +68,11 @@
         <Content Include="Stream\Images\1-yellow-mask.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Update="detection.json">
+          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>

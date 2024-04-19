@@ -25,7 +25,7 @@ public class CubeDetector(IOptions<DetectionOptions> options, ILogger<CubeDetect
             var point = config.Points.ElementAt(i);
             foreach (var (color, mask) in masks)
             {
-                var maskedPixel = mask.Get<byte>(point.Y, point.X);
+                var maskedPixel = mask.Get<byte>(point[1], point[0]);
                 if (maskedPixel != 255) continue;
                 if (show) Show(mask, point, color);
                 var lookupPosition = config.Lookup.ElementAt(i);
@@ -37,12 +37,12 @@ public class CubeDetector(IOptions<DetectionOptions> options, ILogger<CubeDetect
         DisposeColorMasks(masks);
     }
 
-    private static void Show(Mat mask, Point point, Color color)
+    private static void Show(Mat mask, int[] point, Color color)
     {
         using var debug = new Mat();
         mask.CopyTo(debug);
-        Cv2.Circle(debug, point.X, point.Y, 10, 255, 10);
-        Cv2.Circle(debug, point.X, point.Y, 5, 0, 5);
+        Cv2.Circle(debug, point[0], point[1], 10, 255, 10);
+        Cv2.Circle(debug, point[0], point[1], 5, 0, 5);
         Cv2.ImShow(color.ToString(), debug);
         Cv2.WaitKey();
     }
