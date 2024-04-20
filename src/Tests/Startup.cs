@@ -8,17 +8,17 @@ public abstract class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        var jsonString = File.ReadAllText("/home/dominik/aworkspace/study/pren/sprinti/detection/config.json");
+        var jsonString = File.ReadAllText("/home/dominik/aworkspace/study/pren/sprinti/src/Sprinti/detection.json");
 
-        var detectionOptions = JsonSerializer.Deserialize<DetectionOptions>(jsonString);
-        if (detectionOptions is null)
+        var detectionOptions = JsonSerializer.Deserialize<DetectionJson>(jsonString);
+        if (detectionOptions?.Detection.LookupConfigs is null)
         {
             throw new ArgumentException(nameof(DetectionOptions));
         }
 
         services.Configure<DetectionOptions>(options =>
         {
-            options.LookupConfigs = detectionOptions.LookupConfigs;
+            options.LookupConfigs = detectionOptions.Detection.LookupConfigs;
         });
         services.AddTransient<ICubeDetector, CubeDetector>();
         services.AddTransient<IStreamCapture, StreamCapture>();
@@ -26,4 +26,9 @@ public abstract class Startup
         services.AddTransient<IImageSelector, ImageSelector>();
         services.AddTransient<IVideoProcessor, VideoProcessor>();
     }
+}
+
+public class DetectionJson
+{
+    public DetectionOptions Detection { get; set; }
 }
