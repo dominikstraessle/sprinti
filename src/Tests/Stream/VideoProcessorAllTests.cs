@@ -28,12 +28,14 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
         Assert.NotNull(cubeConfig);
         foreach (var kv in expected)
         {
-            Assert.True(cubeConfig.Config.Contains(kv), $"{kv.ToString()} vs {cubeConfig.Config.GetValueOrDefault(kv.Key)}");
+            Assert.True(cubeConfig.Config.Contains(kv),
+                $"{kv.ToString()} vs {cubeConfig.Config.GetValueOrDefault(kv.Key)}");
         }
+
         Assert.Equal(expected, cubeConfig.Config);
     }
 
-    [Theory]
+    [Theory(Skip = "Manual clean task")]
     [InlineData(1)]
     [InlineData(2)]
     [InlineData(3)]
@@ -48,6 +50,7 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
                 File.Delete(configImage);
             }
         }
+
         Assert.True(true);
     }
 }
