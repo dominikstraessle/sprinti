@@ -20,7 +20,7 @@ public class ImageSelector(IOptions<DetectionOptions> options, ILogger<ImageSele
             var selectorPoints = config.SelectorPoints;
             var p1 = mask.Get<byte>(selectorPoints.P1[1], selectorPoints.P1[0]);
             var p2 = mask.Get<byte>(selectorPoints.P2[1], selectorPoints.P2[0]);
-            if (p1 != 255 || p2 != 255) continue;
+            if (p1 != selectorPoints.P1[2] || p2 != selectorPoints.P2[2]) continue;
             lookupConfig = config;
             logger.LogInformation("Image selected by points: {P1} and {P2}. Lookup Table is {Table}", selectorPoints.P1,
                 selectorPoints.P2, config.Lookup);
