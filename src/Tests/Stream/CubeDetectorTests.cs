@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Domain;
 using Sprinti.Stream;

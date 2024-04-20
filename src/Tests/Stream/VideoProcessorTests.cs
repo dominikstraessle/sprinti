@@ -12,8 +12,8 @@ public class VideoProcessorTests
     public VideoProcessorTests(IDetectionProcessor detectionProcessor)
     {
         var testStreamCapture = new TestStreamCapture([
-            "4.1.png",
-            "4.2.png"
+            TestFiles.GetDetectionFileName("4.1.png"),
+            TestFiles.GetDetectionFileName("4.2.png")
         ]);
         _processor = new VideoProcessor(testStreamCapture, detectionProcessor, NullLogger<VideoStream>.Instance);
     }
@@ -46,17 +46,19 @@ public class VideoProcessorTests
         Assert.Null(cubeConfig);
     }
 
-    private class TestStreamCapture(IReadOnlyList<string> files) : IStreamCapture
+    internal class TestStreamCapture(IReadOnlyList<string> files) : IStreamCapture
     {
         private int _index;
 
         public bool Read(Mat mat)
         {
-            var imagePath1 = TestFiles.GetDetectionFileName(files[_index]);
-            using var image = Cv2.ImRead(imagePath1);
+            if (_index >= files.Count)
+            {
+                throw new ArgumentException("All files already processed");
+            }
+            using var image = Cv2.ImRead(files[_index]);
             image.CopyTo(mat);
             _index++;
-            _index %= files.Count;
             return true;
         }
     }
