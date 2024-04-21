@@ -30,6 +30,24 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
         }
     }
 
+    public static IEnumerable<object[]> AllSelectorTestFilesData()
+    {
+        return TestFiles.GetDetectionFiles().Select(detectionFile => (object[])[detectionFile]);
+    }
+
+    [Theory]
+    [MemberData(nameof(AllSelectorTestFilesData))]
+    public void TrySelectAllSelectorFiles(string filename)
+    {
+        using var imageHsv = Cv2.ImRead(filename);
+        Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
+
+        var result = imageSelector.TrySelectImage(imageHsv, out var actual);
+        var message = $"No lookup selected for {filename}";
+        Assert.True(result, message);
+        Assert.NotNull(actual);
+    }
+
     [Fact]
     public void TrySelectAllTest()
     {

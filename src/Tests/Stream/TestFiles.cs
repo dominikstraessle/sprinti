@@ -20,6 +20,11 @@ public static class TestFiles
         return Path.Combine(BasePath, "Detection", fileName);
     }
 
+    public static IEnumerable<string> GetDetectionFiles()
+    {
+        return Directory.GetFiles(Path.Combine(BasePath, "Detection"), "*.png").OrderBy(s => s).ToArray();
+    }
+
     public static string GetDebugPath(string fileName)
     {
         // Reuse the base path
