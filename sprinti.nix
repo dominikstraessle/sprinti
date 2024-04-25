@@ -1,4 +1,5 @@
-{ buildDotnetModule, dotnetCorePackages, opencv, cvsharp, libgpiod_1, fontconfig }:
+{ buildDotnetModule, dotnetCorePackages, opencv, cvsharp, libgpiod_1, fontconfig
+}:
 
 buildDotnetModule rec {
   pname = "sprinti";
@@ -24,6 +25,7 @@ buildDotnetModule rec {
     opencv
     cvsharp
     libgpiod_1
+    # https://discourse.nixos.org/t/builddotnetmodule-runtimedeps-from-nugetdeps/23565
     fontconfig
   ]; # This will wrap opencv's library path into `LD_LIBRARY_PATH`.
 }

@@ -14,7 +14,8 @@ public static class ModuleRegistry
         services.Configure<DisplayOptions>(section);
         var options = section.Get<DisplayOptions>();
         if (options is { Enabled: false }) return;
-        // https://github.com/NixOS/nixpkgs/pull/61668/files
+
+        // https://github.com/dotnet/iot/issues/2181#issuecomment-1833238952
         SkiaSharpAdapter.Register();
 
         services.AddScoped<I2cDevice>(provider =>
