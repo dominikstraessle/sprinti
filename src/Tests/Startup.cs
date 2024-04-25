@@ -21,6 +21,7 @@ public abstract class Startup
             options.LookupConfigs = detectionOptions.Detection.LookupConfigs;
         });
         services.AddTransient<ICubeDetector, CubeDetector>();
+        services.AddTransient<ILogicalCubeDetector, LogicalCubeDetector>();
         services.AddTransient<IStreamCapture, StreamCapture>();
         services.AddTransient<IDetectionProcessor, DetectionProcessor>();
         services.AddTransient<IImageSelector, ImageSelector>();
