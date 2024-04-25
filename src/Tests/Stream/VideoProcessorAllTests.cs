@@ -21,6 +21,9 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
     [InlineData(4)]
     [InlineData(5)]
     [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    [InlineData(9)]
     public void TestConfigs(int testCase)
     {
         var processor = GetProcessor(testCase);
@@ -32,7 +35,7 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
         foreach (var kv in expected)
         {
             Assert.True(cubeConfig.Config.Contains(kv),
-                $"{kv.ToString()} vs {cubeConfig.Config.GetValueOrDefault(kv.Key)}");
+                $"Expected: {kv.ToString()} Got: {cubeConfig.Config.GetValueOrDefault(kv.Key)}");
         }
 
         Assert.Equal(expected, cubeConfig.Config);
@@ -45,6 +48,9 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
     [InlineData(4)]
     [InlineData(5)]
     [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    [InlineData(9)]
     public void CleanConfigs(int testCase)
     {
         foreach (var configImage in TestFiles.GetConfigImages(testCase))

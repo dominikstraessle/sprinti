@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
 
@@ -10,8 +11,6 @@ public class VideoStream(
     IHostEnvironment environment)
     : BackgroundService
 {
-    private int _imageIndex;
-
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Started Reader");
@@ -25,23 +24,17 @@ public class VideoStream(
         logger.LogInformation("Image directory: {path}", imageDirectory);
 
         using var image = new Mat();
+        var frameCount = 0;
 
-        // When the movie playback reaches end, Mat.data becomes NULL.
         while (!stoppingToken.IsCancellationRequested)
         {
             capture.Read(image);
-            if (_imageIndex % options.Value.CaptureIntervalInSeconds == 0)
-            {
-                var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
 
-                image.SaveImage(imageFilePath);
-                logger.LogInformation("Received image: {rows}x{cols}, saved to {path}", image.Rows, image.Cols,
-                    imageFilePath);
-            }
-
-            _imageIndex += 1;
-            _imageIndex %= options.Value.CaptureIntervalInSeconds;
-            await Task.Delay(1000, stoppingToken);
+            if (frameCount++ % options.Value.CaptureIntervalInFrames != 0) continue;
+            var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
+            image.SaveImage(imageFilePath);
+            logger.LogInformation("Received image: {rows}x{cols}, saved to {path}", image.Rows, image.Cols,
+                imageFilePath);
         }
     }
 

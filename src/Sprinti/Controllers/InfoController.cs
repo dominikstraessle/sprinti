@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Sprinti.Confirmation;
+using Sprinti.Display;
 using Sprinti.Serial;
 using Sprinti.Stream;
 
@@ -11,6 +12,8 @@ public class InfoController(
     IOptions<ConfirmationOptions> confirmationOptions,
     IOptions<StreamOptions> streamOptions,
     IOptions<DetectionOptions> imageOptions,
+    IOptions<DisplayOptions> displayOptions,
+    IOptions<CaptureOptions> captureOptions,
     IHostEnvironment environment
 ) : ApiController
 {
@@ -24,7 +27,9 @@ public class InfoController(
             Confirmation = confirmationOptions.Value,
             Serial = serialOptions.Value,
             Detection = imageOptions.Value,
-            Environment = environment.EnvironmentName
+            Environment = environment.EnvironmentName,
+            Capture = captureOptions.Value,
+            Display = displayOptions.Value
         });
     }
 
@@ -34,6 +39,8 @@ public class InfoController(
         public required ConfirmationOptions Confirmation { get; init; }
         public required StreamOptions Stream { get; init; }
         public required DetectionOptions Detection { get; init; }
+        public required CaptureOptions Capture { get; init; }
+        public required DisplayOptions Display { get; init; }
         public required string Environment { get; set; }
     }
 }

@@ -29,7 +29,7 @@ public static class ModuleRegistry
         services.AddTransient<IDetectionProcessor, DetectionProcessor>();
         services.AddTransient<IVideoProcessor, VideoProcessor>();
 
-        if (!ISprintiOptions.RegisterOptions<CaptureOptions>(services, configuration, StreamOptions.Stream)) return;
+        if (!ISprintiOptions.RegisterOptions<CaptureOptions>(services, configuration, CaptureOptions.Capture)) return;
         services.AddHostedService<VideoStream>();
     }
 }

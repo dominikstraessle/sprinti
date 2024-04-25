@@ -14,6 +14,6 @@ public class CaptureOptions : ISprintiOptions
 {
     public const string Capture = "Capture";
     public string ImagePathFromContentRoot { get; set; } = "img";
-    public int CaptureIntervalInSeconds { get; set; } = 5;
+    public int CaptureIntervalInFrames { get; set; } = 24;
     public bool Enabled { get; set; } = true;
 }
