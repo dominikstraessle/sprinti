@@ -154,6 +154,18 @@
           "UnitsNet": "5.31.0"
         }
       },
+      "Iot.Device.Bindings.SkiaSharpAdapter": {
+        "type": "Transitive",
+        "resolved": "3.1.0",
+        "contentHash": "aUP4Tvh6f/Yui3LZ3jUEpoAcWAguZ4DvQ+J/g4kmG6kW0l6BMxCYMsSonbURTibK5wrExwcs6BfY5aYn4mVnag==",
+        "dependencies": {
+          "Iot.Device.Bindings": "3.1.0",
+          "Microsoft.Extensions.Logging.Abstractions": "7.0.0",
+          "SkiaSharp": "2.88.6",
+          "SkiaSharp.NativeAssets.Linux": "2.88.3",
+          "UnitsNet": "5.31.0"
+        }
+      },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
         "resolved": "17.9.0",
@@ -472,6 +484,33 @@
         "resolved": "8.0.0",
         "contentHash": "IcfB4jKtM9pkzP9OpYelEcUX1MiDt0IJPBh3XYYdEISFF+6Mc+T8WWi0dr9wVh1gtcdVjubVEIBgB8BHESlGfQ=="
       },
+      "SkiaSharp": {
+        "type": "Transitive",
+        "resolved": "2.88.6",
+        "contentHash": "wdfeBAQrEQCbJIRgAiargzP1Uy+0grZiG4CSgBnhAgcJTsPzlifIaO73JRdwIlT3TyBoeU9jEqzwFUhl4hTYnQ==",
+        "dependencies": {
+          "SkiaSharp.NativeAssets.Win32": "2.88.6",
+          "SkiaSharp.NativeAssets.macOS": "2.88.6"
+        }
+      },
+      "SkiaSharp.NativeAssets.Linux": {
+        "type": "Transitive",
+        "resolved": "2.88.3",
+        "contentHash": "wz29evZVWRqN7WHfenFwQIgqtr8f5vHCutcl1XuhWrHTRZeaIBk7ngjhyHpjUMcQxtIEAdq34ZRvMQshsBYjqg==",
+        "dependencies": {
+          "SkiaSharp": "2.88.3"
+        }
+      },
+      "SkiaSharp.NativeAssets.macOS": {
+        "type": "Transitive",
+        "resolved": "2.88.6",
+        "contentHash": "Sko9LFxRXSjb3OGh5/RxrVRXxYo48tr5NKuuSy6jB85GrYt8WRqVY1iLOLwtjPiVAt4cp+pyD4i30azanS64dw=="
+      },
+      "SkiaSharp.NativeAssets.Win32": {
+        "type": "Transitive",
+        "resolved": "2.88.6",
+        "contentHash": "7TzFO0u/g2MpQsTty4fyCDdMcfcWI+aLswwfnYXr3gtNS6VLKdMXPMeKpJa3pJSLnUBN6wD0JjuCe8OoLBQ6cQ=="
+      },
       "Swashbuckle.AspNetCore": {
         "type": "Transitive",
         "resolved": "6.5.0",
@@ -646,6 +685,7 @@
         "type": "Project",
         "dependencies": {
           "Iot.Device.Bindings": "[3.1.0, )",
+          "Iot.Device.Bindings.SkiaSharpAdapter": "[3.1.0, )",
           "OpenCvSharp4": "[4.9.0.20240103, )",
           "Swashbuckle.AspNetCore": "[6.5.0, )",
           "System.Device.Gpio": "[3.1.0, )",

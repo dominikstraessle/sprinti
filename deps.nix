@@ -8,6 +8,11 @@
     sha256 = "1985m18c6fhx8bnsigham9a5gijkw1ibdmnjicagf94cx5y90dvh";
   })
   (fetchNuGet {
+    pname = "Iot.Device.Bindings.SkiaSharpAdapter";
+    version = "3.1.0";
+    sha256 = "0ln2j6hf3imzvkqjaa8rip1kyqi8xcblcaqy7wf1bl0r9qaxms6z";
+  })
+  (fetchNuGet {
     pname = "Microsoft.AspNetCore.App.Runtime.linux-arm64";
     version = "8.0.3";
     sha256 = "1s4lq0qiya5v73b5niipzmqkhj2d9wcb3nfaqlkbyjq660ahw98w";
@@ -116,6 +121,26 @@
     pname = "runtime.osx-x64.runtime.native.System.IO.Ports";
     version = "8.0.0";
     sha256 = "1wbdzmcmp2fczv4c3pzvdbap9mnzrm2hp3gclshx0cm7rc6psqkg";
+  })
+  (fetchNuGet {
+    pname = "SkiaSharp";
+    version = "2.88.6";
+    sha256 = "0xs11zjw9ha68maw3l825kfwlrid43qwy0mswljxhpjh0y1k6k6b";
+  })
+  (fetchNuGet {
+    pname = "SkiaSharp.NativeAssets.Linux";
+    version = "2.88.3";
+    sha256 = "0dajvr60nwvnv7s6kcqgw1w97zxdpz1c5lb7kcq7r0hi0l05ck3q";
+  })
+  (fetchNuGet {
+    pname = "SkiaSharp.NativeAssets.macOS";
+    version = "2.88.6";
+    sha256 = "1fp9h8c8k6sbsh48b69dc6461isd4dajq7yw5i7j6fhkas78q4zf";
+  })
+  (fetchNuGet {
+    pname = "SkiaSharp.NativeAssets.Win32";
+    version = "2.88.6";
+    sha256 = "1w2mwcwkqvrg4x4ybc4674xnkqwh1n2ihg520gqgpnqfc11ghc4n";
   })
   (fetchNuGet {
     pname = "Swashbuckle.AspNetCore";

@@ -1,23 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <ItemGroup>
-        <PackageReference Include="Iot.Device.Bindings" Version="3.1.0"/>
-        <PackageReference Include="OpenCvSharp4" Version="4.9.0.20240103"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
-        <PackageReference Include="System.Device.Gpio" Version="3.1.0"/>
-        <PackageReference Include="System.IO.Ports" Version="8.0.0"/>
+        <PackageReference Include="Iot.Device.Bindings" Version="3.1.0" />
+        <PackageReference Include="Iot.Device.Bindings.SkiaSharpAdapter" Version="3.1.0" />
+        <PackageReference Include="OpenCvSharp4" Version="4.9.0.20240103" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="System.Device.Gpio" Version="3.1.0" />
+        <PackageReference Include="System.IO.Ports" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(RuntimeIdentifier)' == 'linux-arm' ">
-        <PackageReference Include="OpenCvSharp4.runtime.linux-arm" Version="4.9.0.20240103"/>
+        <PackageReference Include="OpenCvSharp4.runtime.linux-arm" Version="4.9.0.20240103" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(RuntimeIdentifier)' == 'linux-x64' ">
-        <PackageReference Include="OpenCvSharp4_.runtime.ubuntu.20.04-x64" Version="4.9.0.20240103"/>
+        <PackageReference Include="OpenCvSharp4_.runtime.ubuntu.20.04-x64" Version="4.9.0.20240103" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(RuntimeIdentifier)' == 'win-x64' ">
-        <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.9.0.20240103"/>
+        <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.9.0.20240103" />
     </ItemGroup>
 
     <PropertyGroup>
@@ -36,7 +37,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Tests"/>
+        <InternalsVisibleTo Include="Tests" />
     </ItemGroup>
 
 </Project>
