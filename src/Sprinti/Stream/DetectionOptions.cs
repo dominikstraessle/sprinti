@@ -38,7 +38,7 @@ public class DetectionOptions
         )
     ];
 
-    public IEnumerable<LookupConfig> LookupConfigs { get; set; }
+    public IEnumerable<LookupConfig> LookupConfigs { get; set; } = [];
 }
 
 public record LookupConfig(
