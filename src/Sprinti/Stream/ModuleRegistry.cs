@@ -16,6 +16,7 @@ public static class ModuleRegistry
         services.AddTransient<IStreamCapture, StreamCapture>();
         services.AddTransient<IImageSelector, ImageSelector>();
         services.AddTransient<ICubeDetector, CubeDetector>();
+        services.AddTransient<ILogicalCubeDetector, LogicalCubeDetector>();
         services.AddTransient<IDetectionProcessor, DetectionProcessor>();
         services.AddTransient<IVideoProcessor, VideoProcessor>();
         if (streamOptionsValue.Capture.Enabled)

@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Domain;
 
@@ -9,7 +8,7 @@ public interface ICubeDetector
     void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, bool show = false);
 }
 
-public class CubeDetector(IOptions<DetectionOptions> options, ILogger<CubeDetector> logger) : ICubeDetector
+public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<CubeDetector> logger) : ICubeDetector
 {
     public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, bool show = false)
     {
@@ -34,10 +33,12 @@ public class CubeDetector(IOptions<DetectionOptions> options, ILogger<CubeDetect
             }
         }
 
+        logicalCubeDetector.DetectCubes(result);
+
         DisposeColorMasks(masks);
     }
 
-    private static void Show(Mat mask, int[] point, Color color)
+    private static void Show(Mat mask, IReadOnlyList<int> point, Color color)
     {
         using var debug = new Mat();
         mask.CopyTo(debug);

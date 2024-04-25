@@ -20,6 +20,7 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
     [InlineData(3)]
     [InlineData(4)]
     [InlineData(5)]
+    [InlineData(6)]
     public void TestConfigs(int testCase)
     {
         var processor = GetProcessor(testCase);
@@ -37,12 +38,13 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
         Assert.Equal(expected, cubeConfig.Config);
     }
 
-    [Theory(Skip = "Manual clean task")]
+    [Theory]
     [InlineData(1)]
     [InlineData(2)]
     [InlineData(3)]
     [InlineData(4)]
     [InlineData(5)]
+    [InlineData(6)]
     public void CleanConfigs(int testCase)
     {
         foreach (var configImage in TestFiles.GetConfigImages(testCase))
