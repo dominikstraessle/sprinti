@@ -51,8 +51,7 @@ public static class Program
             c.RoutePrefix = "";
         });
 
-        var imagePath = app.Services.GetRequiredService<IOptions<StreamOptions>>().Value.Capture
-            .ImagePathFromContentRoot;
+        var imagePath = app.Services.GetRequiredService<IOptions<CaptureOptions>>().Value.ImagePathFromContentRoot;
         var imageFileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, imagePath));
         PathString imageRequestPath = $"/{imagePath}";
         app.UseStaticFiles(new StaticFileOptions
@@ -72,40 +71,17 @@ public static class Program
 
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
-        builder.Configuration.AddJsonFile("sprinti.json", optional: true, reloadOnChange: true);
-        builder.Configuration.AddJsonFile("detection.json", optional: false, reloadOnChange: true);
+        builder.Configuration.AddJsonFile("sprinti.json", true, true);
+        builder.Configuration.AddJsonFile("detection.json", false, true);
         builder.Services.AddDirectoryBrowser();
 
-        var serialOptions = builder.Configuration.GetSection(SerialOptions.Serial);
-        builder.Services.Configure<SerialOptions>(serialOptions);
-        var serialOptionsValue = serialOptions.Get<SerialOptions>();
-        if (serialOptionsValue is { Enabled: true }) builder.Services.AddSerialModule();
-
-
-        var detectionOptions = builder.Configuration.GetSection(DetectionOptions.Detection);
-        var detectionOptionsValue = detectionOptions.Get<DetectionOptions>();
-        if (!detectionOptionsValue.LookupConfigs.Any())
-        {
-            throw new ArgumentException($"No detections provided: ${nameof(DetectionOptions)}");
-        }
-        builder.Services.Configure<DetectionOptions>(detectionOptions);
-        var streamOptions = builder.Configuration.GetSection(StreamOptions.Stream);
-        builder.Services.Configure<StreamOptions>(streamOptions);
-        var streamOptionsValue = streamOptions.Get<StreamOptions>();
-        if (streamOptionsValue is { Enabled: true }) builder.Services.AddStreamModule(streamOptionsValue);
-
+        builder.Services.AddSerialModule(builder.Configuration);
+        builder.Services.AddStreamModule(builder.Configuration);
         builder.Services.AddInstructionModule();
-
-        builder.Services.Configure<ConfirmationOptions>(
-            builder.Configuration.GetSection(ConfirmationOptions.Confirmation));
-        builder.Services.AddConfirmationModule();
-
-        builder.Services.Configure<ButtonOptions>(
-            builder.Configuration.GetSection(ButtonOptions.Button));
-        builder.Services.AddButtonModule();
-
-        builder.Services.AddDisplayModule();
-        // builder.Services.AddWorkflowModule();
+        builder.Services.AddConfirmationModule(builder.Configuration);
+        builder.Services.AddButtonModule(builder.Configuration);
+        builder.Services.AddDisplayModule(builder.Configuration);
+        builder.Services.AddWorkflowModule(builder.Configuration);
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

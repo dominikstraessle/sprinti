@@ -5,8 +5,17 @@ namespace Sprinti.Stream;
 
 public static class ModuleRegistry
 {
-    public static void AddStreamModule(this IServiceCollection services, StreamOptions streamOptionsValue)
+    public static void AddStreamModule(this IServiceCollection services, ConfigurationManager configuration)
     {
+        var detectionOptions = configuration.GetSection(DetectionOptions.Detection);
+        var detectionOptionsValue = detectionOptions.Get<DetectionOptions>();
+        if (detectionOptionsValue is null || !detectionOptionsValue.LookupConfigs.Any())
+            throw new ArgumentException($"No detections provided: ${nameof(DetectionOptions)}");
+
+        services.Configure<DetectionOptions>(detectionOptions);
+
+        if (!ISprintiOptions.RegisterOptions<StreamOptions>(services, configuration, StreamOptions.Stream)) return;
+
         services.AddTransient<VideoCapture>(provider =>
         {
             var options = provider.GetRequiredService<IOptions<StreamOptions>>();
@@ -19,9 +28,8 @@ public static class ModuleRegistry
         services.AddTransient<ILogicalCubeDetector, LogicalCubeDetector>();
         services.AddTransient<IDetectionProcessor, DetectionProcessor>();
         services.AddTransient<IVideoProcessor, VideoProcessor>();
-        if (streamOptionsValue.Capture.Enabled)
-        {
-            services.AddHostedService<VideoStream>();
-        }
+
+        if (!ISprintiOptions.RegisterOptions<CaptureOptions>(services, configuration, StreamOptions.Stream)) return;
+        services.AddHostedService<VideoStream>();
     }
 }

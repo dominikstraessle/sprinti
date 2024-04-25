@@ -1,6 +1,6 @@
 ﻿namespace Sprinti.Confirmation;
 
-public class ConfirmationOptions
+public class ConfirmationOptions : ISprintiOptions
 {
     public const string Confirmation = "Connection";
     public Uri BaseAddress { get; set; } = new("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com");
@@ -12,4 +12,5 @@ public class ConfirmationOptions
     public string CubesTeamStartPath => $"{CubesTeamPath}/start";
     public string CubesTeamEndPath => $"{CubesTeamPath}/end";
     public string CubesTeamConfigPath => $"{CubesTeamPath}/config";
+    public bool Enabled { get; set; } = true;
 }

@@ -6,7 +6,7 @@ namespace Sprinti.Stream;
 public class VideoStream(
     IStreamCapture capture,
     ILogger<VideoStream> logger,
-    IOptions<StreamOptions> options,
+    IOptions<CaptureOptions> options,
     IHostEnvironment environment)
     : BackgroundService
 {
@@ -20,7 +20,7 @@ public class VideoStream(
 
     private async Task CaptureFrames(CancellationToken stoppingToken)
     {
-        var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.Capture.ImagePathFromContentRoot);
+        var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.ImagePathFromContentRoot);
         Directory.CreateDirectory(imageDirectory);
         logger.LogInformation("Image directory: {path}", imageDirectory);
 
@@ -30,7 +30,7 @@ public class VideoStream(
         while (!stoppingToken.IsCancellationRequested)
         {
             capture.Read(image);
-            if (_imageIndex % options.Value.Capture.CaptureIntervalInSeconds == 0)
+            if (_imageIndex % options.Value.CaptureIntervalInSeconds == 0)
             {
                 var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
 
@@ -40,7 +40,7 @@ public class VideoStream(
             }
 
             _imageIndex += 1;
-            _imageIndex %= options.Value.Capture.CaptureIntervalInSeconds;
+            _imageIndex %= options.Value.CaptureIntervalInSeconds;
             await Task.Delay(1000, stoppingToken);
         }
     }
