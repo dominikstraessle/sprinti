@@ -12,5 +12,5 @@ public class SerialOptions : ISprintiOptions
     public StopBits StopBits { get; init; } = StopBits.One;
     public int ReadTimeoutInMilliseconds { get; init; } = 10000;
     public int WriteTimeoutInMilliseconds { get; init; } = 5000;
-    public bool Enabled { get; set; }
+    public bool Enabled { get; set; } = true;
 }
