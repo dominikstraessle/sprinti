@@ -11,20 +11,25 @@ internal class DisplayService(GraphicDisplay display, IOptions<DisplayOptions> o
     public void Debug(string text)
     {
         display.ClearScreen();
-        const int fontSize = 25;
-        const string font = "DejaVu Sans";
-        const int y = 0;
-        using var image =
-            BitmapImage.CreateBitmap(options.Value.Width, options.Value.Height, PixelFormat.Format32bppArgb);
-        image.Clear(Color.Black);
-        var g = image.GetDrawingApi();
-        g.DrawText(text, font, fontSize, Color.White, new Point(0, y));
+        using var image = Render(text);
         display.DrawBitmap(image);
     }
 
-    public Task UpdateProgress(int stepNumber, string text, CancellationToken cancellationToken)
+    private BitmapImage Render(string text, int x = 0, int y = 0)
     {
+        var image = BitmapImage.CreateBitmap(options.Value.Width, options.Value.Height, PixelFormat.Format32bppArgb);
+        image.Clear(Color.Black);
+        var g = image.GetDrawingApi();
+        g.DrawText(text, options.Value.Font, options.Value.FontSize, Color.White, new Point(x, y));
+        return image;
+    }
+
+    public void UpdateProgress(int stepNumber, string text)
+    {
+        var textToRender = $"{stepNumber}: {text}";
         logger.LogInformation("Display: {step} - {text}", stepNumber, text);
-        return Task.CompletedTask;
+        using var image = Render(textToRender);
+        display.ClearScreen();
+        display.DrawBitmap(image);
     }
 }

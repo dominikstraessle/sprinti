@@ -23,26 +23,25 @@ public class WorkflowService(
 {
     public async Task RunAsync(CancellationToken cancellationToken)
     {
-        await displayService.UpdateProgress(0, "start", cancellationToken);
+        displayService.UpdateProgress(0, "start");
         await buttonService.WaitForSignalAsync(cancellationToken);
-        await displayService.UpdateProgress(1, "button pressed", cancellationToken);
+        displayService.UpdateProgress(1, "button pressed");
         await confirmationService.StartAsync(cancellationToken);
-        await displayService.UpdateProgress(2, "sent start", cancellationToken);
+        displayService.UpdateProgress(2, "sent start");
         var config = videoService.RunDetection(cancellationToken);
         if (config is null)
         {
             throw new ArgumentException("NOOOOOOOO");
         }
 
-        await displayService.UpdateProgress(3, "detected formation", cancellationToken);
+        displayService.UpdateProgress(3, "detected formation");
         await confirmationService.ConfirmAsync(config, cancellationToken);
-        await displayService.UpdateProgress(4, "sent confirmation", cancellationToken);
+        displayService.UpdateProgress(4, "sent confirmation");
         var instructions = instructionService.GetInstructionSequence(config.Config);
-        await displayService.UpdateProgress(5, "calculated instruction sequence", cancellationToken);
+        displayService.UpdateProgress(5, "calculated instruction sequence");
         var powerInWattHours = await serialService.RunInstructionsAndFinish(instructions, cancellationToken);
-        await displayService.UpdateProgress(6, $"instructions completed: consumed power {powerInWattHours}",
-            cancellationToken);
+        displayService.UpdateProgress(6, $"instructions completed: consumed power {powerInWattHours}");
         await confirmationService.EndAsync(cancellationToken);
-        await displayService.UpdateProgress(7, "sent end", cancellationToken);
+        displayService.UpdateProgress(7, "sent end");
     }
 }
