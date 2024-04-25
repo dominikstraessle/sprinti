@@ -1,4 +1,4 @@
-{ buildDotnetModule, dotnetCorePackages, opencv, cvsharp, libgpiod_1 }:
+{ buildDotnetModule, dotnetCorePackages, opencv, cvsharp, libgpiod_1, fontconfig }:
 
 buildDotnetModule rec {
   pname = "sprinti";
@@ -24,5 +24,6 @@ buildDotnetModule rec {
     opencv
     cvsharp
     libgpiod_1
+    fontconfig
   ]; # This will wrap opencv's library path into `LD_LIBRARY_PATH`.
 }

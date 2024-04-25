@@ -1,5 +1,6 @@
 using System.Device.I2c;
 using Iot.Device.Graphics;
+using Iot.Device.Graphics.SkiaSharpAdapter;
 using Iot.Device.Ssd13xx;
 using Microsoft.Extensions.Options;
 
@@ -13,6 +14,8 @@ public static class ModuleRegistry
         services.Configure<DisplayOptions>(section);
         var options = section.Get<DisplayOptions>();
         if (options is { Enabled: false }) return;
+        // https://github.com/NixOS/nixpkgs/pull/61668/files
+        SkiaSharpAdapter.Register();
 
         services.AddScoped<I2cDevice>(provider =>
         {
