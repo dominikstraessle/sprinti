@@ -14,10 +14,10 @@
     }
   },
   "Stream": {
-    "Enabled": true,
-    "Capture": {
-      "Enabled": false
-    }
+    "Enabled": true
+  },
+  "Capture": {
+    "Enabled": false
   },
   "Serial": {
     "Enabled": true,
@@ -27,5 +27,11 @@
     "Pin": 26,
     "IsPullUp": true,
     "UseExternalResistor": false
+  },
+  "Confirmation": {
+    "Enabled": true
+  },
+  "Display": {
+    "Enabled": true
   }
 }
