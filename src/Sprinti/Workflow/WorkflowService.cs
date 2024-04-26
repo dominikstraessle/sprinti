@@ -42,6 +42,6 @@ public class WorkflowService(
         var powerInWattHours = await serialService.RunInstructionsAndFinish(instructions, cancellationToken);
         displayService.UpdateProgress(6, $"instructions completed: consumed power {powerInWattHours}");
         await confirmationService.EndAsync(cancellationToken);
-        displayService.UpdateProgress(7, "sent end");
+        displayService.UpdateProgress(7, $"sent end: consumed power {powerInWattHours}");
     }
 }
