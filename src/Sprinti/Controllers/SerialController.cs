@@ -70,7 +70,14 @@ public class SerialController(ISerialService service) : ApiController
         {
             new StartCommand(),
             new RotateCommand(90),
+            new EjectCommand(Color.Yellow),
+            new RotateCommand(-90),
+            new EjectCommand(Color.Yellow),
+            new EjectCommand(Color.Blue),
+            new RotateCommand(180),
             new EjectCommand(Color.Red),
+            new RotateCommand(180),
+            new EjectCommand(Color.Blue),
             new LiftCommand(Direction.Down),
             new FinishCommand()
         }, cancellationToken);

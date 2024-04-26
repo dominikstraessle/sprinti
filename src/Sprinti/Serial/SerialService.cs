@@ -52,6 +52,8 @@ internal class SerialService(
     public async Task<int> RunInstructionsAndFinish(IEnumerable<ISerialCommand> instructions,
         CancellationToken cancellationToken)
     {
+        logger.LogInformation("Instructions: {instructions}", instructions);
+
         await SendCommand(new StartCommand(), cancellationToken);
         foreach (var command in instructions)
         {

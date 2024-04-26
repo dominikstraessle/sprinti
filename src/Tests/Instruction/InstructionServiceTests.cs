@@ -176,6 +176,30 @@ public class InstructionServiceTests
                     new RotateCommand(180),
                     new EjectCommand(Color.Yellow)
                 ]
+            },
+            {
+                new SortedDictionary<int, Color>
+                {
+                    { 1, Color.Yellow },
+                    { 2, Color.Yellow },
+                    { 3, Color.Blue },
+                    { 4, Color.None },
+                    { 5, Color.None },
+                    { 6, Color.Red },
+                    { 7, Color.Blue },
+                    { 8, Color.None }
+                },
+                [
+                    new RotateCommand(90),
+                    new EjectCommand(Color.Yellow),
+                    new RotateCommand(-90),
+                    new EjectCommand(Color.Yellow),
+                    new EjectCommand(Color.Blue),
+                    new RotateCommand(180),
+                    new EjectCommand(Color.Red),
+                    new RotateCommand(180),
+                    new EjectCommand(Color.Blue)
+                ]
             }
         };
 
