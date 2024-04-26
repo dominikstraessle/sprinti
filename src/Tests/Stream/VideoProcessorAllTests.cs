@@ -24,6 +24,7 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
     [InlineData(7)]
     [InlineData(8)]
     [InlineData(9)]
+    [InlineData(10)]
     public void TestConfigs(int testCase)
     {
         var processor = GetProcessor(testCase);
@@ -51,6 +52,7 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
     [InlineData(7)]
     [InlineData(8)]
     [InlineData(9)]
+    [InlineData(10)]
     public void CleanConfigs(int testCase)
     {
         foreach (var configImage in TestFiles.GetConfigImages(testCase))

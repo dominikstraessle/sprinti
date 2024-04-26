@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
 
@@ -14,10 +13,10 @@ public class VideoStream(
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Started Reader");
-        return Task.Run(async () => { await CaptureFrames(stoppingToken); }, stoppingToken);
+        return Task.Run(() => { CaptureFrames(stoppingToken); }, stoppingToken);
     }
 
-    private async Task CaptureFrames(CancellationToken stoppingToken)
+    private void CaptureFrames(CancellationToken stoppingToken)
     {
         var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.ImagePathFromContentRoot);
         Directory.CreateDirectory(imageDirectory);

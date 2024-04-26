@@ -4,6 +4,7 @@ using Sprinti.Confirmation;
 using Sprinti.Display;
 using Sprinti.Serial;
 using Sprinti.Stream;
+using Sprinti.Workflow;
 
 namespace Sprinti.Controllers;
 
@@ -14,6 +15,7 @@ public class InfoController(
     IOptions<DetectionOptions> imageOptions,
     IOptions<DisplayOptions> displayOptions,
     IOptions<CaptureOptions> captureOptions,
+    IOptions<WorkflowOptions> workflowOptions,
     IHostEnvironment environment
 ) : ApiController
 {
@@ -29,7 +31,8 @@ public class InfoController(
             Detection = imageOptions.Value,
             Environment = environment.EnvironmentName,
             Capture = captureOptions.Value,
-            Display = displayOptions.Value
+            Display = displayOptions.Value,
+            Workflow = workflowOptions.Value
         });
     }
 
@@ -38,9 +41,10 @@ public class InfoController(
         public required SerialOptions Serial { get; init; }
         public required ConfirmationOptions Confirmation { get; init; }
         public required StreamOptions Stream { get; init; }
-        public required DetectionOptions Detection { get; init; }
         public required CaptureOptions Capture { get; init; }
         public required DisplayOptions Display { get; init; }
         public required string Environment { get; set; }
+        public required WorkflowOptions Workflow { get; set; }
+        public required DetectionOptions Detection { get; init; }
     }
 }
