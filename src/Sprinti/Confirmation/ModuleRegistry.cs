@@ -19,7 +19,7 @@ public static class ModuleRegistry
 
     internal static void ConfigureClient(ConfirmationOptions confirmationOptions, HttpClient client)
     {
-        client.BaseAddress = new Uri(confirmationOptions.BaseAddress);
+        client.BaseAddress = confirmationOptions.BaseAddress;
         client.DefaultRequestHeaders.Add(AuthHeaderName, confirmationOptions.Password);
     }
 }
