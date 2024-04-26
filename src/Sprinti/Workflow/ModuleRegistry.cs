@@ -1,12 +1,10 @@
-using Sprinti.Display;
-
 namespace Sprinti.Workflow;
 
 public static class ModuleRegistry
 {
     public static void AddWorkflowModule(this IServiceCollection services, ConfigurationManager configuration)
     {
-        if (!ISprintiOptions.RegisterOptions<DisplayOptions>(services, configuration, DisplayOptions.Display)) return;
+        if (!ISprintiOptions.RegisterOptions<WorkflowOptions>(services, configuration, WorkflowOptions.Workflow)) return;
 
         services.AddScoped<IWorkflowService, WorkflowService>();
     }
