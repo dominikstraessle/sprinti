@@ -26,9 +26,10 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
             {
                 var maskedPixel = mask.Get<byte>(point[1], point[0]);
                 if (maskedPixel != 255) continue;
-                if (show) Show(mask, point, color);
                 var lookupPosition = config.Lookup.ElementAt(i);
-                logger.LogInformation("Detected cube: {Color} {P} at {position}", color, point, lookupPosition);
+                if (show) Show(mask, point, color, lookupPosition, config.Filename);
+                logger.LogInformation("[{key}] Detected cube: {Color} {P} at {position}", config.Filename, color, point,
+                    lookupPosition);
                 result[lookupPosition][(int)color]++;
             }
         }
@@ -38,13 +39,14 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
         DisposeColorMasks(masks);
     }
 
-    private static void Show(Mat mask, IReadOnlyList<int> point, Color color)
+    private static void Show(Mat mask, IReadOnlyList<int> point, Color color, int lookupPosition, string filename)
     {
         using var debug = new Mat();
         mask.CopyTo(debug);
         Cv2.Circle(debug, point[0], point[1], 10, 255, 10);
         Cv2.Circle(debug, point[0], point[1], 5, 0, 5);
-        Cv2.ImShow(color.ToString(), debug);
+        var text = $"{filename}: {lookupPosition} - {color}";
+        Cv2.ImShow(text, debug);
         Cv2.WaitKey();
     }
 
