@@ -33,5 +33,8 @@
   },
   "Display": {
     "Enabled": true
+  },
+  "Workflow": {
+    "Enabled": true
   }
 }
