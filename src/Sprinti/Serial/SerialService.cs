@@ -53,7 +53,11 @@ internal class SerialService(
         CancellationToken cancellationToken)
     {
         await SendCommand(new StartCommand(), cancellationToken);
-        foreach (var command in instructions) await SendCommand(command, cancellationToken);
+        foreach (var command in instructions)
+        {
+            await SendCommand(command, cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(options.Value.CommandDelayInMilliseconds), cancellationToken);
+        }
 
         await SendCommand(new LiftCommand(Direction.Down), cancellationToken);
         var finishedResponse = await SendCommand(new FinishCommand(), cancellationToken);

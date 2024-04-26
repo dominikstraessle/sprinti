@@ -26,6 +26,23 @@ public class StreamController(
         }));
     }
 
+    [HttpGet(nameof(RunAndIntruct), Name = nameof(RunAndIntruct))]
+    [ProducesResponseType(typeof(RunDetectionDto), 200)]
+    public Task<IActionResult> RunAndIntruct([FromQuery] int timeout = 20)
+    {
+        using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+        var stopWatch = new Stopwatch();
+        stopWatch.Start();
+
+        var config = videoProcessor.RunDetection(cancellationTokenSource.Token);
+        stopWatch.Stop();
+        return Task.FromResult<IActionResult>(Ok(new RunDetectionDto
+        {
+            Duration = stopWatch.Elapsed.TotalSeconds,
+            Config = config
+        }));
+    }
+
     public class RunDetectionDto
     {
         public required double Duration { get; set; }
