@@ -12,14 +12,14 @@ public static class ModuleRegistry
                 ConfirmationOptions.Confirmation)) return;
 
         // Order is important: Register the adapter before the http client
-        services.AddTransient<IConfirmationService, ConfirmationService>();
+        services.AddScoped<IConfirmationService, ConfirmationService>();
         services.AddHttpClient<IConfirmationService, ConfirmationService>((provider, client) =>
             ConfigureClient(provider.GetRequiredService<IOptions<ConfirmationOptions>>().Value, client));
     }
 
     internal static void ConfigureClient(ConfirmationOptions confirmationOptions, HttpClient client)
     {
-        client.BaseAddress = confirmationOptions.BaseAddress;
+        client.BaseAddress = new Uri(confirmationOptions.BaseAddress);
         client.DefaultRequestHeaders.Add(AuthHeaderName, confirmationOptions.Password);
     }
 }

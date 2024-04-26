@@ -10,10 +10,7 @@ public static class ModuleRegistry
 {
     public static void AddDisplayModule(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var section = configuration.GetSection(DisplayOptions.Display);
-        services.Configure<DisplayOptions>(section);
-        var options = section.Get<DisplayOptions>();
-        if (options is { Enabled: false }) return;
+        if (!ISprintiOptions.RegisterOptions<DisplayOptions>(services, configuration, DisplayOptions.Display)) return;
 
         // https://github.com/dotnet/iot/issues/2181#issuecomment-1833238952
         SkiaSharpAdapter.Register();
