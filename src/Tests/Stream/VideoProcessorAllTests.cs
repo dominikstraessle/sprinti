@@ -79,8 +79,19 @@ public class VideoProcessorAllTests(
     }
 
 
-    [Theory(Skip = "skip")]
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
     [InlineData(11)]
+    [InlineData(12)]
     public void DebugConfigs(int testCase)
     {
         var debugFolder = TestFiles.GetDebugPath(testCase.ToString());
@@ -93,6 +104,7 @@ public class VideoProcessorAllTests(
             Directory.CreateDirectory(debugFolderPerFile);
             detectionProcessor.TryDetectCubes(imageHsv, out _, debugFolderPerFile);
         }
+        Assert.True(true);
     }
 
     [Theory(Skip = "skip")]
@@ -101,7 +113,7 @@ public class VideoProcessorAllTests(
     {
         var files = new[]
         {
-            "4.2.png"
+            "20240419093954.png"
         };
         foreach (var config in options.Value.LookupConfigs)
         {
@@ -116,13 +128,14 @@ public class VideoProcessorAllTests(
                 point[1] += y;
             }
 
-            config.SelectorPoints.P1[0] += x;
-            config.SelectorPoints.P1[1] += y;
-            config.SelectorPoints.P2[0] += x;
-            config.SelectorPoints.P2[1] += y;
+            // config.SelectorPoints.P1[0] += x;
+            // config.SelectorPoints.P1[1] += y;
+            // config.SelectorPoints.P2[0] += x;
+            // config.SelectorPoints.P2[1] += y;
         }
 
         var updatedConfigJson = JsonSerializer.Serialize(options.Value);
         await File.WriteAllTextAsync(TestFiles.GetDetectionFileName("new.json"), updatedConfigJson);
+        Assert.True(true);
     }
 }
