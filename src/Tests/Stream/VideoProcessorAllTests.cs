@@ -109,7 +109,7 @@ public class VideoProcessorAllTests(
     }
 
     [Theory]
-    [InlineData(0, -20)]
+    [InlineData(0, 15)]
     public async void MovePoints(int x, int y)
     {
         var files = new[]
