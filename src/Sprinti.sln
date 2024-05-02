@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprinti", "Sprinti\Sprinti.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calibrator", "Calibrator\Calibrator.csproj", "{1189267D-1DB1-4614-BF83-BC08AD05DFB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5B3C69B-8655-44CD-B179-4FF90F2BDA10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1189267D-1DB1-4614-BF83-BC08AD05DFB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1189267D-1DB1-4614-BF83-BC08AD05DFB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1189267D-1DB1-4614-BF83-BC08AD05DFB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1189267D-1DB1-4614-BF83-BC08AD05DFB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

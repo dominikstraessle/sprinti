@@ -1,15 +1,20 @@
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
+using Sprinti.Stream;
 
-namespace Sprinti.Stream;
+namespace Calibrator;
 
-public class VideoStream(
+public class CalibrationService(
     IStreamCapture capture,
-    ILogger<VideoStream> logger,
+    ILogger<CalibrationService> logger,
     IOptions<CaptureOptions> options,
     IHostEnvironment environment)
     : BackgroundService
 {
+    private CancellationToken _stoppingToken;
+
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Started Reader");
@@ -18,6 +23,7 @@ public class VideoStream(
 
     private void CaptureFrames(CancellationToken stoppingToken)
     {
+        _stoppingToken = stoppingToken;
         var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.ImagePathFromContentRoot);
         Directory.CreateDirectory(imageDirectory);
         logger.LogInformation("Image directory: {Path}", imageDirectory);
@@ -34,12 +40,16 @@ public class VideoStream(
             image.SaveImage(imageFilePath);
             logger.LogInformation("Received image: {Rows}x{Cols}, saved to {Path}", image.Rows, image.Cols,
                 imageFilePath);
+            new WindowService(imageFilePath, image).Calibrate();
         }
     }
 
+
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
-        logger.LogInformation("Stopping Video Stream");
+        logger.LogInformation("Stopping Calibration Service");
+        Cv2.DestroyAllWindows();
         await base.StopAsync(cancellationToken);
+        logger.LogInformation("Stopped Calibration Service");
     }
 }
