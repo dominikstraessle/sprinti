@@ -33,6 +33,7 @@ public class VideoProcessorAllTests(
     [InlineData(10)]
     [InlineData(11)]
     [InlineData(12)]
+    [InlineData(13)]
     public void TestConfigs(int testCase)
     {
         var processor = GetProcessor(testCase);
@@ -92,6 +93,7 @@ public class VideoProcessorAllTests(
     [InlineData(10)]
     [InlineData(11)]
     [InlineData(12)]
+    [InlineData(13)]
     public void DebugConfigs(int testCase)
     {
         var debugFolder = TestFiles.GetDebugPath(testCase.ToString());
@@ -109,22 +111,12 @@ public class VideoProcessorAllTests(
     }
 
     [Theory]
-    [InlineData(0, 0)]
+    [InlineData(20, 0)]
     public async void MovePoints(int x, int y)
     {
         var files = new[]
         {
-            "20240419091505.png",
-            "20240419091510.png",
-            "20240419091430.png",
-            "20240419091445.png",
-            "20240419091450.png",
-            "20240419091450.png",
-            "20240419091455.png",
-            "20240419091505.png",
-            "20240419091510.png",
-            "20240419093954.png",
-            "20240419093954.png",
+            "20240419091605.png",
         };
         foreach (var config in options.Value.LookupConfigs)
         {
