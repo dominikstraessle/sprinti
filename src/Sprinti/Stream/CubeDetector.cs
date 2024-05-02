@@ -5,12 +5,12 @@ namespace Sprinti.Stream;
 
 public interface ICubeDetector
 {
-    void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, bool show = false);
+    void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, string? debug = null);
 }
 
 public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<CubeDetector> logger) : ICubeDetector
 {
-    public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, bool show = false)
+    public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, string? debug)
     {
         if (result.Length != 8)
         {
@@ -27,11 +27,15 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
                 var maskedPixel = mask.Get<byte>(point[1], point[0]);
                 if (maskedPixel != 255) continue;
                 var lookupPosition = config.Lookup.ElementAt(i);
-                if (show) Show(mask, point, color, lookupPosition, config.Filename);
-                logger.LogInformation("[{key}] Detected cube: {Color} {P} at {position}", config.Filename, color, point,
+                logger.LogInformation("[{Key}] Detected cube: {Color} {P} at {Position}", config.Filename, color, point,
                     lookupPosition);
                 result[lookupPosition][(int)color]++;
             }
+            if (debug is null) continue;
+
+            Cv2.Circle(imageHsv, point[0], point[1], 10, 255, 10);
+            var fileName = Path.Combine(debug, $"points-{config.Filename}");
+            imageHsv.SaveImage(fileName);
         }
 
         logicalCubeDetector.DetectCubes(result);
@@ -45,7 +49,7 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
         mask.CopyTo(debug);
         Cv2.Circle(debug, point[0], point[1], 10, 255, 10);
         Cv2.Circle(debug, point[0], point[1], 5, 0, 5);
-        var text = $"{filename}: {lookupPosition} - {color}";
+        var text = $"{filename}: {lookupPosition} - {color}.png";
         Cv2.ImShow(text, debug);
         Cv2.WaitKey();
     }

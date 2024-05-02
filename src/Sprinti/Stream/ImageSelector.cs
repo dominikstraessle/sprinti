@@ -6,12 +6,12 @@ namespace Sprinti.Stream;
 
 public interface IImageSelector
 {
-    bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig);
+    bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig, string? debug = null);
 }
 
 public class ImageSelector(IOptions<DetectionOptions> options, ILogger<ImageSelector> logger) : IImageSelector
 {
-    public bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig)
+    public bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig, string? debug = null)
     {
         lookupConfig = null;
         using var mask = ImageMask.WhiteMask(image);
@@ -24,6 +24,14 @@ public class ImageSelector(IOptions<DetectionOptions> options, ILogger<ImageSele
             lookupConfig = config;
             logger.LogInformation("Image selected by points: {P1} and {P2}. Lookup Table is {Table}", selectorPoints.P1,
                 selectorPoints.P2, config.Lookup);
+
+            if (debug is null) return true;
+
+            Cv2.Circle(image, selectorPoints.P1[0], selectorPoints.P1[1], 10, 255, 10);
+            Cv2.Circle(image, selectorPoints.P2[0], selectorPoints.P2[1], 10, 255, 10);
+            var fileName = Path.Combine(debug, $"select-{lookupConfig.Filename}");
+            image.SaveImage(fileName);
+
             return true;
         }
 

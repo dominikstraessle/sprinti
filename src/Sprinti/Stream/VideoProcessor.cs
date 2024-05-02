@@ -26,11 +26,11 @@ public class VideoProcessor(
             }
             Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
-            logger.LogTrace("Received image: {rows}x{cols}", imageHsv.Rows, imageHsv.Cols);
+            logger.LogTrace("Received image: {Rows}x{Cols}", imageHsv.Rows, imageHsv.Cols);
 
             if (processor.TryDetectCubes(imageHsv, out var config))
             {
-                logger.LogInformation("Config detected at {time}: {Config}", config.Time, config.Config);
+                logger.LogInformation("Config detected at {Time}: {Config}", config.Time, config.Config);
                 return config;
             }
 

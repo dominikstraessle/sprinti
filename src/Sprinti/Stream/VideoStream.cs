@@ -20,7 +20,7 @@ public class VideoStream(
     {
         var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.ImagePathFromContentRoot);
         Directory.CreateDirectory(imageDirectory);
-        logger.LogInformation("Image directory: {path}", imageDirectory);
+        logger.LogInformation("Image directory: {Path}", imageDirectory);
 
         using var image = new Mat();
         var frameCount = 0;
@@ -30,9 +30,9 @@ public class VideoStream(
             capture.Read(image);
 
             if (frameCount++ % options.Value.CaptureIntervalInFrames != 0) continue;
-            var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
+            var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now:yyyyMMddHHmmss}.png");
             image.SaveImage(imageFilePath);
-            logger.LogInformation("Received image: {rows}x{cols}, saved to {path}", image.Rows, image.Cols,
+            logger.LogInformation("Received image: {Rows}x{Cols}, saved to {Path}", image.Rows, image.Cols,
                 imageFilePath);
         }
     }

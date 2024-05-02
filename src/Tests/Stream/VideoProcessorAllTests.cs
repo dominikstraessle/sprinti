@@ -1,12 +1,17 @@
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Stream;
 using static Sprinti.Tests.Stream.VideoProcessorTests;
 
 namespace Sprinti.Tests.Stream;
 
-public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IImageSelector imageSelector, ILogger<VideoProcessor> logger)
+public class VideoProcessorAllTests(
+    IDetectionProcessor detectionProcessor,
+    IImageSelector imageSelector,
+    IOptions<DetectionOptions> options,
+    ILogger<VideoProcessor> logger)
 {
     private VideoProcessor GetProcessor(int testCase)
     {
@@ -71,5 +76,53 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
         }
 
         Assert.True(true);
+    }
+
+
+    [Theory(Skip = "skip")]
+    [InlineData(11)]
+    public void DebugConfigs(int testCase)
+    {
+        var debugFolder = TestFiles.GetDebugPath(testCase.ToString());
+        Directory.CreateDirectory(debugFolder);
+        foreach (var configImage in TestFiles.GetConfigImages(testCase))
+        {
+            using var imageHsv = Cv2.ImRead(configImage);
+            Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
+            var debugFolderPerFile = Path.Combine(debugFolder, Path.GetFileName(configImage));
+            Directory.CreateDirectory(debugFolderPerFile);
+            detectionProcessor.TryDetectCubes(imageHsv, out _, debugFolderPerFile);
+        }
+    }
+
+    [Theory(Skip = "skip")]
+    [InlineData(0, -20)]
+    public async void MovePoints(int x, int y)
+    {
+        var files = new[]
+        {
+            "4.2.png"
+        };
+        foreach (var config in options.Value.LookupConfigs)
+        {
+            if (!files.Contains(config.Filename))
+            {
+                continue;
+            }
+
+            foreach (var point in config.Points)
+            {
+                point[0] += x;
+                point[1] += y;
+            }
+
+            config.SelectorPoints.P1[0] += x;
+            config.SelectorPoints.P1[1] += y;
+            config.SelectorPoints.P2[0] += x;
+            config.SelectorPoints.P2[1] += y;
+        }
+
+        var updatedConfigJson = JsonSerializer.Serialize(options.Value);
+        await File.WriteAllTextAsync(TestFiles.GetDetectionFileName("new.json"), updatedConfigJson);
     }
 }

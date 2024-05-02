@@ -6,7 +6,7 @@ namespace Sprinti.Stream;
 
 public interface IDetectionProcessor
 {
-    bool TryDetectCubes(Mat imageHsv, [MaybeNullWhen(false)] out CubeConfig config);
+    bool TryDetectCubes(Mat imageHsv, [MaybeNullWhen(false)] out CubeConfig config, string? debug = null);
 }
 
 public class DetectionProcessor(IImageSelector selector, ICubeDetector detector, ILogger<DetectionProcessor> logger)
@@ -14,16 +14,16 @@ public class DetectionProcessor(IImageSelector selector, ICubeDetector detector,
 {
     private readonly int[][] _result = InitResult();
 
-    public bool TryDetectCubes(Mat imageHsv, [MaybeNullWhen(false)] out CubeConfig config)
+    public bool TryDetectCubes(Mat imageHsv, [MaybeNullWhen(false)] out CubeConfig config, string? debug)
     {
         config = null;
-        if (!selector.TrySelectImage(imageHsv, out var lookupConfig))
+        if (!selector.TrySelectImage(imageHsv, out var lookupConfig, debug))
         {
             logger.LogTrace("No image selected");
             return IsCompleteResult(_result);
         }
 
-        detector.DetectCubes(imageHsv, lookupConfig, _result);
+        detector.DetectCubes(imageHsv, lookupConfig, _result, debug);
 
         if (!IsCompleteResult(_result))
         {
