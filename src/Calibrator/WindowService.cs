@@ -17,7 +17,6 @@ public class WindowService(string filename, Mat image)
         Cv2.ResizeWindow(filename, image.Size());
         Cv2.ImShow(filename, image);
         Cv2.CreateTrackbar("1", filename, ref trackbarValue, 7, (pos, data) => Console.WriteLine($"{pos} {data}"));
-        Cv2.CreateTrackbar("2", filename, ref trackbarValue, 7, (pos, data) => Console.WriteLine($"{pos} {data}"));
 
         Cv2.SetMouseCallback(filename, MouseClick);
         Cv2.WaitKey();
