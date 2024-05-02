@@ -46,11 +46,33 @@ public class SerialController(ISerialService service) : ApiController
         return Accepted(response);
     }
 
+    [HttpPost(nameof(InitAlign), Name = nameof(InitAlign))]
+    [ProducesResponseType(typeof(CompletedResponse), 202)]
+    public async Task<IActionResult> InitAlign(CancellationToken cancellationToken)
+    {
+        var response = await service.SendCommand(new InitCommand(), cancellationToken);
+        if (response.ResponseState is not ResponseState.Complete)
+        {
+            return Accepted(response);
+        }
+
+        response = await service.SendCommand(new AlignCommand(), cancellationToken);
+        return Accepted(response);
+    }
+
     [HttpPost(nameof(Init), Name = nameof(Init))]
     [ProducesResponseType(typeof(CompletedResponse), 202)]
     public async Task<IActionResult> Init(CancellationToken cancellationToken)
     {
         var response = await service.SendCommand(new InitCommand(), cancellationToken);
+        return Accepted(response);
+    }
+
+    [HttpPost(nameof(Align), Name = nameof(Align))]
+    [ProducesResponseType(typeof(CompletedResponse), 202)]
+    public async Task<IActionResult> Align(CancellationToken cancellationToken)
+    {
+        var response = await service.SendCommand(new AlignCommand(), cancellationToken);
         return Accepted(response);
     }
 

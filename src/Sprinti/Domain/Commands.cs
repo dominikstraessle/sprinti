@@ -61,6 +61,17 @@ public record InitCommand : ISerialCommand
 }
 
 /**
+ * Richtet Trichter auf Startposition aus.
+ */
+public record AlignCommand : ISerialCommand
+{
+    public string ToAsciiCommand()
+    {
+        return "align";
+    }
+}
+
+/**
  * Markiert das Ende aller Instruktionen und erwartet die verbrauchte Energie in Watt-Stunden als Antwort.
  */
 public record FinishCommand : ISerialCommand
