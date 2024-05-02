@@ -1,16 +1,12 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Sprinti.Domain;
-using Sprinti.Instruction;
-using Sprinti.Serial;
 using Sprinti.Stream;
 
 namespace Sprinti.Controllers;
 
 public class StreamController(
-    IVideoProcessor videoProcessor,
-    ISerialService serialService,
-    IInstructionService instructionService
+    IVideoProcessor videoProcessor
 ) : ApiController
 {
     [HttpGet(nameof(RunDetection), Name = nameof(RunDetection))]
@@ -28,30 +24,6 @@ public class StreamController(
             Duration = stopWatch.Elapsed.TotalSeconds,
             Config = config
         }));
-    }
-
-    [HttpGet(nameof(RunAndInstruct), Name = nameof(RunAndInstruct))]
-    [ProducesResponseType(typeof(RunDetectionDto), 200)]
-    public async Task<IActionResult> RunAndInstruct([FromQuery] int timeout = 20)
-    {
-        using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
-        var stopWatch = new Stopwatch();
-        stopWatch.Start();
-
-        var config = videoProcessor.RunDetection(cancellationTokenSource.Token);
-        stopWatch.Stop();
-        if (config != null)
-        {
-            var instructionSequence = instructionService.GetInstructionSequence(config.Config);
-
-            await serialService.RunInstructionsAndFinish(instructionSequence, cancellationTokenSource.Token);
-        }
-
-        return Ok(new RunDetectionDto
-        {
-            Duration = stopWatch.Elapsed.TotalSeconds,
-            Config = config
-        });
     }
 
     public class RunDetectionDto
