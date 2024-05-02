@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -14,11 +15,11 @@ public class SerialServiceTests
     private readonly Mock<ISerialAdapter> _adapterMock;
     private readonly SerialService _service;
 
-    public SerialServiceTests()
+    public SerialServiceTests(ILogger<SerialService> logger)
     {
         _adapterMock = new Mock<ISerialAdapter>();
         var options = new OptionsWrapper<SerialOptions>(new SerialOptions());
-        _service = new SerialService(_adapterMock.Object, options, NullLogger<SerialService>.Instance);
+        _service = new SerialService(_adapterMock.Object, options, logger);
     }
 
     public static TheoryData3<ISerialCommand, string, ResponseState> TestCommandsData =>

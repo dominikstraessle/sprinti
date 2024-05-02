@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using OpenCvSharp;
 using Sprinti.Stream;
@@ -5,13 +6,13 @@ using static Sprinti.Tests.Stream.VideoProcessorTests;
 
 namespace Sprinti.Tests.Stream;
 
-public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IImageSelector imageSelector)
+public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IImageSelector imageSelector, ILogger<VideoProcessor> logger)
 {
     private VideoProcessor GetProcessor(int testCase)
     {
         var files = TestFiles.GetConfigImages(testCase);
         var testStreamCapture = new TestStreamCapture(files);
-        return new VideoProcessor(testStreamCapture, detectionProcessor, NullLogger<VideoStream>.Instance);
+        return new VideoProcessor(testStreamCapture, detectionProcessor, logger);
     }
 
     [Theory]
@@ -25,6 +26,8 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
     [InlineData(8)]
     [InlineData(9)]
     [InlineData(10)]
+    [InlineData(11)]
+    [InlineData(12)]
     public void TestConfigs(int testCase)
     {
         var processor = GetProcessor(testCase);
@@ -53,6 +56,8 @@ public class VideoProcessorAllTests(IDetectionProcessor detectionProcessor, IIma
     [InlineData(8)]
     [InlineData(9)]
     [InlineData(10)]
+    [InlineData(11)]
+    [InlineData(12)]
     public void CleanConfigs(int testCase)
     {
         foreach (var configImage in TestFiles.GetConfigImages(testCase))

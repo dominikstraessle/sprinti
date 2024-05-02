@@ -1,4 +1,5 @@
 using System.Net;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using RichardSzalay.MockHttp;
@@ -22,11 +23,11 @@ public class ConfirmationServiceTests
     private readonly ConfirmationService _service;
 
 
-    public ConfirmationServiceTests()
+    public ConfirmationServiceTests(ILogger<ConfirmationService> logger)
     {
         _mockHttp = new MockHttpMessageHandler();
         _options = new OptionsWrapper<ConfirmationOptions>(_confirmationOptions);
-        _service = new ConfirmationService(_mockHttp.ToHttpClient(), _options, new NullLogger<ConfirmationService>());
+        _service = new ConfirmationService(_mockHttp.ToHttpClient(), _options, logger);
     }
 
     [Fact]

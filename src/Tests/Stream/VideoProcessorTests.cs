@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging;
 using OpenCvSharp;
 using Sprinti.Domain;
 using Sprinti.Stream;
@@ -9,13 +9,13 @@ public class VideoProcessorTests
 {
     private readonly VideoProcessor _processor;
 
-    public VideoProcessorTests(IDetectionProcessor detectionProcessor)
+    public VideoProcessorTests(IDetectionProcessor detectionProcessor, ILogger<VideoProcessor> logger)
     {
         var testStreamCapture = new TestStreamCapture([
             TestFiles.GetDetectionFileName("4.1.png"),
             TestFiles.GetDetectionFileName("4.2.png")
         ]);
-        _processor = new VideoProcessor(testStreamCapture, detectionProcessor, NullLogger<VideoStream>.Instance);
+        _processor = new VideoProcessor(testStreamCapture, detectionProcessor, logger);
     }
 
     [Fact]
@@ -56,6 +56,7 @@ public class VideoProcessorTests
             {
                 throw new ArgumentException("All files already processed");
             }
+
             using var image = Cv2.ImRead(files[_index]);
             image.CopyTo(mat);
             _index++;

@@ -8,6 +8,8 @@ public abstract class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
+        services.AddLogging();
+
         var jsonString = File.ReadAllText("/home/dominik/aworkspace/study/pren/sprinti/src/Sprinti/detection.json");
 
         var detectionOptions = JsonSerializer.Deserialize<DetectionJson>(jsonString);

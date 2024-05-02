@@ -11,7 +11,7 @@ public interface IVideoProcessor
 public class VideoProcessor(
     IStreamCapture capture,
     IDetectionProcessor processor,
-    ILogger<VideoStream> logger
+    ILogger<VideoProcessor> logger
 ) : IVideoProcessor
 {
     public CubeConfig? RunDetection(CancellationToken stoppingToken)

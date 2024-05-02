@@ -12,7 +12,7 @@ public interface ISerialService
     Task<int> RunInstructionsAndFinish(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken);
 }
 
-internal class SerialService(
+public class SerialService(
     ISerialAdapter serialAdapter,
     IOptions<SerialOptions> options,
     ILogger<SerialService> logger)
