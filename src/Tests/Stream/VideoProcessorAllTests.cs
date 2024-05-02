@@ -104,16 +104,17 @@ public class VideoProcessorAllTests(
             Directory.CreateDirectory(debugFolderPerFile);
             detectionProcessor.TryDetectCubes(imageHsv, out _, debugFolderPerFile);
         }
+
         Assert.True(true);
     }
 
-    [Theory(Skip = "skip")]
+    [Theory]
     [InlineData(0, -20)]
     public async void MovePoints(int x, int y)
     {
         var files = new[]
         {
-            "20240419093954.png"
+            ""
         };
         foreach (var config in options.Value.LookupConfigs)
         {
@@ -128,10 +129,10 @@ public class VideoProcessorAllTests(
                 point[1] += y;
             }
 
-            // config.SelectorPoints.P1[0] += x;
-            // config.SelectorPoints.P1[1] += y;
-            // config.SelectorPoints.P2[0] += x;
-            // config.SelectorPoints.P2[1] += y;
+            config.SelectorPoints.P1[0] += x;
+            config.SelectorPoints.P1[1] += y;
+            config.SelectorPoints.P2[0] += x;
+            config.SelectorPoints.P2[1] += y;
         }
 
         var updatedConfigJson = JsonSerializer.Serialize(options.Value);
