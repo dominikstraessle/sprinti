@@ -109,12 +109,22 @@ public class VideoProcessorAllTests(
     }
 
     [Theory]
-    [InlineData(0, 15)]
+    [InlineData(0, 20)]
     public async void MovePoints(int x, int y)
     {
         var files = new[]
         {
-            ""
+            "20240419091505.png",
+            "20240419091510.png",
+            "20240419091430.png",
+            "20240419091445.png",
+            "20240419091450.png",
+            "20240419091450.png",
+            "20240419091455.png",
+            "20240419091505.png",
+            "20240419091510.png",
+            "20240419093954.png",
+            "20240419093954.png",
         };
         foreach (var config in options.Value.LookupConfigs)
         {
