@@ -40,4 +40,8 @@
         <InternalsVisibleTo Include="Tests"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="Stream\DetectionOptions\20240503112951.json" />
+    </ItemGroup>
+
 </Project>
