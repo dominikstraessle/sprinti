@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Stream;
 using static Sprinti.Tests.Stream.VideoProcessorTests;
@@ -10,7 +9,7 @@ namespace Sprinti.Tests.Stream;
 public class VideoProcessorAllTests(
     IDetectionProcessor detectionProcessor,
     IImageSelector imageSelector,
-    IOptions<DetectionOptions> options,
+    DetectionOptions options,
     ILogger<VideoProcessor> logger)
 {
     private VideoProcessor GetProcessor(int testCase)
@@ -33,7 +32,6 @@ public class VideoProcessorAllTests(
     [InlineData(10)]
     [InlineData(11)]
     [InlineData(12)]
-    [InlineData(13)]
     public void TestConfigs(int testCase)
     {
         var processor = GetProcessor(testCase);
@@ -64,7 +62,6 @@ public class VideoProcessorAllTests(
     [InlineData(10)]
     [InlineData(11)]
     [InlineData(12)]
-    [InlineData(13)]
     public void CleanConfigs(int testCase)
     {
         foreach (var configImage in TestFiles.GetConfigImages(testCase))
@@ -94,7 +91,6 @@ public class VideoProcessorAllTests(
     [InlineData(10)]
     [InlineData(11)]
     [InlineData(12)]
-    [InlineData(13)]
     public void DebugConfigs(int testCase)
     {
         var debugFolder = TestFiles.GetDebugPath(testCase.ToString());
@@ -119,7 +115,7 @@ public class VideoProcessorAllTests(
         {
             "20240419091605.png",
         };
-        foreach (var config in options.Value.LookupConfigs)
+        foreach (var config in options.LookupConfigs)
         {
             if (!files.Contains(config.Filename))
             {
@@ -138,7 +134,7 @@ public class VideoProcessorAllTests(
             config.SelectorPoints.P2[1] += y;
         }
 
-        var updatedConfigJson = JsonSerializer.Serialize(options.Value);
+        var updatedConfigJson = JsonSerializer.Serialize(options);
         await File.WriteAllTextAsync(TestFiles.GetDetectionFileName("new.json"), updatedConfigJson);
         Assert.True(true);
     }

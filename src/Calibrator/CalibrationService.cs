@@ -59,11 +59,11 @@ public class CalibrationService(
         }
 
         Cv2.DestroyAllWindows();
-        var updatedDetection = JsonSerializer.Serialize(new DetectionOptions()
+        var updatedDetection = JsonSerializer.Serialize(new DetectionOptions
         {
             LookupConfigs = configs
         });
-        File.WriteAllText(Path.Combine(imageDirectory, "new.json"), updatedDetection);
+        File.WriteAllText(Path.Combine(imageDirectory, $"{DateTime.Now:yyyyMMddHHmmss}.json"), updatedDetection);
     }
 
 

@@ -9,13 +9,13 @@ public interface IImageSelector
     bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig, string? debug = null);
 }
 
-public class ImageSelector(IOptions<DetectionOptions> options, ILogger<ImageSelector> logger) : IImageSelector
+public class ImageSelector(DetectionOptions options, ILogger<ImageSelector> logger) : IImageSelector
 {
     public bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig, string? debug = null)
     {
         lookupConfig = null;
         using var mask = ImageMask.WhiteMask(image);
-        foreach (var config in options.Value.LookupConfigs)
+        foreach (var config in options.LookupConfigs)
         {
             var selectorPoints = config.SelectorPoints;
             var p1 = mask.Get<byte>(selectorPoints.P1[1], selectorPoints.P1[0]);

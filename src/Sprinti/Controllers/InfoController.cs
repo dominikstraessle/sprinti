@@ -12,7 +12,7 @@ public class InfoController(
     IOptions<SerialOptions> serialOptions,
     IOptions<ConfirmationOptions> confirmationOptions,
     IOptions<StreamOptions> streamOptions,
-    IOptions<DetectionOptions> imageOptions,
+    DetectionOptions detectionOptions,
     IOptions<DisplayOptions> displayOptions,
     IOptions<CaptureOptions> captureOptions,
     IOptions<WorkflowOptions> workflowOptions,
@@ -28,7 +28,25 @@ public class InfoController(
             Stream = streamOptions.Value,
             Confirmation = confirmationOptions.Value,
             Serial = serialOptions.Value,
-            Detection = imageOptions.Value,
+            Detection = detectionOptions,
+            Environment = environment.EnvironmentName,
+            Capture = captureOptions.Value,
+            Display = displayOptions.Value,
+            Workflow = workflowOptions.Value
+        });
+    }
+
+    [HttpPost(nameof(UpdateDetection), Name = nameof(UpdateDetection))]
+    [ProducesResponseType(typeof(InfoDto), 200)]
+    public IActionResult UpdateDetection([FromBody] DetectionOptions newOptions)
+    {
+        detectionOptions.LookupConfigs = newOptions.LookupConfigs;
+        return Ok(new InfoDto
+        {
+            Stream = streamOptions.Value,
+            Confirmation = confirmationOptions.Value,
+            Serial = serialOptions.Value,
+            Detection = detectionOptions,
             Environment = environment.EnvironmentName,
             Capture = captureOptions.Value,
             Display = displayOptions.Value,

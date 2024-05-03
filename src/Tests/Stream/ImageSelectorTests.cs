@@ -4,12 +4,12 @@ using Sprinti.Stream;
 
 namespace Sprinti.Tests.Stream;
 
-public class ImageSelectorTests(IImageSelector imageSelector, IOptions<DetectionOptions> options)
+public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions options)
 {
     [Fact]
     public void DebugConfig()
     {
-        foreach (var config in options.Value.LookupConfigs)
+        foreach (var config in options.LookupConfigs)
         {
             var imagePath = TestFiles.GetDetectionFileName(config.Filename);
             using var image = Cv2.ImRead(imagePath);
@@ -51,7 +51,7 @@ public class ImageSelectorTests(IImageSelector imageSelector, IOptions<Detection
     [Fact]
     public void TrySelectAllTest()
     {
-        foreach (var config in options.Value.LookupConfigs)
+        foreach (var config in options.LookupConfigs)
         {
             var imagePath = TestFiles.GetDetectionFileName(config.Filename);
             using var imageHsv = Cv2.ImRead(imagePath);
