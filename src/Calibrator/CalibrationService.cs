@@ -14,7 +14,6 @@ public class CalibrationService(
     IHostEnvironment environment)
     : BackgroundService
 {
-    private CancellationToken _stoppingToken;
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -24,7 +23,6 @@ public class CalibrationService(
 
     private void CaptureFrames(CancellationToken stoppingToken)
     {
-        _stoppingToken = stoppingToken;
         var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.ImagePathFromContentRoot);
         Directory.CreateDirectory(imageDirectory);
         logger.LogInformation("Image directory: {Path}", imageDirectory);
