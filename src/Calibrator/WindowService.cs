@@ -13,7 +13,7 @@ public class WindowService(string filename, Mat image)
     public LookupConfig? Calibrate(CancellationToken stoppingToken)
     {
         Cv2.NamedWindow(filename);
-        Cv2.ResizeWindow(filename, image.Size());
+        Cv2.ResizeWindow(filename, image.Width * 2, image.Height * 2);
         Cv2.ImShow(filename, image);
         Cv2.SetMouseCallback(filename, MouseClick);
 
@@ -22,7 +22,7 @@ public class WindowService(string filename, Mat image)
             Console.WriteLine("Next:");
             var key = Cv2.WaitKey();
 
-            if (key == 'q')
+            if (key is 'q' or 'n')
             {
                 break;
             }
