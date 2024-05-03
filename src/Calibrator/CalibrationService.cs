@@ -17,7 +17,7 @@ public class CalibrationService(
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("Started Reader");
+        logger.LogInformation("Started Calibrator");
         return Task.Run(() => CaptureFrames(stoppingToken), stoppingToken);
     }
 
