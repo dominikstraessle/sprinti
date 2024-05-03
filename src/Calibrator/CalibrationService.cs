@@ -18,10 +18,10 @@ public class CalibrationService(
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Started Reader");
-        return Task.Run(() => { CaptureFrames(stoppingToken); }, stoppingToken);
+        return CaptureFrames(stoppingToken);
     }
 
-    private void CaptureFrames(CancellationToken stoppingToken)
+    private async Task CaptureFrames(CancellationToken stoppingToken)
     {
         _stoppingToken = stoppingToken;
         var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.ImagePathFromContentRoot);
@@ -34,14 +34,28 @@ public class CalibrationService(
         while (!stoppingToken.IsCancellationRequested)
         {
             capture.Read(image);
+            if (image.Empty())
+            {
+                continue;
+            }
 
             if (frameCount++ % options.Value.CaptureIntervalInFrames != 0) continue;
             var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now:yyyyMMddHHmmss}.png");
             image.SaveImage(imageFilePath);
             logger.LogInformation("Received image: {Rows}x{Cols}, saved to {Path}", image.Rows, image.Cols,
                 imageFilePath);
-            new WindowService(imageFilePath, image).Calibrate();
+            var windowService = new WindowService(imageFilePath, image);
+            var addedConfig = windowService.Calibrate(stoppingToken);
+
+            if (addedConfig is null)
+            {
+                continue;
+            }
+
+            logger.LogInformation("Add config: {Config}", addedConfig);
         }
+
+        Cv2.DestroyAllWindows();
     }
 
 

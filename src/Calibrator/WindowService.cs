@@ -8,77 +8,108 @@ public class WindowService(string filename, Mat image)
     private readonly IList<int[]> _selectorPoints = [];
     private readonly IList<int[]> _points = [];
     private readonly IList<int> _lookup = [];
-    private bool _active;
-    static int trackbarValue = 0;
+    private int _key = -1;
 
-    public LookupConfig Calibrate()
+    public LookupConfig? Calibrate(CancellationToken stoppingToken)
     {
         Cv2.NamedWindow(filename);
         Cv2.ResizeWindow(filename, image.Size());
         Cv2.ImShow(filename, image);
-        Cv2.CreateTrackbar("1", filename, ref trackbarValue, 7, (pos, data) => Console.WriteLine($"{pos} {data}"));
-
         Cv2.SetMouseCallback(filename, MouseClick);
-        Cv2.WaitKey();
-        Cv2.DestroyAllWindows();
-        if (_selectorPoints.Count != 2)
+
+        while (!stoppingToken.IsCancellationRequested)
         {
-            throw new ArgumentException("Not enough selectors");
+            Console.WriteLine("Next:");
+            var key = Cv2.WaitKey();
+
+            if (key == 'q')
+            {
+                break;
+            }
+
+            _key = key - 176;
+
+            PrintSelector();
+        }
+
+        Cv2.DestroyWindow(filename);
+
+        if (_selectorPoints.Count != 2 || _points.Count < 3)
+        {
+            return null;
         }
 
         return new LookupConfig(
-            new SelectorPoints(_selectorPoints.First(), _selectorPoints.Last()),
+            new SelectorPoints(_selectorPoints[0], _selectorPoints[1]),
             _points.ToArray(),
             _lookup,
             filename
         );
     }
 
-    // Mouse callback function
+    private void PrintSelector()
+    {
+        switch (_key)
+        {
+            case >= 0 and <= 7:
+            {
+                Console.WriteLine($"Select {_key}");
+                return;
+            }
+            case 8:
+            {
+                Console.WriteLine("Select white");
+                return;
+            }
+            case 9:
+            {
+                Console.WriteLine("Select black");
+                return;
+            }
+        }
+    }
+
     private void MouseClick(MouseEventTypes mouseEventTypes, int x, int y, MouseEventFlags flags,
         IntPtr userdata)
     {
-        if (mouseEventTypes is not (MouseEventTypes.LButtonDown or MouseEventTypes.RButtonDown) || _active)
+        if (mouseEventTypes is not MouseEventTypes.LButtonDown)
         {
             return;
         }
 
-        _active = true;
+        Circle(x, y, 2);
+        Console.WriteLine("Click");
 
-        Cv2.Circle(image, x, y, 3, 255, 2);
-        Cv2.ImShow(filename, image);
-        switch (mouseEventTypes)
+        switch (_key)
         {
-            case MouseEventTypes.LButtonDown:
+            case >= 0 and <= 7:
             {
-                Console.WriteLine("Which lookup? 0-7");
-                var input = Console.ReadLine();
-
-                if (!int.TryParse(input, out var lookupNumber) || lookupNumber is < 0 or > 7) return;
                 _points.Add([x, y]);
-                _lookup.Add(lookupNumber);
-                Cv2.Circle(image, x, y, 5, 0, 3);
-                Cv2.ImShow(filename, image);
-                Console.WriteLine($"Point: ({x}, {y}) is {lookupNumber}");
-                _active = false;
-
-                return;
+                _lookup.Add(_key);
+                Console.WriteLine($"Point: ({x}, {y}) is key {_key}");
+                Circle(x, y, 4);
+                break;
             }
-            case MouseEventTypes.RButtonDown:
+            case 8:
             {
-                Console.WriteLine("Which color? 0 - black | 1 - white");
-                var input = Console.ReadLine();
-
-                if (!int.TryParse(input, out var lookupNumber) || lookupNumber is < 0 or > 1) return;
-                var color = lookupNumber == 0 ? 0 : 255;
-                _selectorPoints.Add([x, y, color]);
-                Cv2.Circle(image, x, y, 5, 0, 2);
-                Cv2.ImShow(filename, image);
-                Console.WriteLine($"Selector: ({x}, {y}) is {lookupNumber}");
-                _active = false;
-
-                return;
+                _selectorPoints.Add([x, y, 255]);
+                Console.WriteLine($"Selector: ({x}, {y}) is key white");
+                Circle(x, y, 4);
+                break;
+            }
+            case 9:
+            {
+                _selectorPoints.Add([x, y, 0]);
+                Console.WriteLine($"Selector: ({x}, {y}) is key black");
+                Circle(x, y, 4);
+                break;
             }
         }
+    }
+
+    private void Circle(int x, int y, int thickness)
+    {
+        Cv2.Circle(image, x, y, 3, 255, thickness);
+        Cv2.ImShow(filename, image);
     }
 }

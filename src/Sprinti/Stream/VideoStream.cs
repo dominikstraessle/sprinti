@@ -29,6 +29,11 @@ public class VideoStream(
         {
             capture.Read(image);
 
+            if (image.Empty())
+            {
+                continue;
+            }
+
             if (frameCount++ % options.Value.CaptureIntervalInFrames != 0) continue;
             var imageFilePath = Path.Combine(imageDirectory, $"{DateTime.Now:yyyyMMddHHmmss}.png");
             image.SaveImage(imageFilePath);
