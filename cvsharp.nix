@@ -1,7 +1,10 @@
 { stdenv, fetchFromGitHub, opencv, cmake }:
-let opencvgtk = opencv.override { enableGtk2 = true; };
-in
-stdenv.mkDerivation rec {
+let
+  finalOpencv = if stdenv.hostPlatform.system == "aarch64-linux" then
+    opencv
+  else
+    opencv.override { enableGtk2 = true; };
+in stdenv.mkDerivation rec {
   pname = "opencvsharp";
   version = "4.9.0.20240106";
 
@@ -15,7 +18,7 @@ stdenv.mkDerivation rec {
   };
   # https://github.com/shimat/opencvsharp/issues/1193#issuecomment-769812308
   configurePhase = ''
-    cmake -D CMAKE_INSTALL_PREFIX=${opencvgtk} -D WITH_GTK=ON $src/src
+    cmake -D CMAKE_INSTALL_PREFIX=${finalOpencv} $src/src
   '';
   buildPhase = ''
     make -j
@@ -24,5 +27,5 @@ stdenv.mkDerivation rec {
     mkdir -p $out/lib
     cp OpenCvSharpExtern/libOpenCvSharpExtern.so $out/lib
   '';
-  runtimeDeps = [ opencvgtk ];
+  runtimeDeps = [ finalOpencv ];
 }
