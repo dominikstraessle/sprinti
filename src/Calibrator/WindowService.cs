@@ -77,7 +77,7 @@ public class WindowService(string filename, Mat image)
             return;
         }
 
-        Circle(x, y, 2);
+        Circle(x, y, 2, "");
         Console.WriteLine("Click");
 
         switch (_key)
@@ -87,29 +87,36 @@ public class WindowService(string filename, Mat image)
                 _points.Add([x, y]);
                 _lookup.Add(_key);
                 Console.WriteLine($"Point: ({x}, {y}) is key {_key}");
-                Circle(x, y, 4);
+                Circle(x, y, 4, $"{_key}");
                 break;
             }
             case 8:
             {
                 _selectorPoints.Add([x, y, 255]);
                 Console.WriteLine($"Selector: ({x}, {y}) is key white");
-                Circle(x, y, 4);
+                Circle(x, y, 4, "w");
                 break;
             }
             case 9:
             {
                 _selectorPoints.Add([x, y, 0]);
                 Console.WriteLine($"Selector: ({x}, {y}) is key black");
-                Circle(x, y, 4);
+                Circle(x, y, 4, "b");
                 break;
             }
         }
     }
 
-    private void Circle(int x, int y, int thickness)
+    private void Circle(int x, int y, int thickness, string text)
     {
         Cv2.Circle(image, x, y, 3, 255, thickness);
+        if (!string.IsNullOrEmpty(text))
+        {
+            Cv2.Line(image, new Point(x, 0), new Point(x, image.Height - 1), new Scalar(255));
+            Cv2.Line(image, new Point(0, y), new Point(image.Width - 1, y), new Scalar(255));
+            Cv2.PutText(image, text, new Point(x, y), HersheyFonts.HersheyTriplex, 1, new Scalar(0));
+        }
+
         Cv2.ImShow(filename, image);
     }
 }
