@@ -10,7 +10,7 @@ public interface ICubeDetector
 
 public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<CubeDetector> logger) : ICubeDetector
 {
-    public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, string? debug)
+    public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, string? debug = null)
     {
         if (result.Length != 8)
         {
@@ -30,12 +30,17 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
                 logger.LogInformation("[{Key}] Detected cube: {Color} {P} at {Position}", config.Filename, color, point,
                     lookupPosition);
                 result[lookupPosition][(int)color]++;
+
+                if (debug is null) continue;
+                Cv2.PutText(imageHsv, $"{color}: {lookupPosition}", new Point(point[0], point[1]), HersheyFonts.HersheyTriplex, 1, new Scalar(0));
             }
             if (debug is null) continue;
 
             Cv2.Circle(imageHsv, point[0], point[1], 10, 255, 10);
             var fileName = Path.Combine(debug, $"points-{config.Filename}");
-            imageHsv.SaveImage(fileName);
+            using var imageBgr = new Mat();
+            Cv2.CvtColor(imageHsv, imageBgr, ColorConversionCodes.HSV2BGR);
+            imageBgr.SaveImage(fileName);
         }
 
         logicalCubeDetector.DetectCubes(result);

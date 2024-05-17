@@ -37,7 +37,7 @@ public class DetectionProcessor(IImageSelector selector, ICubeDetector detector,
             Config = ResultToConfig(_result)
         };
         logger.LogInformation("Result complete after detection: {Result}", ResultToConfig(_result));
-        logger.LogInformation("Config detected at {time}: {Config}", config.Time, config.Config);
+        logger.LogInformation("Config detected at {Time}: {Config}", config.Time, config.Config);
         return true;
     }
 

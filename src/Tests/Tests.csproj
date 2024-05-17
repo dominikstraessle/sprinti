@@ -71,7 +71,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Stream\Images\Debug\" />
       <Folder Include="Stream\Images\Detection\Debug\" />
     </ItemGroup>
 

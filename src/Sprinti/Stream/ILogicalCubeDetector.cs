@@ -17,7 +17,7 @@ internal class LogicalCubeDetector(ILogger<LogicalCubeDetector> logger) : ILogic
             var x = result[i][NoneIndex];
             if (x <= 0) continue;
             var skippedIndex = i + SkipStep;
-            logger.LogInformation("Logical Detection: {index} is None, therefore {skippedIndex} must be None", i,
+            logger.LogInformation("Logical Detection: {Index} is None, therefore {SkippedIndex} must be None", i,
                 skippedIndex);
             result[skippedIndex][NoneIndex] += 1;
         }
