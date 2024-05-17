@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.Options;
 using OpenCvSharp;
 
 namespace Sprinti.Stream;
@@ -11,7 +10,7 @@ public interface IImageSelector
 
 public class ImageSelector(DetectionOptions options, ILogger<ImageSelector> logger) : IImageSelector
 {
-    public bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig, string? debug = null)
+    public bool TrySelectImage(Mat image, [MaybeNullWhen(false)] out LookupConfig lookupConfig, string? debug)
     {
         lookupConfig = null;
         using var mask = ImageMask.WhiteMask(image);
@@ -29,8 +28,12 @@ public class ImageSelector(DetectionOptions options, ILogger<ImageSelector> logg
 
             Cv2.Circle(image, selectorPoints.P1[0], selectorPoints.P1[1], 10, 255, 10);
             Cv2.Circle(image, selectorPoints.P2[0], selectorPoints.P2[1], 10, 255, 10);
+            logger.LogInformation("Create selected image path: {Path}", debug);
+            Directory.CreateDirectory(debug);
             var fileName = Path.Combine(debug, $"select-{lookupConfig.Filename}");
-            image.SaveImage(fileName);
+            using var imageBgr = new Mat();
+            Cv2.CvtColor(image, imageBgr, ColorConversionCodes.HSV2BGR);
+            imageBgr.SaveImage(fileName);
 
             return true;
         }

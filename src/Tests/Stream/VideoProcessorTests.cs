@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Domain;
 using Sprinti.Stream;
@@ -9,13 +11,14 @@ public class VideoProcessorTests
 {
     private readonly VideoProcessor _processor;
 
-    public VideoProcessorTests(IDetectionProcessor detectionProcessor, ILogger<VideoProcessor> logger)
+    public VideoProcessorTests(IDetectionProcessor detectionProcessor, ILogger<VideoProcessor> logger,
+        IOptions<StreamOptions> streamOptions, IHostEnvironment environment)
     {
         var testStreamCapture = new TestStreamCapture([
             TestFiles.GetDetectionFileName("20240517093113.png"),
             TestFiles.GetDetectionFileName("20240517093300.png")
         ]);
-        _processor = new VideoProcessor(testStreamCapture, detectionProcessor, logger);
+        _processor = new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment);
     }
 
     [Fact]

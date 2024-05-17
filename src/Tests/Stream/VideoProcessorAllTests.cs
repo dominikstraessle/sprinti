@@ -1,5 +1,7 @@
 using System.Text.Json;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Stream;
 using static Sprinti.Tests.Stream.VideoProcessorTests;
@@ -10,13 +12,15 @@ public class VideoProcessorAllTests(
     IDetectionProcessor detectionProcessor,
     IImageSelector imageSelector,
     DetectionOptions options,
+    IOptions<StreamOptions> streamOptions,
+    IHostEnvironment environment,
     ILogger<VideoProcessor> logger)
 {
     private VideoProcessor GetProcessor(int testCase)
     {
         var files = TestFiles.GetConfigImages(testCase);
         var testStreamCapture = new TestStreamCapture(files);
-        return new VideoProcessor(testStreamCapture, detectionProcessor, logger);
+        return new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment);
     }
 
     [Theory]

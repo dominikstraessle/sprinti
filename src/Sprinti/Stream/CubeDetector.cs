@@ -10,7 +10,7 @@ public interface ICubeDetector
 
 public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<CubeDetector> logger) : ICubeDetector
 {
-    public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, string? debug = null)
+    public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, string? debug)
     {
         if (result.Length != 8)
         {

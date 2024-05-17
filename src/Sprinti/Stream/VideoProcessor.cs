@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Domain;
 
@@ -11,11 +12,20 @@ public interface IVideoProcessor
 public class VideoProcessor(
     IStreamCapture capture,
     IDetectionProcessor processor,
-    ILogger<VideoProcessor> logger
+    ILogger<VideoProcessor> logger,
+    IOptions<StreamOptions> options,
+    IHostEnvironment environment
 ) : IVideoProcessor
 {
     public CubeConfig? RunDetection(CancellationToken stoppingToken)
     {
+        var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.DebugPathFromContentRoot, $"{DateTime.Now:yyyyMMddHHmmss}");
+        if (options.Value.Debug)
+        {
+            logger.LogInformation("Create debug path: {Path}", imageDirectory);
+            Directory.CreateDirectory(imageDirectory);
+        }
+
         logger.LogInformation("Start video processing: Checking for valid images.");
         using var imageHsv = new Mat();
         while (!stoppingToken.IsCancellationRequested)
@@ -24,11 +34,18 @@ public class VideoProcessor(
             {
                 logger.LogWarning("Failed to read image from stream");
             }
+
             Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
             logger.LogTrace("Received image: {Rows}x{Cols}", imageHsv.Rows, imageHsv.Cols);
 
-            if (processor.TryDetectCubes(imageHsv, out var config))
+            string? debugDirectory = null;
+            if (options.Value.Debug)
+            {
+                debugDirectory = Path.Combine(imageDirectory, $"{DateTime.Now:yyyyMMddHHmmss}");
+            }
+
+            if (processor.TryDetectCubes(imageHsv, out var config, debugDirectory))
             {
                 logger.LogInformation("Config detected at {Time}: {Config}", config.Time, config.Config);
                 return config;
