@@ -12,8 +12,8 @@ public class VideoProcessorTests
     public VideoProcessorTests(IDetectionProcessor detectionProcessor, ILogger<VideoProcessor> logger)
     {
         var testStreamCapture = new TestStreamCapture([
-            TestFiles.GetDetectionFileName("4.1.png"),
-            TestFiles.GetDetectionFileName("4.2.png")
+            TestFiles.GetDetectionFileName("20240517093113.png"),
+            TestFiles.GetDetectionFileName("20240517093300.png")
         ]);
         _processor = new VideoProcessor(testStreamCapture, detectionProcessor, logger);
     }
@@ -24,12 +24,12 @@ public class VideoProcessorTests
         using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(2));
         var expected = new SortedDictionary<int, Color>
         {
-            { 1, Color.Yellow },
+            { 1, Color.Red },
             { 2, Color.Blue },
-            { 3, Color.Red },
-            { 4, Color.Yellow },
-            { 5, Color.None },
-            { 6, Color.Blue },
+            { 3, Color.None },
+            { 4, Color.Red },
+            { 5, Color.Yellow },
+            { 6, Color.None },
             { 7, Color.None },
             { 8, Color.None }
         };

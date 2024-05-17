@@ -42,6 +42,7 @@
 
     <ItemGroup>
       <None Include="Stream\DetectionOptions\20240516101552.json" />
+      <None Include="Stream\DetectionOptions\20240517093509.json" />
     </ItemGroup>
 
 </Project>

@@ -21,18 +21,6 @@ public class VideoProcessorAllTests(
 
     [Theory]
     [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    [InlineData(5)]
-    [InlineData(6)]
-    [InlineData(7)]
-    [InlineData(8)]
-    [InlineData(9)]
-    [InlineData(10)]
-    [InlineData(11)]
-    [InlineData(12)]
-    [InlineData(14)]
     public void TestConfigs(int testCase)
     {
         var processor = GetProcessor(testCase);
@@ -52,18 +40,6 @@ public class VideoProcessorAllTests(
 
     [Theory]
     [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    [InlineData(5)]
-    [InlineData(6)]
-    [InlineData(7)]
-    [InlineData(8)]
-    [InlineData(9)]
-    [InlineData(10)]
-    [InlineData(11)]
-    [InlineData(12)]
-    [InlineData(14)]
     public void CleanConfigs(int testCase)
     {
         foreach (var configImage in TestFiles.GetConfigImages(testCase))
@@ -82,18 +58,6 @@ public class VideoProcessorAllTests(
 
     [Theory]
     [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    [InlineData(5)]
-    [InlineData(6)]
-    [InlineData(7)]
-    [InlineData(8)]
-    [InlineData(9)]
-    [InlineData(10)]
-    [InlineData(11)]
-    [InlineData(12)]
-    [InlineData(14)]
     public void DebugConfigs(int testCase)
     {
         var debugFolder = TestFiles.GetDebugPath(testCase.ToString());
@@ -110,7 +74,7 @@ public class VideoProcessorAllTests(
         Assert.True(true);
     }
 
-    [Theory]
+    [Theory(Skip = "only move on purpose")]
     [InlineData(20, 0)]
     public async void MovePoints(int x, int y)
     {

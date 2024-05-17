@@ -9,11 +9,11 @@ public class DetectionProcessorTests(IDetectionProcessor processor)
     [Fact]
     public void TryDetectCubesTest()
     {
-        var imagePath1 = TestFiles.GetDetectionFileName("4.1.png");
+        var imagePath1 = TestFiles.GetDetectionFileName("20240517093113.png");
         using var imageHsv1 = Cv2.ImRead(imagePath1);
         Cv2.CvtColor(imageHsv1, imageHsv1, ColorConversionCodes.BGR2HSV);
 
-        var imagePath2 = TestFiles.GetDetectionFileName("4.2.png");
+        var imagePath2 = TestFiles.GetDetectionFileName("20240517093300.png");
         using var imageHsv2 = Cv2.ImRead(imagePath2);
         Cv2.CvtColor(imageHsv2, imageHsv2, ColorConversionCodes.BGR2HSV);
 
@@ -25,12 +25,12 @@ public class DetectionProcessorTests(IDetectionProcessor processor)
 
         var expected = new SortedDictionary<int, Color>
         {
-            { 1, Color.Yellow },
+            { 1, Color.Red },
             { 2, Color.Blue },
-            { 3, Color.Red },
-            { 4, Color.Yellow },
-            { 5, Color.None },
-            { 6, Color.Blue },
+            { 3, Color.None },
+            { 4, Color.Red },
+            { 5, Color.Yellow },
+            { 6, Color.None },
             { 7, Color.None },
             { 8, Color.None }
         };

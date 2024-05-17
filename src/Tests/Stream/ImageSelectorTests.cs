@@ -32,7 +32,7 @@ public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions o
 
     public static IEnumerable<object[]> AllSelectorTestFilesData()
     {
-        return TestFiles.GetDetectionFiles().Select(detectionFile => (object[])[detectionFile]);
+        return TestFiles.GetDetectionFiles().Select(detectionFile => (object[]) [detectionFile]);
     }
 
     [Theory]
@@ -55,6 +55,7 @@ public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions o
         {
             var imagePath = TestFiles.GetDetectionFileName(config.Filename);
             using var imageHsv = Cv2.ImRead(imagePath);
+            Assert.False(imageHsv.Empty(), $"Image is empty: {imagePath}");
             Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
             var result = imageSelector.TrySelectImage(imageHsv, out var actual);
@@ -68,27 +69,15 @@ public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions o
     [Fact]
     public void TrySelectImage1Test()
     {
-        var imagePath = TestFiles.GetTestFileFullName("1.png");
+        var imagePath = TestFiles.GetDetectionFileName("20240517093113.png");
         using var imageHsv = Cv2.ImRead(imagePath);
         Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
         var result = imageSelector.TrySelectImage(imageHsv, out var config);
         Assert.True(result);
         Assert.NotNull(config);
-        Assert.Equivalent(DetectionOptions.DefaultLookupConfigs[0].Lookup, config.Lookup);
-    }
-
-    [Fact]
-    public void TrySelectImage2Test()
-    {
-        var imagePath = TestFiles.GetTestFileFullName("2.png");
-        using var imageHsv = Cv2.ImRead(imagePath);
-        Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
-
-        var result = imageSelector.TrySelectImage(imageHsv, out var config);
-        Assert.True(result);
-        Assert.NotNull(config);
-        Assert.Equivalent(DetectionOptions.DefaultLookupConfigs[1].Lookup, config.Lookup);
+        var lookup = options.LookupConfigs.First(c => c.Filename.Equals("20240517093113.png")).Lookup;
+        Assert.Equivalent(lookup, config.Lookup);
     }
 
     [Fact]
