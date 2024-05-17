@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
+using Sprinti.Domain;
+using Sprinti.Serial;
+using Sprinti.Stream;
 using Sprinti.Workflow;
 
 namespace Sprinti.Controllers;
 
 public class WorkflowController(
-    IWorkflowService workflowService
+    IWorkflowService workflowService,
+    DetectionOptions detectionOptions,
+    ISerialService serialService
 ) : ApiController
 {
     [HttpGet(nameof(RunWorkflow), Name = nameof(RunWorkflow))]
@@ -15,5 +20,23 @@ public class WorkflowController(
 
         await workflowService.RunAsync(cancellationTokenSource.Token);
         return Ok();
+    }
+
+
+    [HttpPost(nameof(InitWorkflow), Name = nameof(InitWorkflow))]
+    [ProducesResponseType(typeof(CompletedResponse), 202)]
+    [ProducesResponseType(typeof(CompletedResponse), 400)]
+    public async Task<IActionResult> InitWorkflow([FromBody] DetectionOptions newOptions,
+        CancellationToken cancellationToken)
+    {
+        detectionOptions.LookupConfigs = newOptions.LookupConfigs;
+        var response = await serialService.SendCommand(new InitCommand(), cancellationToken);
+        if (response.ResponseState is not ResponseState.Complete)
+        {
+            return BadRequest(response);
+        }
+
+        response = await serialService.SendCommand(new AlignCommand(), cancellationToken);
+        return Accepted(response);
     }
 }
