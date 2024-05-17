@@ -51,7 +51,7 @@ public static class Program
             c.RoutePrefix = "";
         });
 
-        var imagePath = app.Services.GetRequiredService<IOptions<CaptureOptions>>().Value.ImagePathFromContentRoot;
+        var imagePath = app.Services.GetRequiredService<IOptions<StreamOptions>>().Value.DebugPathFromContentRoot;
         var imageFileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, imagePath));
         PathString imageRequestPath = $"/{imagePath}";
         app.UseStaticFiles(new StaticFileOptions
