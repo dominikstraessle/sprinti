@@ -38,29 +38,30 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
                 result[lookupPosition][(int)color]++;
 
                 if (debug is null) continue;
-                Cv2.PutText(imageDebug, $"{color}: {lookupPosition}", new Point(point[0], point[1]), HersheyFonts.HersheyTriplex, 1, new Scalar(0));
+                Cv2.PutText(imageDebug, $"{color}: {lookupPosition}", new Point(point[0], point[1]),
+                    HersheyFonts.HersheyTriplex, 1, new Scalar(0));
             }
+
             if (debug is null) continue;
 
             Cv2.Circle(imageDebug, point[0], point[1], 10, 255, 10);
-            var fileName = Path.Combine(debug, $"points-{config.Filename}");
+        }
+
+        if (debug is not null)
+        {
+            var fileName = Path.Combine(debug, config.Filename, "points.png");
             imageDebug.SaveImage(fileName);
+
+            foreach (var mask in masks)
+            {
+                var maskFileName = Path.Combine(debug, config.Filename, $"{(int)mask.Key}-{mask.Key}.png");
+                mask.Value.SaveImage(maskFileName);
+            }
         }
 
         logicalCubeDetector.DetectCubes(result);
 
         DisposeColorMasks(masks);
-    }
-
-    private static void Show(Mat mask, IReadOnlyList<int> point, Color color, int lookupPosition, string filename)
-    {
-        using var debug = new Mat();
-        mask.CopyTo(debug);
-        Cv2.Circle(debug, point[0], point[1], 10, 255, 10);
-        Cv2.Circle(debug, point[0], point[1], 5, 0, 5);
-        var text = $"{filename}: {lookupPosition} - {color}.png";
-        Cv2.ImShow(text, debug);
-        Cv2.WaitKey();
     }
 
     private static void DisposeColorMasks(Dictionary<Color, Mat> masks)

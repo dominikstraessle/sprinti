@@ -19,17 +19,19 @@ public class VideoProcessor(
 {
     public CubeConfig? RunDetection(CancellationToken stoppingToken)
     {
-        var imageDirectory = Path.Combine(environment.ContentRootPath, options.Value.DebugPathFromContentRoot, $"{DateTime.Now:yyyyMMddHHmmss}");
+        string? debugDirectory = null;
         if (options.Value.Debug)
         {
-            logger.LogInformation("Create debug path: {Path}", imageDirectory);
-            Directory.CreateDirectory(imageDirectory);
+            debugDirectory = Path.Combine(environment.ContentRootPath, options.Value.DebugPathFromContentRoot,
+                $"{DateTime.Now:yyyyMMddHHmmss}");
+            logger.LogInformation("Create debug path: {Path}", debugDirectory);
+            Directory.CreateDirectory(debugDirectory);
         }
 
         logger.LogInformation("Start video processing: Checking for valid images.");
-        using var imageHsv = new Mat();
         while (!stoppingToken.IsCancellationRequested)
         {
+            using var imageHsv = new Mat();
             if (!capture.Read(imageHsv))
             {
                 logger.LogWarning("Failed to read image from stream");
@@ -38,12 +40,6 @@ public class VideoProcessor(
             Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
             logger.LogTrace("Received image: {Rows}x{Cols}", imageHsv.Rows, imageHsv.Cols);
-
-            string? debugDirectory = null;
-            if (options.Value.Debug)
-            {
-                debugDirectory = Path.Combine(imageDirectory, $"{DateTime.Now:yyyyMMddHHmmss}");
-            }
 
             if (processor.TryDetectCubes(imageHsv, out var config, debugDirectory))
             {
