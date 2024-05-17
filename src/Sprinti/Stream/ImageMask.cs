@@ -5,20 +5,27 @@ namespace Sprinti.Stream;
 
 public static class ImageMask
 {
-    private static readonly Scalar LowerBlue = new(100, 90, 0);
-    private static readonly Scalar UpperBlue = new(120, 255, 255);
-    private static readonly Scalar LowerYellow = new(22, 93, 0);
-    private static readonly Scalar UpperYellow = new(50, 255, 255);
+    // https://pseudopencv.site/utilities/hsvcolormask/
+    private static readonly Scalar LowerBlue = new(50, 90, 0);
+    private static readonly Scalar UpperBlue = new(160, 255, 255);
+    private static readonly Scalar LowerYellow = new(10, 90, 0);
+    private static readonly Scalar UpperYellow = new(70, 255, 255);
     private static readonly Scalar LowerRed1 = new(0, 50, 50);
     private static readonly Scalar UpperRed1 = new(10, 255, 255);
-    private static readonly Scalar LowerRed2 = new(150, 50, 50);
+    private static readonly Scalar LowerRed2 = new(163, 50, 50);
     private static readonly Scalar UpperRed2 = new(180, 255, 255);
-    private static readonly Scalar LowerWhite = new(55, 0, 190);
-    private static readonly Scalar UpperWhite = new(255, 80, 255);
+    private static readonly Scalar LowerWhite = new(100, 0, 190);
+    private static readonly Scalar UpperWhite = new(180, 80, 255);
 
     public static Mat BlueMask(Mat image) => GetMask(image, LowerBlue, UpperBlue);
     public static Mat YellowMask(Mat image) => GetMask(image, LowerYellow, UpperYellow);
-    public static Mat WhiteMask(Mat image) => GetMask(image, LowerWhite, UpperWhite);
+    public static Mat WhiteMask(Mat image)
+    {
+        var mask = GetMask(image, LowerWhite, UpperWhite);
+        using var kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5));
+        Cv2.MorphologyEx(mask, mask, MorphTypes.Open, kernel);
+        return mask;
+    }
 
     public static Mat RedMask(Mat image)
     {
@@ -52,12 +59,9 @@ public static class ImageMask
 
     private static Mat GetMask(Mat imageHsv, Scalar lower, Scalar upper)
     {
-        // Create mask and remove thin lines with morph ex
+        // Create mask
         var mask = new Mat();
         Cv2.InRange(imageHsv, lower, upper, mask);
-        using var kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5));
-        Cv2.MorphologyEx(mask, mask, MorphTypes.Open, kernel);
-
         return mask;
     }
 }
