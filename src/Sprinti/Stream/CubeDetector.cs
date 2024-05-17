@@ -19,6 +19,12 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
 
         var masks = GetColorMaskPairs(imageHsv);
 
+        using var imageDebug = new Mat();
+        if (debug is not null)
+        {
+            Cv2.CvtColor(imageHsv, imageDebug, ColorConversionCodes.HSV2BGR);
+        }
+
         for (var i = 0; i < config.Points.Length; i++)
         {
             var point = config.Points[i];
@@ -32,15 +38,13 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
                 result[lookupPosition][(int)color]++;
 
                 if (debug is null) continue;
-                Cv2.PutText(imageHsv, $"{color}: {lookupPosition}", new Point(point[0], point[1]), HersheyFonts.HersheyTriplex, 1, new Scalar(0));
+                Cv2.PutText(imageDebug, $"{color}: {lookupPosition}", new Point(point[0], point[1]), HersheyFonts.HersheyTriplex, 1, new Scalar(0));
             }
             if (debug is null) continue;
 
-            Cv2.Circle(imageHsv, point[0], point[1], 10, 255, 10);
+            Cv2.Circle(imageDebug, point[0], point[1], 10, 255, 10);
             var fileName = Path.Combine(debug, $"points-{config.Filename}");
-            using var imageBgr = new Mat();
-            Cv2.CvtColor(imageHsv, imageBgr, ColorConversionCodes.HSV2BGR);
-            imageBgr.SaveImage(fileName);
+            imageDebug.SaveImage(fileName);
         }
 
         logicalCubeDetector.DetectCubes(result);
