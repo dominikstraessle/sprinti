@@ -1,6 +1,6 @@
-using Sprinti.Stream;
+using Sprinti.Detection;
 
-namespace Sprinti.Tests.Stream;
+namespace Sprinti.Tests.Detection;
 
 public class LogicalCubeDetectorTests(ILogicalCubeDetector cubeDetector)
 {

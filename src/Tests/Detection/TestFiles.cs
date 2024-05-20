@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Sprinti.Domain;
 
-namespace Sprinti.Tests.Stream;
+namespace Sprinti.Tests.Detection;
 
 public static class TestFiles
 {

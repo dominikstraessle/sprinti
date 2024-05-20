@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Sprinti.Domain;
 using Sprinti.Serial;
-using Sprinti.Stream;
+using Sprinti.Detection;
 using Sprinti.Workflow;
 
 namespace Sprinti.Controllers;

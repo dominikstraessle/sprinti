@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Sprinti.Confirmation;
 using Sprinti.Display;
 using Sprinti.Serial;
-using Sprinti.Stream;
+using Sprinti.Detection;
 using Sprinti.Workflow;
 
 namespace Sprinti.Controllers;

@@ -1,7 +1,7 @@
 using OpenCvSharp;
-using Sprinti.Stream;
+using Sprinti.Detection;
 
-namespace Sprinti.Tests.Stream;
+namespace Sprinti.Tests.Detection;
 
 public class ImageMaskTests
 {

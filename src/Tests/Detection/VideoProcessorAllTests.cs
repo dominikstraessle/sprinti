@@ -3,10 +3,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
-using Sprinti.Stream;
-using static Sprinti.Tests.Stream.VideoProcessorTests;
+using Sprinti.Detection;
+using static Sprinti.Tests.Detection.VideoProcessorTests;
 
-namespace Sprinti.Tests.Stream;
+namespace Sprinti.Tests.Detection;
 
 public class VideoProcessorAllTests(
     IDetectionProcessor detectionProcessor,
@@ -19,7 +19,7 @@ public class VideoProcessorAllTests(
     private VideoProcessor GetProcessor(int testCase)
     {
         var files = TestFiles.GetConfigImages(testCase);
-        var testStreamCapture = new TestStreamCapture(files);
+        var testStreamCapture = new VideoProcessorTests.TestStreamCapture(files);
         return new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment);
     }
 

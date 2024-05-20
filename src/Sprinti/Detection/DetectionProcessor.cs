@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp;
 using Sprinti.Domain;
 
-namespace Sprinti.Stream;
+namespace Sprinti.Detection;
 
 public interface IDetectionProcessor
 {

@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
-using Sprinti.Stream;
+using Sprinti.Detection;
 
-namespace Sprinti.Tests.Stream;
+namespace Sprinti.Tests.Detection;
 
 public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions options)
 {

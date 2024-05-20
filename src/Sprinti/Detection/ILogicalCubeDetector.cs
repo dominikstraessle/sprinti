@@ -1,4 +1,4 @@
-namespace Sprinti.Stream;
+namespace Sprinti.Detection;
 
 public interface ILogicalCubeDetector
 {

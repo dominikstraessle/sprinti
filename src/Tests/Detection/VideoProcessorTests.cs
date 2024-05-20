@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Domain;
-using Sprinti.Stream;
+using Sprinti.Detection;
 
-namespace Sprinti.Tests.Stream;
+namespace Sprinti.Tests.Detection;
 
 public class VideoProcessorTests
 {

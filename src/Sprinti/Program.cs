@@ -8,7 +8,7 @@ using Sprinti.Confirmation;
 using Sprinti.Display;
 using Sprinti.Instruction;
 using Sprinti.Serial;
-using Sprinti.Stream;
+using Sprinti.Detection;
 using Sprinti.Workflow;
 
 namespace Sprinti;

@@ -1,6 +1,6 @@
 using OpenCvSharp;
 
-namespace Sprinti.Stream;
+namespace Sprinti.Detection;
 
 public interface IStreamCapture
 {

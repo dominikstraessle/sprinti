@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Sprinti.Instruction;
 using Sprinti.Serial;
-using Sprinti.Stream;
+using Sprinti.Detection;
 
 namespace Sprinti.Controllers;
 

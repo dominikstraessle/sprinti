@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
-using Sprinti.Stream;
+using Sprinti.Detection;
 
 namespace Calibrator;
 

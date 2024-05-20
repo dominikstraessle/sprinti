@@ -1,7 +1,7 @@
 using OpenCvSharp;
 using Sprinti.Domain;
 
-namespace Sprinti.Stream;
+namespace Sprinti.Detection;
 
 public interface ICubeDetector
 {

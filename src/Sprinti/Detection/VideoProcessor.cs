@@ -2,7 +2,7 @@ using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Domain;
 
-namespace Sprinti.Stream;
+namespace Sprinti.Detection;
 
 public interface IVideoProcessor
 {

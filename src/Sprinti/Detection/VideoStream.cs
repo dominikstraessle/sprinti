@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
 
-namespace Sprinti.Stream;
+namespace Sprinti.Detection;
 
 public class VideoStream(
     IStreamCapture capture,

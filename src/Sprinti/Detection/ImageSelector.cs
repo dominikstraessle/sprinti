@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp;
 
-namespace Sprinti.Stream;
+namespace Sprinti.Detection;
 
 public interface IImageSelector
 {

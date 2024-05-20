@@ -1,8 +1,8 @@
 using OpenCvSharp;
 using Sprinti.Domain;
-using Sprinti.Stream;
+using Sprinti.Detection;
 
-namespace Sprinti.Tests.Stream;
+namespace Sprinti.Tests.Detection;
 
 public class CubeDetectorTests(ICubeDetector cubeDetector, DetectionOptions detectionOptions)
 {

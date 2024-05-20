@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Sprinti.Domain;
-using Sprinti.Stream;
+using Sprinti.Detection;
 
 namespace Sprinti.Controllers;
 

@@ -1,5 +1,5 @@
 using OpenCvSharp;
-using Sprinti.Stream;
+using Sprinti.Detection;
 
 namespace Calibrator;
 
