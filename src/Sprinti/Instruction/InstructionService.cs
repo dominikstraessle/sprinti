@@ -40,6 +40,13 @@ internal class InstructionService : IInstructionService
             sequence.Add(new EjectCommand(color));
         }
 
+
+        var backToInitRotations = GetNumberOfRequiredRotations(Color.None, 0);
+        if (backToInitRotations != 0)
+        {
+            sequence.Add(GetOptimizedRotateCommand(backToInitRotations));
+        }
+
         return sequence;
     }
 
