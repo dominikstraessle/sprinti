@@ -72,16 +72,4 @@ internal class InstructionService : IInstructionService
     {
         return (index - 1) % 4;
     }
-
-    private static IList<ISerialCommand> FinishSequence(IList<ISerialCommand> sequence)
-    {
-        sequence.Add(new LiftCommand(Direction.Down));
-        sequence.Add(new FinishCommand());
-        return sequence;
-    }
-
-    private static List<ISerialCommand> InitSequence()
-    {
-        return [new StartCommand()];
-    }
 }

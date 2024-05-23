@@ -24,16 +24,13 @@ public class WorkflowController(
 
 
     [HttpPost(nameof(InitWorkflow), Name = nameof(InitWorkflow))]
-    [ProducesResponseType(typeof(CompletedResponse), 202)]
-    [ProducesResponseType(typeof(CompletedResponse), 400)]
+    [ProducesResponseType(202)]
+    [ProducesResponseType(400)]
     public async Task<IActionResult> InitWorkflow([FromBody] DetectionOptions newOptions,
         CancellationToken cancellationToken)
     {
         detectionOptions.LookupConfigs = newOptions.LookupConfigs;
-        var response = await serialService.SendCommand(new InitCommand(), cancellationToken);
-        if (response.ResponseState is not ResponseState.Complete) return BadRequest(response);
-
-        response = await serialService.SendCommand(new AlignCommand(), cancellationToken);
-        return Accepted(response);
+        await serialService.RunStartProcedure(cancellationToken);
+        return Accepted();
     }
 }

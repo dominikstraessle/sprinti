@@ -36,7 +36,7 @@ public class WorkflowService(
         displayService.UpdateProgress(4, "sent confirmation");
         var instructions = instructionService.GetInstructionSequence(config.Config);
         displayService.UpdateProgress(5, "calculated instruction sequence");
-        var powerInWattHours = await serialService.RunInstructionsAndFinish(instructions, cancellationToken);
+        var powerInWattHours = await serialService.RunWorkflowProcedure(instructions, cancellationToken);
         displayService.UpdateProgress(6, $"instructions completed: consumed power {powerInWattHours}");
         var endTask = confirmationService.EndAsync(cancellationToken);
         await Task.WhenAll(startTask, confirmTask, endTask);

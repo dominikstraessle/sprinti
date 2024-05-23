@@ -46,17 +46,6 @@ public class SerialController(ISerialService service) : ApiController
         return Accepted(response);
     }
 
-    [HttpPost(nameof(InitAlign), Name = nameof(InitAlign))]
-    [ProducesResponseType(typeof(CompletedResponse), 202)]
-    public async Task<IActionResult> InitAlign(CancellationToken cancellationToken)
-    {
-        var response = await service.SendCommand(new InitCommand(), cancellationToken);
-        if (response.ResponseState is not ResponseState.Complete) return Accepted(response);
-
-        response = await service.SendCommand(new AlignCommand(), cancellationToken);
-        return Accepted(response);
-    }
-
     [HttpPost(nameof(Init), Name = nameof(Init))]
     [ProducesResponseType(typeof(CompletedResponse), 202)]
     public async Task<IActionResult> Init(CancellationToken cancellationToken)
@@ -73,6 +62,14 @@ public class SerialController(ISerialService service) : ApiController
         return Accepted(response);
     }
 
+    [HttpPost(nameof(Moveout), Name = nameof(Moveout))]
+    [ProducesResponseType(typeof(CompletedResponse), 202)]
+    public async Task<IActionResult> Moveout(CancellationToken cancellationToken)
+    {
+        var response = await service.SendCommand(new MoveoutCommand(), cancellationToken);
+        return Accepted(response);
+    }
+
     [HttpPost(nameof(Finish), Name = nameof(Finish))]
     [ProducesResponseType(typeof(FinishedResponse), 202)]
     public async Task<IActionResult> Finish(CancellationToken cancellationToken)
@@ -81,11 +78,19 @@ public class SerialController(ISerialService service) : ApiController
         return Accepted(response);
     }
 
+    [HttpPost(nameof(RunStartProcedure), Name = nameof(RunStartProcedure))]
+    [ProducesResponseType(202)]
+    public async Task<IActionResult> RunStartProcedure(CancellationToken cancellationToken)
+    {
+        await service.RunStartProcedure(cancellationToken);
+        return Accepted();
+    }
+
     [HttpPost(nameof(RunInstructionsAndFinish), Name = nameof(RunInstructionsAndFinish))]
     [ProducesResponseType(typeof(int), 202)]
     public async Task<IActionResult> RunInstructionsAndFinish(CancellationToken cancellationToken)
     {
-        var powerInWattHours = await service.RunInstructionsAndFinish(new List<ISerialCommand>
+        var powerInWattHours = await service.RunWorkflowProcedure(new List<ISerialCommand>
         {
             new StartCommand(),
             new RotateCommand(90),

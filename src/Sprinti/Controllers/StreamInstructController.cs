@@ -26,7 +26,7 @@ public class StreamInstructController(
         {
             var instructionSequence = instructionService.GetInstructionSequence(config.Config);
 
-            await serialService.RunInstructionsAndFinish(instructionSequence, cancellationTokenSource.Token);
+            await serialService.RunWorkflowProcedure(instructionSequence, cancellationTokenSource.Token);
         }
 
         return Ok(new StreamController.RunDetectionDto

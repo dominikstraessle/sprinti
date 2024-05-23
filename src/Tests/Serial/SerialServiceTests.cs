@@ -89,7 +89,7 @@ public class SerialServiceTests
     }
 
     [Fact]
-    public async Task TestRunInstructionsAndFinish()
+    public async Task TestRunWorkflowProcedure()
     {
         var expectedSequence = new List<ISerialCommand>
         {
@@ -111,12 +111,32 @@ public class SerialServiceTests
             _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
         }
 
-        var resultPower = await _service.RunInstructionsAndFinish([
+        var resultPower = await _service.RunWorkflowProcedure([
             new RotateCommand(90),
             new EjectCommand(Red)
         ], CancellationToken.None);
 
         Assert.Equal(powerInWattHours, resultPower);
+        foreach (var command in expectedSequence)
+            _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
+    }
+
+    [Fact]
+    public async Task TestRunStartProcedure()
+    {
+        var expectedSequence = new List<ISerialCommand>
+        {
+            new MoveoutCommand(),
+            new InitCommand(),
+            new AlignCommand(),
+        };
+        foreach (var _ in expectedSequence)
+        {
+            _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
+        }
+
+        await _service.RunStartProcedure(CancellationToken.None);
+
         foreach (var command in expectedSequence)
             _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
     }

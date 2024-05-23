@@ -72,6 +72,17 @@ public record AlignCommand : ISerialCommand
 }
 
 /**
+ * Dreht die Platform aus den Lichtschranken, damit korrekt kalibriert werden kann.
+ */
+public record MoveoutCommand : ISerialCommand
+{
+    public string ToAsciiCommand()
+    {
+        return "moveout";
+    }
+}
+
+/**
  * Markiert das Ende aller Instruktionen und erwartet die verbrauchte Energie in Watt-Stunden als Antwort.
  */
 public record FinishCommand : ISerialCommand

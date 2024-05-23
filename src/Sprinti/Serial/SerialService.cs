@@ -9,7 +9,8 @@ public interface ISerialService
     Task<FinishedResponse> SendCommand(FinishCommand command, CancellationToken cancellationToken);
     Task<string> SendRawCommand(string command, CancellationToken stoppingToken);
 
-    Task<int> RunInstructionsAndFinish(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken);
+    Task<int> RunWorkflowProcedure(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken);
+    Task RunStartProcedure(CancellationToken cancellationToken);
 }
 
 public class SerialService(
@@ -46,7 +47,7 @@ public class SerialService(
         return await readTask.WaitAsync(Timeout, stoppingToken);
     }
 
-    public async Task<int> RunInstructionsAndFinish(IEnumerable<ISerialCommand> instructions,
+    public async Task<int> RunWorkflowProcedure(IEnumerable<ISerialCommand> instructions,
         CancellationToken cancellationToken)
     {
         logger.LogInformation("Instructions: {instructions}", instructions);
@@ -61,6 +62,24 @@ public class SerialService(
         await SendCommand(new LiftCommand(Direction.Down), cancellationToken);
         var finishedResponse = await SendCommand(new FinishCommand(), cancellationToken);
         return finishedResponse.PowerInWattHours;
+    }
+
+    public async Task RunStartProcedure(CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Run start procedure");
+
+        List<ISerialCommand> commands =
+        [
+            new MoveoutCommand(),
+            new InitCommand(),
+            new AlignCommand()
+        ];
+
+        foreach (var command in commands)
+        {
+            await SendCommand(command, cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(options.Value.CommandDelayInMilliseconds), cancellationToken);
+        }
     }
 
     private static ResponseState ParseResponseState(string response)
