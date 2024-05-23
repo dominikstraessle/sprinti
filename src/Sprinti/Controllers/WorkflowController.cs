@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Sprinti.Detection;
 using Sprinti.Domain;
 using Sprinti.Serial;
-using Sprinti.Detection;
 using Sprinti.Workflow;
 
 namespace Sprinti.Controllers;
@@ -31,10 +31,7 @@ public class WorkflowController(
     {
         detectionOptions.LookupConfigs = newOptions.LookupConfigs;
         var response = await serialService.SendCommand(new InitCommand(), cancellationToken);
-        if (response.ResponseState is not ResponseState.Complete)
-        {
-            return BadRequest(response);
-        }
+        if (response.ResponseState is not ResponseState.Complete) return BadRequest(response);
 
         response = await serialService.SendCommand(new AlignCommand(), cancellationToken);
         return Accepted(response);

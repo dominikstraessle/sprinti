@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Detection;
 

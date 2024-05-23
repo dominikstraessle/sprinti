@@ -5,10 +5,10 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Sprinti.Button;
 using Sprinti.Confirmation;
+using Sprinti.Detection;
 using Sprinti.Display;
 using Sprinti.Instruction;
 using Sprinti.Serial;
-using Sprinti.Detection;
 using Sprinti.Workflow;
 
 namespace Sprinti;

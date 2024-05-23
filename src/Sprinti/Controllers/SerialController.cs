@@ -51,10 +51,7 @@ public class SerialController(ISerialService service) : ApiController
     public async Task<IActionResult> InitAlign(CancellationToken cancellationToken)
     {
         var response = await service.SendCommand(new InitCommand(), cancellationToken);
-        if (response.ResponseState is not ResponseState.Complete)
-        {
-            return Accepted(response);
-        }
+        if (response.ResponseState is not ResponseState.Complete) return Accepted(response);
 
         response = await service.SendCommand(new AlignCommand(), cancellationToken);
         return Accepted(response);

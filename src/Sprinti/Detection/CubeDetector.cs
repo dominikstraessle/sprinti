@@ -13,17 +13,12 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
     public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, string? debug)
     {
         if (result.Length != 8)
-        {
             throw new ArgumentOutOfRangeException(nameof(result), result, "Result Table must be of length 8");
-        }
 
         var masks = GetColorMaskPairs(imageHsv);
 
         using var imageDebug = new Mat();
-        if (debug is not null)
-        {
-            Cv2.CvtColor(imageHsv, imageDebug, ColorConversionCodes.HSV2BGR);
-        }
+        if (debug is not null) Cv2.CvtColor(imageHsv, imageDebug, ColorConversionCodes.HSV2BGR);
 
         for (var i = 0; i < config.Points.Length; i++)
         {
@@ -66,10 +61,7 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
 
     private static void DisposeColorMasks(Dictionary<Color, Mat> masks)
     {
-        foreach (var mask in masks)
-        {
-            mask.Value.Dispose();
-        }
+        foreach (var mask in masks) mask.Value.Dispose();
     }
 
     private static Dictionary<Color, Mat> GetColorMaskPairs(Mat image)

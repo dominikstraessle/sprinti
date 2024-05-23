@@ -1,9 +1,9 @@
 using Sprinti.Button;
 using Sprinti.Confirmation;
+using Sprinti.Detection;
 using Sprinti.Display;
 using Sprinti.Instruction;
 using Sprinti.Serial;
-using Sprinti.Detection;
 
 namespace Sprinti.Workflow;
 
@@ -29,10 +29,7 @@ public class WorkflowService(
         var startTask = confirmationService.StartAsync(cancellationToken);
         displayService.UpdateProgress(2, "sent start");
         var config = videoService.RunDetection(cancellationToken);
-        if (config is null)
-        {
-            throw new ArgumentException("NOOOOOOOO");
-        }
+        if (config is null) throw new ArgumentException("NOOOOOOOO");
 
         displayService.UpdateProgress(3, "detected formation");
         var confirmTask = confirmationService.ConfirmAsync(config, cancellationToken);
@@ -43,6 +40,6 @@ public class WorkflowService(
         displayService.UpdateProgress(6, $"instructions completed: consumed power {powerInWattHours}");
         var endTask = confirmationService.EndAsync(cancellationToken);
         await Task.WhenAll(startTask, confirmTask, endTask);
-        displayService.UpdateProgress(7, $"{powerInWattHours/3.6*Math.Pow(10, 6)}Wh");
+        displayService.UpdateProgress(7, $"{powerInWattHours / 3.6 * Math.Pow(10, 6)}Wh");
     }
 }

@@ -7,9 +7,9 @@ public class StreamOptions : ISprintiOptions
     public string Password { get; set; } = "463997";
     public string Host { get; set; } = "147.88.48.131/axis-media/media.amp?streamprofile=pren_profile_med";
     public string RtspSource => $"rtsp://{Username}:{Password}@{Host}";
-    public bool Enabled { get; set; } = true;
     public bool Debug { get; set; } = true;
     public string DebugPathFromContentRoot { get; set; } = "debug";
+    public bool Enabled { get; set; } = true;
 }
 
 public class CaptureOptions : ISprintiOptions

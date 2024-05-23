@@ -19,7 +19,7 @@ public class VideoProcessorAllTests(
     private VideoProcessor GetProcessor(int testCase)
     {
         var files = TestFiles.GetConfigImages(testCase);
-        var testStreamCapture = new VideoProcessorTests.TestStreamCapture(files);
+        var testStreamCapture = new TestStreamCapture(files);
         return new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment);
     }
 
@@ -35,10 +35,8 @@ public class VideoProcessorAllTests(
         var cubeConfig = processor.RunDetection(cancellationTokenSource.Token);
         Assert.NotNull(cubeConfig);
         foreach (var kv in expected)
-        {
             Assert.True(cubeConfig.Config.Contains(kv),
                 $"Expected: {kv.ToString()} Got: {cubeConfig.Config.GetValueOrDefault(kv.Key)}");
-        }
 
         Assert.Equal(expected, cubeConfig.Config);
     }
@@ -52,10 +50,7 @@ public class VideoProcessorAllTests(
         {
             using var imageHsv = Cv2.ImRead(configImage);
             Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
-            if (!imageSelector.TrySelectImage(imageHsv, out _))
-            {
-                File.Delete(configImage);
-            }
+            if (!imageSelector.TrySelectImage(imageHsv, out _)) File.Delete(configImage);
         }
 
         Assert.True(true);
@@ -86,14 +81,11 @@ public class VideoProcessorAllTests(
     {
         var files = new[]
         {
-            "20240419091605.png",
+            "20240419091605.png"
         };
         foreach (var config in options.LookupConfigs)
         {
-            if (!files.Contains(config.Filename))
-            {
-                continue;
-            }
+            if (!files.Contains(config.Filename)) continue;
 
             foreach (var point in config.Points)
             {

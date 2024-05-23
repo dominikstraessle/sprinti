@@ -5,9 +5,9 @@ namespace Calibrator;
 
 public class WindowService(string filename, Mat image)
 {
-    private readonly IList<int[]> _selectorPoints = [];
-    private readonly IList<int[]> _points = [];
     private readonly IList<int> _lookup = [];
+    private readonly IList<int[]> _points = [];
+    private readonly IList<int[]> _selectorPoints = [];
     private int _key = -1;
 
     public LookupConfig? Calibrate(CancellationToken stoppingToken)
@@ -22,10 +22,7 @@ public class WindowService(string filename, Mat image)
             Console.WriteLine("Next:");
             var key = Cv2.WaitKey();
 
-            if (key is 'q' or 'n')
-            {
-                break;
-            }
+            if (key is 'q' or 'n') break;
 
             _key = key - 176;
 
@@ -34,10 +31,7 @@ public class WindowService(string filename, Mat image)
 
         Cv2.DestroyWindow(filename);
 
-        if (_selectorPoints.Count != 2 || _points.Count < 3)
-        {
-            return null;
-        }
+        if (_selectorPoints.Count != 2 || _points.Count < 3) return null;
 
         return new LookupConfig(
             new SelectorPoints(_selectorPoints[0], _selectorPoints[1]),
@@ -72,10 +66,7 @@ public class WindowService(string filename, Mat image)
     private void MouseClick(MouseEventTypes mouseEventTypes, int x, int y, MouseEventFlags flags,
         IntPtr userdata)
     {
-        if (mouseEventTypes is not MouseEventTypes.LButtonDown)
-        {
-            return;
-        }
+        if (mouseEventTypes is not MouseEventTypes.LButtonDown) return;
 
         Circle(x, y, 2, "");
         Console.WriteLine("Click");

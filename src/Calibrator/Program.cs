@@ -27,7 +27,8 @@ public static class Program
 
     private static void ConfigureBuilder(HostApplicationBuilder builder)
     {
-        if (!ISprintiOptions.RegisterOptions<StreamOptions>(builder.Services, builder.Configuration, StreamOptions.Stream)) return;
+        if (!ISprintiOptions.RegisterOptions<StreamOptions>(builder.Services, builder.Configuration,
+                StreamOptions.Stream)) return;
 
         builder.Services.AddTransient<VideoCapture>(provider =>
         {

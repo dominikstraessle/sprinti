@@ -14,7 +14,6 @@ public class CalibrationService(
     IHostEnvironment environment)
     : BackgroundService
 {
-
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Started Calibrator");
@@ -34,10 +33,7 @@ public class CalibrationService(
         while (!stoppingToken.IsCancellationRequested)
         {
             capture.Read(image);
-            if (image.Empty())
-            {
-                continue;
-            }
+            if (image.Empty()) continue;
 
             if (frameCount++ % options.Value.CaptureIntervalInFrames != 0) continue;
             var filename = $"{DateTime.Now:yyyyMMddHHmmss}.png";
@@ -48,10 +44,7 @@ public class CalibrationService(
             var windowService = new WindowService(filename, image);
             var addedConfig = windowService.Calibrate(stoppingToken);
 
-            if (addedConfig is null)
-            {
-                continue;
-            }
+            if (addedConfig is null) continue;
 
             configs.Add(addedConfig);
 

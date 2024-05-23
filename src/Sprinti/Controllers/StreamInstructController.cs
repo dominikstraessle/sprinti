@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Sprinti.Detection;
 using Sprinti.Instruction;
 using Sprinti.Serial;
-using Sprinti.Detection;
 
 namespace Sprinti.Controllers;
 

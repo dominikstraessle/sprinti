@@ -1,6 +1,6 @@
 using OpenCvSharp;
-using Sprinti.Domain;
 using Sprinti.Detection;
+using Sprinti.Domain;
 
 namespace Sprinti.Tests.Detection;
 

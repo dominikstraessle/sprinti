@@ -7,6 +7,5 @@ public class DisplayServiceTests
     [Fact]
     private void TestImage()
     {
-
     }
 }

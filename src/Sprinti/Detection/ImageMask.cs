@@ -17,8 +17,16 @@ public static class ImageMask
     private static readonly Scalar LowerWhite = new(100, 0, 190);
     private static readonly Scalar UpperWhite = new(180, 80, 255);
 
-    public static Mat BlueMask(Mat image) => GetMask(image, LowerBlue, UpperBlue);
-    public static Mat YellowMask(Mat image) => GetMask(image, LowerYellow, UpperYellow);
+    public static Mat BlueMask(Mat image)
+    {
+        return GetMask(image, LowerBlue, UpperBlue);
+    }
+
+    public static Mat YellowMask(Mat image)
+    {
+        return GetMask(image, LowerYellow, UpperYellow);
+    }
+
     public static Mat WhiteMask(Mat image)
     {
         var mask = GetMask(image, LowerWhite, UpperWhite);
@@ -48,14 +56,17 @@ public static class ImageMask
         return mask;
     }
 
-    public static Mat GetMask(Color color, Mat image) => color switch
+    public static Mat GetMask(Color color, Mat image)
     {
-        Color.None => NoneMask(image),
-        Color.Red => RedMask(image),
-        Color.Blue => BlueMask(image),
-        Color.Yellow => YellowMask(image),
-        _ => throw new ArgumentOutOfRangeException(nameof(color), color, null)
-    };
+        return color switch
+        {
+            Color.None => NoneMask(image),
+            Color.Red => RedMask(image),
+            Color.Blue => BlueMask(image),
+            Color.Yellow => YellowMask(image),
+            _ => throw new ArgumentOutOfRangeException(nameof(color), color, null)
+        };
+    }
 
     private static Mat GetMask(Mat imageHsv, Scalar lower, Scalar upper)
     {

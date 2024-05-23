@@ -10,13 +10,12 @@ public abstract class Startup
     {
         services.AddLogging();
 
-        var jsonString = File.ReadAllText("/home/dominik/aworkspace/study/pren/sprinti/src/Sprinti/Stream/DetectionOptions/detection.json");
+        var jsonString =
+            File.ReadAllText(
+                "/home/dominik/aworkspace/study/pren/sprinti/src/Sprinti/Stream/DetectionOptions/detection.json");
 
         var detectionJson = JsonSerializer.Deserialize<DetectionJson>(jsonString);
-        if (detectionJson?.Detection.LookupConfigs is null)
-        {
-            throw new ArgumentException(nameof(DetectionOptions));
-        }
+        if (detectionJson?.Detection.LookupConfigs is null) throw new ArgumentException(nameof(DetectionOptions));
 
         services.AddSingleton(detectionJson.Detection);
         services.AddTransient<ICubeDetector, CubeDetector>();

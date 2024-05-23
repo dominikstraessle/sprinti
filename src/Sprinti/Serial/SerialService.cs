@@ -32,10 +32,7 @@ public class SerialService(
         var message = await CommandReply(command, cancellationToken);
         var responseState = ParseResponseState(message);
         var powerInWatts = -1;
-        if (responseState is ResponseState.Finished)
-        {
-            powerInWatts = GetPowerInWatts(message);
-        }
+        if (responseState is ResponseState.Finished) powerInWatts = GetPowerInWatts(message);
 
         return new FinishedResponse(powerInWatts, responseState);
     }

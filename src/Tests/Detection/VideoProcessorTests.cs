@@ -2,8 +2,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenCvSharp;
-using Sprinti.Domain;
 using Sprinti.Detection;
+using Sprinti.Domain;
 
 namespace Sprinti.Tests.Detection;
 
@@ -55,10 +55,7 @@ public class VideoProcessorTests
 
         public bool Read(Mat mat)
         {
-            if (_index >= files.Count)
-            {
-                throw new ArgumentException("All files already processed");
-            }
+            if (_index >= files.Count) throw new ArgumentException("All files already processed");
 
             using var image = Cv2.ImRead(files[_index]);
             image.CopyTo(mat);

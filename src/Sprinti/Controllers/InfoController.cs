@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Sprinti.Confirmation;
+using Sprinti.Detection;
 using Sprinti.Display;
 using Sprinti.Serial;
-using Sprinti.Detection;
 using Sprinti.Workflow;
 
 namespace Sprinti.Controllers;

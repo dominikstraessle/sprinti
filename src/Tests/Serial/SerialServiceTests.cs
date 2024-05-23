@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Moq;
 using Sprinti.Domain;
@@ -65,7 +64,7 @@ public class SerialServiceTests
     public async Task TestSendFinishWithInvalidResponse()
     {
         const int powerInWattHours = -1;
-        _adapterMock.Setup(adapter => adapter.ReadLine()).Returns($"finish NOOO");
+        _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("finish NOOO");
         var command = new FinishCommand();
 
         var result = await _service.SendCommand(command, CancellationToken.None);

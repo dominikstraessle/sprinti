@@ -44,10 +44,7 @@ public class DetectionProcessor(IImageSelector selector, ICubeDetector detector,
     internal static int[][] InitResult()
     {
         var result = new int[8][];
-        for (var i = 0; i < result.Length; i++)
-        {
-            result[i] = new int[4];
-        }
+        for (var i = 0; i < result.Length; i++) result[i] = new int[4];
 
         return result;
     }
