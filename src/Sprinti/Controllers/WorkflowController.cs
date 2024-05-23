@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Sprinti.Detection;
 using Sprinti.Domain;
 using Sprinti.Serial;
 using Sprinti.Workflow;
@@ -8,7 +7,6 @@ namespace Sprinti.Controllers;
 
 public class WorkflowController(
     IWorkflowService workflowService,
-    DetectionOptions detectionOptions,
     ISerialService serialService
 ) : ApiController
 {
@@ -26,10 +24,14 @@ public class WorkflowController(
     [HttpPost(nameof(InitWorkflow), Name = nameof(InitWorkflow))]
     [ProducesResponseType(202)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> InitWorkflow([FromBody] DetectionOptions newOptions,
+    public async Task<IActionResult> InitWorkflow([FromQuery] bool liftDown,
         CancellationToken cancellationToken)
     {
-        detectionOptions.LookupConfigs = newOptions.LookupConfigs;
+        if (liftDown)
+        {
+            await serialService.SendCommand(new LiftCommand(Direction.Down), cancellationToken);
+        }
+
         await serialService.RunStartProcedure(cancellationToken);
         return Accepted();
     }
