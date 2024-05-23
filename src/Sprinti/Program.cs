@@ -1,10 +1,13 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Sprinti.Button;
 using Sprinti.Confirmation;
+using Sprinti.Controllers;
 using Sprinti.Detection;
 using Sprinti.Display;
 using Sprinti.Instruction;
@@ -52,7 +55,8 @@ public static class Program
         });
 
         var imagePath = app.Services.GetRequiredService<IOptions<StreamOptions>>().Value.DebugPathFromContentRoot;
-        var imageFileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, imagePath));
+        var imageFileProvider =
+            new SortedFileProvider(new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, imagePath)));
         PathString imageRequestPath = $"/{imagePath}";
         app.UseStaticFiles(new StaticFileOptions
         {
