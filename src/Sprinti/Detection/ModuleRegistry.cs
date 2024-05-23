@@ -7,7 +7,12 @@ public static class ModuleRegistry
 {
     public static void AddStreamModule(this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddSingleton(new DetectionOptions());
+        var detectionOptionsSection = configuration.GetSection(DetectionOptions.Detection);
+        var detectionOptions = detectionOptionsSection.Get<DetectionOptions>();
+        if (detectionOptions is null || !detectionOptions.LookupConfigs.Any())
+            throw new ArgumentException($"No detections provided: ${nameof(DetectionOptions)}");
+        services.AddSingleton(detectionOptions);
+
 
         if (!ISprintiOptions.RegisterOptions<StreamOptions>(services, configuration, StreamOptions.Stream)) return;
 

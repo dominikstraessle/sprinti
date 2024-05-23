@@ -6,7 +6,7 @@ namespace Sprinti.Tests.Detection;
 public static class TestFiles
 {
     // Define the base path at one place
-    private const string BasePath = "/home/dominik/aworkspace/study/pren/sprinti/src/Tests/Stream/Images/";
+    private const string BasePath = "/home/dominik/aworkspace/study/pren/sprinti/src/Tests/Detection/Images/";
 
     public static string GetTestFileFullName(string fileName)
     {

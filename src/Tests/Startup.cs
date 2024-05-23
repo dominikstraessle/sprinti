@@ -12,7 +12,7 @@ public abstract class Startup
 
         var jsonString =
             File.ReadAllText(
-                "/home/dominik/aworkspace/study/pren/sprinti/src/Sprinti/Stream/DetectionOptions/detection.json");
+                "/home/dominik/aworkspace/study/pren/sprinti/src/Sprinti/Detection/DetectionOptions/detection.json");
 
         var detectionJson = JsonSerializer.Deserialize<DetectionJson>(jsonString);
         if (detectionJson?.Detection.LookupConfigs is null) throw new ArgumentException(nameof(DetectionOptions));

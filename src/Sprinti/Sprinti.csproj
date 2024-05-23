@@ -44,6 +44,9 @@
         <None Include="Detection\DetectionOptions\20240516101552.json"/>
         <None Include="Detection\DetectionOptions\20240517093509.json"/>
         <None Include="Detection\DetectionOptions\20240517115351.json"/>
+        <None Include="Detection\DetectionOptions\20240523083625.json" />
+        <None Include="Detection\DetectionOptions\20240523084345.json" />
+        <None Include="Detection\DetectionOptions\detection.json" />
     </ItemGroup>
 
 </Project>
