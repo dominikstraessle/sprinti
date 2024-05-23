@@ -6,7 +6,7 @@ namespace Sprinti.Detection;
 public static class ImageMask
 {
     // https://pseudopencv.site/utilities/hsvcolormask/
-    private static readonly Scalar LowerBlue = new(50, 90, 0);
+    private static readonly Scalar LowerBlue = new(50, 70, 0);
     private static readonly Scalar UpperBlue = new(160, 255, 255);
     private static readonly Scalar LowerYellow = new(10, 90, 0);
     private static readonly Scalar UpperYellow = new(70, 255, 255);

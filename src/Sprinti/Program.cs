@@ -72,7 +72,7 @@ public static class Program
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
         builder.Configuration.AddJsonFile("sprinti.json", true, true);
-        // builder.Configuration.AddJsonFile("src/Sprinti/Detection/DetectionOptions/detection.json", true, true);
+        builder.Configuration.AddJsonFile("src/Sprinti/Detection/DetectionOptions/detection.json", true, true);
         builder.Configuration.AddJsonFile("Detection/DetectionOptions/detection.json", true, true);
         builder.Services.AddDirectoryBrowser();
 
