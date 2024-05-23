@@ -23,11 +23,11 @@ public class CubeDetectorTests(ICubeDetector cubeDetector, DetectionOptions dete
             [1, 0, 0, 0]
         ];
 
-        var imagePath = TestFiles.GetDetectionFileName("20240517093113.png");
+        var imagePath = TestFiles.GetDetectionFileName("20240523083949.png");
         using var imageHsv = Cv2.ImRead(imagePath);
         Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
-        var lookupTable = detectionOptions.LookupConfigs.First(config => config.Filename.Equals("20240517093113.png"));
+        var lookupTable = detectionOptions.LookupConfigs.First(config => config.Filename.Equals("20240523083949.png"));
         cubeDetector.DetectCubes(imageHsv, lookupTable, _result);
         Assert.NotNull(_result);
         Assert.Equal(expected, _result);

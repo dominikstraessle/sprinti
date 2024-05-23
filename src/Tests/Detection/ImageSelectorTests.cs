@@ -68,14 +68,14 @@ public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions o
     [Fact]
     public void TrySelectImage1Test()
     {
-        var imagePath = TestFiles.GetDetectionFileName("20240517093113.png");
+        var imagePath = TestFiles.GetDetectionFileName("20240523083949.png");
         using var imageHsv = Cv2.ImRead(imagePath);
         Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
         var result = imageSelector.TrySelectImage(imageHsv, out var config);
         Assert.True(result);
         Assert.NotNull(config);
-        var lookup = options.LookupConfigs.First(c => c.Filename.Equals("20240517093113.png")).Lookup;
+        var lookup = options.LookupConfigs.First(c => c.Filename.Equals("20240523083949.png")).Lookup;
         Assert.Equivalent(lookup, config.Lookup);
     }
 

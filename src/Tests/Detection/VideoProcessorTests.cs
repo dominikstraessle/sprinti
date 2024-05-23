@@ -15,7 +15,7 @@ public class VideoProcessorTests
         IOptions<StreamOptions> streamOptions, IHostEnvironment environment)
     {
         var testStreamCapture = new TestStreamCapture([
-            TestFiles.GetDetectionFileName("20240517093113.png"),
+            TestFiles.GetDetectionFileName("20240523083949.png"),
             TestFiles.GetDetectionFileName("20240517093300.png")
         ]);
         _processor = new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment);

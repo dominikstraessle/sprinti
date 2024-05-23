@@ -9,7 +9,7 @@ public class DetectionProcessorTests(IDetectionProcessor processor)
     [Fact]
     public void TryDetectCubesTest()
     {
-        var imagePath1 = TestFiles.GetDetectionFileName("20240517093113.png");
+        var imagePath1 = TestFiles.GetDetectionFileName("20240523083949.png");
         using var imageHsv1 = Cv2.ImRead(imagePath1);
         Cv2.CvtColor(imageHsv1, imageHsv1, ColorConversionCodes.BGR2HSV);
 
