@@ -39,7 +39,7 @@ public class WorkflowService(
         var powerInWattHours = await serialService.RunWorkflowProcedure(instructions, cancellationToken);
         displayService.UpdateProgress(6, $"instructions completed: consumed power {powerInWattHours}");
         var endTask = confirmationService.EndAsync(cancellationToken);
-        await Task.WhenAll(startTask, confirmTask, endTask);
         displayService.UpdateProgress(7, $"{(double)powerInWattHours / 3600000:0.#####}Wh");
+        await Task.WhenAll(startTask, confirmTask, endTask);
     }
 }

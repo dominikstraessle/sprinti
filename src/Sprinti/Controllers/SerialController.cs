@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Sprinti.Domain;
+using Sprinti.Instruction;
 using Sprinti.Serial;
 
 namespace Sprinti.Controllers;
 
-public class SerialController(ISerialService service) : ApiController
+public class SerialController(ISerialService service, IInstructionService instructionService) : ApiController
 {
     [HttpPost(nameof(Raw), Name = nameof(Raw))]
     [ProducesResponseType(typeof(FinishedResponse), 202)]
@@ -90,21 +91,18 @@ public class SerialController(ISerialService service) : ApiController
     [ProducesResponseType(typeof(int), 202)]
     public async Task<IActionResult> RunInstructionsAndFinish(CancellationToken cancellationToken)
     {
-        var powerInWattHours = await service.RunWorkflowProcedure(new List<ISerialCommand>
+        var instructions = instructionService.GetInstructionSequence(new SortedDictionary<int, Color>()
         {
-            new StartCommand(),
-            new RotateCommand(90),
-            new EjectCommand(Color.Yellow),
-            new RotateCommand(-90),
-            new EjectCommand(Color.Yellow),
-            new EjectCommand(Color.Blue),
-            new RotateCommand(180),
-            new EjectCommand(Color.Red),
-            new RotateCommand(180),
-            new EjectCommand(Color.Blue),
-            new LiftCommand(Direction.Down),
-            new FinishCommand()
-        }, cancellationToken);
+            { 1, Color.Blue },
+            { 2, Color.Red },
+            { 3, Color.Yellow },
+            { 4, Color.Blue },
+            { 5, Color.Yellow },
+            { 6, Color.Red },
+            { 7, Color.Blue },
+            { 8, Color.Yellow },
+        });
+        var powerInWattHours = await service.RunWorkflowProcedure(instructions, cancellationToken);
         return Accepted(powerInWattHours);
     }
 }
