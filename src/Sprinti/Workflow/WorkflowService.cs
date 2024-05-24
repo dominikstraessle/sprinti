@@ -40,6 +40,6 @@ public class WorkflowService(
         displayService.UpdateProgress(6, $"instructions completed: consumed power {powerInWattHours}");
         var endTask = confirmationService.EndAsync(cancellationToken);
         await Task.WhenAll(startTask, confirmTask, endTask);
-        displayService.UpdateProgress(7, $"{powerInWattHours / 3.6 * Math.Pow(10, 6)}Wh");
+        displayService.UpdateProgress(7, $"{powerInWattHours / 3600000}Wh");
     }
 }
