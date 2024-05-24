@@ -101,7 +101,7 @@ public class SerialController(ISerialService service, IInstructionService instru
             { 5, Color.Yellow },
             { 6, Color.Red },
             { 7, Color.Blue },
-            { 8, Color.Yellow },
+            { 8, Color.Yellow }
         };
         var instructions = instructionService.GetInstructionSequence(config);
         var powerInWattHours = await service.RunWorkflowProcedure(instructions, cancellationToken);
