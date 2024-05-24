@@ -10,8 +10,8 @@ public class SerialOptions : ISprintiOptions
     public Parity Parity { get; set; } = Parity.None;
     public int DataBits { get; set; } = 8;
     public StopBits StopBits { get; set; } = StopBits.One;
-    public int ReadTimeoutInMilliseconds { get; set; } = 10000;
-    public int WriteTimeoutInMilliseconds { get; set; } = 5000;
-    public int CommandDelayInMilliseconds { get; set; } = 100;
+    public int ReadTimeoutInMilliseconds { get; set; } = 20000;
+    public int WriteTimeoutInMilliseconds { get; set; } = 10000;
+    public int CommandDelayInMilliseconds { get; set; } = 20;
     public bool Enabled { get; set; } = true;
 }
