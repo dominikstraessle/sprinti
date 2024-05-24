@@ -89,9 +89,10 @@ public class SerialController(ISerialService service, IInstructionService instru
 
     [HttpPost(nameof(RunInstructionsAndFinish), Name = nameof(RunInstructionsAndFinish))]
     [ProducesResponseType(typeof(int), 202)]
-    public async Task<IActionResult> RunInstructionsAndFinish(CancellationToken cancellationToken)
+    public async Task<IActionResult> RunInstructionsAndFinish(SortedDictionary<int, Color>? config,
+        CancellationToken cancellationToken)
     {
-        var instructions = instructionService.GetInstructionSequence(new SortedDictionary<int, Color>()
+        config ??= new SortedDictionary<int, Color>
         {
             { 1, Color.Blue },
             { 2, Color.Red },
@@ -101,7 +102,8 @@ public class SerialController(ISerialService service, IInstructionService instru
             { 6, Color.Red },
             { 7, Color.Blue },
             { 8, Color.Yellow },
-        });
+        };
+        var instructions = instructionService.GetInstructionSequence(config);
         var powerInWattHours = await service.RunWorkflowProcedure(instructions, cancellationToken);
         return Accepted(powerInWattHours);
     }
