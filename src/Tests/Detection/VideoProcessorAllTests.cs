@@ -26,6 +26,7 @@ public class VideoProcessorAllTests(
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
+    [InlineData(3)]
     public void TestConfigs(int testCase)
     {
         var processor = GetProcessor(testCase);
@@ -44,6 +45,7 @@ public class VideoProcessorAllTests(
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
+    [InlineData(3)]
     public void CleanConfigs(int testCase)
     {
         foreach (var configImage in DetectionTestFiles.GetConfigImages(testCase))
@@ -60,6 +62,7 @@ public class VideoProcessorAllTests(
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
+    [InlineData(3)]
     public void DebugConfigs(int testCase)
     {
         var debugFolder = DetectionTestFiles.GetDebugPath(testCase.ToString());
