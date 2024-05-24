@@ -15,15 +15,15 @@ public class CubeDetectorTests(ICubeDetector cubeDetector, DetectionOptions dete
         [
             [0, 0, 0, 0],
             [0, 0, 1, 0],
-            [1, 0, 0, 0],
             [0, 0, 0, 1],
+            [0, 0, 0, 1],
+            [0, 0, 1, 0],
             [0, 1, 0, 0],
-            [1, 0, 0, 0],
-            [1, 0, 0, 0],
+            [0, 0, 0, 0],
             [1, 0, 0, 0]
         ];
 
-        var imagePath = TestFiles.GetDetectionFileName("20240523083949.png");
+        var imagePath = DetectionTestFiles.GetDetectionFileName("20240523083949.png");
         using var imageHsv = Cv2.ImRead(imagePath);
         Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 

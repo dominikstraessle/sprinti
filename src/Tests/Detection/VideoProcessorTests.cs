@@ -15,8 +15,8 @@ public class VideoProcessorTests
         IOptions<StreamOptions> streamOptions, IHostEnvironment environment)
     {
         var testStreamCapture = new TestStreamCapture([
-            TestFiles.GetDetectionFileName("20240523083949.png"),
-            TestFiles.GetDetectionFileName("20240517093300.png")
+            DetectionTestFiles.GetDetectionFileName("20240523083949.png"),
+            DetectionTestFiles.GetDetectionFileName("20240523084050.png")
         ]);
         _processor = new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment);
     }
@@ -29,10 +29,10 @@ public class VideoProcessorTests
         {
             { 1, Color.Red },
             { 2, Color.Blue },
-            { 3, Color.None },
+            { 3, Color.Red },
             { 4, Color.Red },
-            { 5, Color.Yellow },
-            { 6, Color.None },
+            { 5, Color.Blue },
+            { 6, Color.Yellow },
             { 7, Color.None },
             { 8, Color.None }
         };

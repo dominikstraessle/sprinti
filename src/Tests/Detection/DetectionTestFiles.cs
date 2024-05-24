@@ -3,12 +3,18 @@ using Sprinti.Domain;
 
 namespace Sprinti.Tests.Detection;
 
-public static class TestFiles
+public static class DetectionTestFiles
 {
     // Define the base path at one place
     private const string BasePath = "/home/dominik/aworkspace/study/pren/sprinti/src/Tests/Detection/Images/";
 
-    public static string GetTestFileFullName(string fileName)
+    public static string GetMaskedImagePath(string fileName)
+    {
+        // Reuse the base path
+        return Path.Combine(BasePath, "Mask", fileName);
+    }
+
+    public static string GetImagePath(string fileName)
     {
         // Reuse the base path
         return Path.Combine(BasePath, fileName);

@@ -10,8 +10,9 @@ public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions o
     {
         foreach (var config in options.LookupConfigs)
         {
-            var imagePath = TestFiles.GetDetectionFileName(config.Filename);
+            var imagePath = DetectionTestFiles.GetDetectionFileName(config.Filename);
             using var image = Cv2.ImRead(imagePath);
+            Assert.False(image.Empty(), config.Filename);
             Cv2.Circle(image, new Point(config.SelectorPoints.P1[0], config.SelectorPoints.P1[1]), 1, new Scalar(0), 5);
             Cv2.Circle(image, new Point(config.SelectorPoints.P2[0], config.SelectorPoints.P2[1]), 1, new Scalar(0), 5);
 
@@ -25,13 +26,13 @@ public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions o
                     new Scalar(0));
             }
 
-            Assert.True(image.SaveImage(TestFiles.GetDebugPath(config.Filename)));
+            Assert.True(image.SaveImage(DetectionTestFiles.GetDebugPath(config.Filename)), config.Filename);
         }
     }
 
     public static IEnumerable<object[]> AllSelectorTestFilesData()
     {
-        return TestFiles.GetDetectionFiles().Select(detectionFile => (object[]) [detectionFile]);
+        return DetectionTestFiles.GetDetectionFiles().Select(detectionFile => (object[]) [detectionFile]);
     }
 
     [Theory]
@@ -52,7 +53,7 @@ public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions o
     {
         foreach (var config in options.LookupConfigs)
         {
-            var imagePath = TestFiles.GetDetectionFileName(config.Filename);
+            var imagePath = DetectionTestFiles.GetDetectionFileName(config.Filename);
             using var imageHsv = Cv2.ImRead(imagePath);
             Assert.False(imageHsv.Empty(), $"Image is empty: {imagePath}");
             Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
@@ -68,7 +69,7 @@ public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions o
     [Fact]
     public void TrySelectImage1Test()
     {
-        var imagePath = TestFiles.GetDetectionFileName("20240523083949.png");
+        var imagePath = DetectionTestFiles.GetDetectionFileName("20240523083949.png");
         using var imageHsv = Cv2.ImRead(imagePath);
         Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
@@ -82,7 +83,7 @@ public class ImageSelectorTests(IImageSelector imageSelector, DetectionOptions o
     [Fact]
     public void TrySelectImageFailedTest()
     {
-        var imagePath = TestFiles.GetTestFileFullName("3.png");
+        var imagePath = DetectionTestFiles.GetImagePath("invalid.png");
         using var imageHsv = Cv2.ImRead(imagePath);
         Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 

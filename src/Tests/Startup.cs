@@ -1,6 +1,8 @@
 using System.Text.Json;
+using Iot.Device.Graphics.SkiaSharpAdapter;
 using Microsoft.Extensions.DependencyInjection;
 using Sprinti.Detection;
+using Sprinti.Display;
 
 namespace Sprinti.Tests;
 
@@ -24,6 +26,10 @@ public abstract class Startup
         services.AddTransient<IDetectionProcessor, DetectionProcessor>();
         services.AddTransient<IImageSelector, ImageSelector>();
         services.AddTransient<IVideoProcessor, VideoProcessor>();
+
+        // https://github.com/dotnet/iot/issues/2181#issuecomment-1833238952
+        SkiaSharpAdapter.Register();
+        services.AddTransient<IRenderService, RenderService>();
     }
 }
 

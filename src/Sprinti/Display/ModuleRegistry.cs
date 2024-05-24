@@ -25,6 +25,7 @@ public static class ModuleRegistry
             var displayOptions = provider.GetRequiredService<IOptions<DisplayOptions>>().Value;
             return new Ssd1306(provider.GetRequiredService<I2cDevice>(), displayOptions.Width, displayOptions.Height);
         });
+        services.AddScoped<IRenderService, RenderService>();
         services.AddScoped<IDisplayService, DisplayService>();
     }
 }

@@ -18,7 +18,7 @@ public class VideoProcessorAllTests(
 {
     private VideoProcessor GetProcessor(int testCase)
     {
-        var files = TestFiles.GetConfigImages(testCase);
+        var files = DetectionTestFiles.GetConfigImages(testCase);
         var testStreamCapture = new TestStreamCapture(files);
         return new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment);
     }
@@ -30,7 +30,7 @@ public class VideoProcessorAllTests(
     {
         var processor = GetProcessor(testCase);
         using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(100));
-        var expected = TestFiles.GetResult(testCase);
+        var expected = DetectionTestFiles.GetResult(testCase);
 
         var cubeConfig = processor.RunDetection(cancellationTokenSource.Token);
         Assert.NotNull(cubeConfig);
@@ -46,7 +46,7 @@ public class VideoProcessorAllTests(
     [InlineData(2)]
     public void CleanConfigs(int testCase)
     {
-        foreach (var configImage in TestFiles.GetConfigImages(testCase))
+        foreach (var configImage in DetectionTestFiles.GetConfigImages(testCase))
         {
             using var imageHsv = Cv2.ImRead(configImage);
             Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
@@ -59,11 +59,12 @@ public class VideoProcessorAllTests(
 
     [Theory]
     [InlineData(1)]
+    [InlineData(2)]
     public void DebugConfigs(int testCase)
     {
-        var debugFolder = TestFiles.GetDebugPath(testCase.ToString());
+        var debugFolder = DetectionTestFiles.GetDebugPath(testCase.ToString());
         Directory.CreateDirectory(debugFolder);
-        foreach (var configImage in TestFiles.GetConfigImages(testCase))
+        foreach (var configImage in DetectionTestFiles.GetConfigImages(testCase))
         {
             using var imageHsv = Cv2.ImRead(configImage);
             Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
@@ -100,7 +101,7 @@ public class VideoProcessorAllTests(
         }
 
         var updatedConfigJson = JsonSerializer.Serialize(options);
-        await File.WriteAllTextAsync(TestFiles.GetDetectionFileName("new.json"), updatedConfigJson);
+        await File.WriteAllTextAsync(DetectionTestFiles.GetDetectionFileName("new.json"), updatedConfigJson);
         Assert.True(true);
     }
 }

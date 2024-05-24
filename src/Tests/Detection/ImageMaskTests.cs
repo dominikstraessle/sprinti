@@ -9,31 +9,31 @@ public class ImageMaskTests
     public void TestMasks()
     {
         // Provide the relative path to your image file
-        var imagePath = TestFiles.GetTestFileFullName("1.png");
+        var imagePath = DetectionTestFiles.GetDetectionFileName("20240523084050.png");
         using var imageBgr = Cv2.ImRead(imagePath);
         // Convert the image to HSV color space
         using var imageHsv = new Mat();
         Cv2.CvtColor(imageBgr, imageHsv, ColorConversionCodes.BGR2HSV);
 
         using var actualBlue = ImageMask.BlueMask(imageHsv);
-        using var expectedBlue = Cv2.ImRead(TestFiles.GetTestFileFullName("1-blue-mask.png"), ImreadModes.Grayscale);
+        using var expectedBlue = Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("2-Blue.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedBlue, actualBlue));
 
         using var actualRed = ImageMask.RedMask(imageHsv);
-        using var expectedRed = Cv2.ImRead(TestFiles.GetTestFileFullName("1-red-mask.png"), ImreadModes.Grayscale);
+        using var expectedRed = Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("3-Red.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedRed, actualRed));
 
         using var actualYellow = ImageMask.YellowMask(imageHsv);
         using var expectedYellow =
-            Cv2.ImRead(TestFiles.GetTestFileFullName("1-yellow-mask.png"), ImreadModes.Grayscale);
+            Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("1-Yellow.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedYellow, actualYellow));
 
         using var actualWhite = ImageMask.WhiteMask(imageHsv);
-        using var expectedWhite = Cv2.ImRead(TestFiles.GetTestFileFullName("1-white-mask.png"), ImreadModes.Grayscale);
+        using var expectedWhite = Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("selector.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedWhite, actualWhite));
 
         using var actualNone = ImageMask.NoneMask(imageHsv);
-        using var expectedNone = Cv2.ImRead(TestFiles.GetTestFileFullName("1-none-mask.png"), ImreadModes.Grayscale);
+        using var expectedNone = Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("0-None.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedNone, actualNone));
     }
 
