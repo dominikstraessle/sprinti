@@ -128,12 +128,9 @@ public class SerialServiceTests
         {
             new MoveoutCommand(),
             new InitCommand(),
-            new AlignCommand(),
+            new AlignCommand()
         };
-        foreach (var _ in expectedSequence)
-        {
-            _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
-        }
+        foreach (var _ in expectedSequence) _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
 
         await _service.RunStartProcedure(CancellationToken.None);
 

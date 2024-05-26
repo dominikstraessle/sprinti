@@ -4,26 +4,40 @@ namespace Sprinti.Display;
 
 public interface IDisplayService
 {
-    void UpdateProgress(int stepNumber, string text);
-    void Debug(string text);
+    void UpdateProgress(string text);
+    void Print(string text);
 }
 
 internal class DisplayService(GraphicDisplay display, IRenderService renderService, ILogger<DisplayService> logger)
     : IDisplayService
 {
-    public void Debug(string text)
+    private const int MaxProgress = 5;
+    private int _progress;
+
+    public void Print(string text)
     {
         display.ClearScreen();
         using var image = renderService.Render(text);
         display.DrawBitmap(image);
     }
 
-    public void UpdateProgress(int stepNumber, string text)
+    public void UpdateProgress(string text)
     {
-        var textToRender = $"{stepNumber}: {text}";
-        logger.LogInformation("Display: {step} - {text}", stepNumber, text);
+        var percent = IncreaseProgress();
+        var textToRender = $"{percent}%\n{text}";
+
+        logger.LogInformation("Display: {step} - {text}", percent, text);
         using var image = renderService.Render(textToRender);
+
         display.ClearScreen();
         display.DrawBitmap(image);
+    }
+
+    private int IncreaseProgress()
+    {
+        _progress %= MaxProgress;
+        _progress += 1;
+        var percent = 100 / MaxProgress * _progress;
+        return percent;
     }
 }

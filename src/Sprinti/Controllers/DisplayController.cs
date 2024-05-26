@@ -11,15 +11,15 @@ public class DisplayController(
     [ProducesResponseType(200)]
     public Task<IActionResult> DebugText([FromQuery] string text = "Hello World")
     {
-        displayService.Debug(text);
+        displayService.Print(text);
         return Task.FromResult<IActionResult>(Ok());
     }
 
     [HttpGet(nameof(UpdateProgress), Name = nameof(UpdateProgress))]
     [ProducesResponseType(200)]
-    public Task<IActionResult> UpdateProgress([FromQuery] int stepNumber = 0, [FromQuery] string text = "Hello World")
+    public Task<IActionResult> UpdateProgress([FromQuery] string text = "Hello World")
     {
-        displayService.UpdateProgress(stepNumber, text);
+        displayService.UpdateProgress(text);
         return Task.FromResult<IActionResult>(Ok());
     }
 }

@@ -29,7 +29,8 @@ public class ImageMaskTests
         Assert.True(EqualImages(expectedYellow, actualYellow));
 
         using var actualWhite = ImageMask.WhiteMask(imageHsv);
-        using var expectedWhite = Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("selector.png"), ImreadModes.Grayscale);
+        using var expectedWhite =
+            Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("selector.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedWhite, actualWhite));
 
         using var actualNone = ImageMask.NoneMask(imageHsv);

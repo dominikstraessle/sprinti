@@ -8,5 +8,6 @@ public static class ModuleRegistry
             return;
 
         services.AddScoped<IWorkflowService, WorkflowService>();
+        services.AddHostedService<WorkflowWorker>();
     }
 }

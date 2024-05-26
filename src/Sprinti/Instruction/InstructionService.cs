@@ -42,10 +42,7 @@ internal class InstructionService : IInstructionService
 
 
         var backToInitRotations = GetNumberOfRequiredRotations(Color.None, 0);
-        if (backToInitRotations != 0)
-        {
-            sequence.Add(GetOptimizedRotateCommand(backToInitRotations));
-        }
+        if (backToInitRotations != 0) sequence.Add(GetOptimizedRotateCommand(backToInitRotations));
 
         return sequence;
     }
