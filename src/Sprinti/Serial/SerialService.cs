@@ -9,7 +9,7 @@ public interface ISerialService
     Task<FinishedResponse> SendCommand(FinishCommand command, CancellationToken cancellationToken);
     Task<string> SendRawCommand(string command, CancellationToken stoppingToken);
 
-    Task<int> RunWorkflowProcedure(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken);
+    Task<double> RunWorkflowProcedure(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken);
     Task RunStartProcedure(CancellationToken cancellationToken);
 }
 
@@ -47,7 +47,7 @@ public class SerialService(
         return await readTask.WaitAsync(Timeout, stoppingToken);
     }
 
-    public async Task<int> RunWorkflowProcedure(IEnumerable<ISerialCommand> instructions,
+    public async Task<double> RunWorkflowProcedure(IEnumerable<ISerialCommand> instructions,
         CancellationToken cancellationToken)
     {
         logger.LogInformation("Instructions: {instructions}", instructions);

@@ -43,21 +43,20 @@ public class WorkflowService(
         var confirmTask = confirmationService.ConfirmAsync(config, cancellationToken);
         var instructions = instructionService.GetInstructionSequence(config.Config);
         displayService.UpdateProgress("Aufbau gestartet");
-        var powerInNanoJoule = await serialService.RunWorkflowProcedure(instructions, cancellationToken);
-        var powerInWattHours = (double)powerInNanoJoule / 3600000;
+        var powerInWattHours = await serialService.RunWorkflowProcedure(instructions, cancellationToken);
         var endTask = confirmationService.EndAsync(cancellationToken);
         stopWatch.Stop();
         displayService.UpdateProgress($"""
                                        Workflow beendet
                                        Energie: {powerInWattHours:0.#####}Wh
-                                       Zeit: {stopWatch.Elapsed.Seconds}s
+                                       Zeit: {stopWatch.Elapsed.TotalSeconds}s
                                        Warten auf Server-Requests...
                                        """);
         await Task.WhenAll(startRequestTask, confirmTask, endTask);
         displayService.UpdateProgress($"""
                                        Workflow beendet
                                        Energie: {powerInWattHours:0.#####}Wh
-                                       Zeit: {stopWatch.Elapsed.Seconds}s
+                                       Zeit: {stopWatch.Elapsed.TotalSeconds}s
                                        Zum Beenden Knopf drücken...
                                        """);
     }

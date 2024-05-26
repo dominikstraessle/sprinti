@@ -13,7 +13,7 @@ public class StreamInstructController(
 ) : ApiController
 {
     [HttpGet(nameof(RunAndInstruct), Name = nameof(RunAndInstruct))]
-    [ProducesResponseType(typeof(StreamController.RunDetectionDto), 200)]
+    [ProducesResponseType(typeof(DetectionController.RunDetectionDto), 200)]
     public async Task<IActionResult> RunAndInstruct([FromQuery] int timeout = 20)
     {
         using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
@@ -29,7 +29,7 @@ public class StreamInstructController(
             await serialService.RunWorkflowProcedure(instructionSequence, cancellationTokenSource.Token);
         }
 
-        return Ok(new StreamController.RunDetectionDto
+        return Ok(new DetectionController.RunDetectionDto
         {
             Duration = stopWatch.Elapsed.TotalSeconds,
             Config = config

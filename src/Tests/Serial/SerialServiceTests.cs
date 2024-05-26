@@ -56,7 +56,7 @@ public class SerialServiceTests
         var result = await _service.SendCommand(command, CancellationToken.None);
 
         Assert.Equal(Finished, result.ResponseState);
-        Assert.Equal(powerInWattHours, result.PowerInWattHours);
+        Assert.Equal(powerInWattHours, result.PowerInNanoJoule);
         _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
     }
 
@@ -70,7 +70,7 @@ public class SerialServiceTests
         var result = await _service.SendCommand(command, CancellationToken.None);
 
         Assert.Equal(Unknown, result.ResponseState);
-        Assert.Equal(powerInWattHours, result.PowerInWattHours);
+        Assert.Equal(powerInWattHours, result.PowerInNanoJoule);
         _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
     }
 
@@ -99,12 +99,12 @@ public class SerialServiceTests
             new LiftCommand(Down),
             new FinishCommand()
         };
-        const int powerInWattHours = 10;
+        const int powerInNanoJoule = 3600000;
         foreach (var serialCommand in expectedSequence)
         {
             if (serialCommand is FinishCommand)
             {
-                _adapterMock.Setup(adapter => adapter.ReadLine()).Returns($"finish {powerInWattHours}");
+                _adapterMock.Setup(adapter => adapter.ReadLine()).Returns($"finish {powerInNanoJoule}");
                 continue;
             }
 
@@ -116,7 +116,7 @@ public class SerialServiceTests
             new EjectCommand(Red)
         ], CancellationToken.None);
 
-        Assert.Equal(powerInWattHours, resultPower);
+        Assert.Equal(1d, resultPower);
         foreach (var command in expectedSequence)
             _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
     }

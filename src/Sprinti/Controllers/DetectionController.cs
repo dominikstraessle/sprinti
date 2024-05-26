@@ -5,7 +5,7 @@ using Sprinti.Domain;
 
 namespace Sprinti.Controllers;
 
-public class StreamController(
+public class DetectionController(
     IVideoProcessor videoProcessor
 ) : ApiController
 {

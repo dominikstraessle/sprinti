@@ -12,7 +12,10 @@ public enum ResponseState
 /**
  * Sendet die verbrauchte Energie in Watt-Stunden (Wh).
  */
-public record FinishedResponse(int PowerInWattHours, ResponseState ResponseState);
+public record FinishedResponse(int PowerInNanoJoule, ResponseState ResponseState)
+{
+    public double PowerInWattHours => (double)PowerInNanoJoule / 3600000;
+}
 
 /**
  * Bestätigt dass die angegebene Transaktion erfolgreich ausgeführt wurde.
