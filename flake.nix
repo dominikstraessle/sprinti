@@ -1,9 +1,15 @@
 {
   description = "A very basic flake";
 
-  inputs = { nixpkgs.url = "nixpkgs"; };
+  inputs = {
+    nixpkgs.url = "nixpkgs";
+    systemd-nix = {
+      url = "github:serokell/systemd-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, systemd-nix }:
     let forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
     in {
       packages = forAllSystems (system:
@@ -12,6 +18,10 @@
           cvsharp = pkgs.callPackage ./cvsharp.nix { };
           sprinti = pkgs.callPackage ./sprinti.nix {
             inherit (self.packages.${system}) cvsharp;
+          };
+          service = pkgs.callPackage ./service.nix {
+            inherit (self.packages.${system}) sprinti;
+            inherit (systemd-nix.lib.${system}) mkUserService;
           };
           # restish api sync sprinti
           # restish sprinti info-config

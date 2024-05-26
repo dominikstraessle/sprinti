@@ -1,0 +1,21 @@
+[Unit]
+Description=Sprinti Service
+After=network.target
+
+[Service]
+WorkingDirectory=/path/to/your/dotnet/app
+ExecStart=/usr/bin/dotnet /path/to/your/dotnet/app/yourapp.dll
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=sprinti
+User=yourusername
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+# Ensure the service has write permissions to the directory
+ExecStartPre=/bin/chmod -R 755 /path/to/your/dotnet/app
+
+[Install]
+WantedBy=multi-user.target
