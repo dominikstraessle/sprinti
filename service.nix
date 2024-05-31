@@ -4,6 +4,7 @@ mkUserService "sprinti" {
   path = [ sprinti ];
   serviceConfig = {
     Type = "simple";
-    ExecStart = "bin/sprinti";
+    ExecStart = "${sprinti}/bin/sprinti --contentRoot $SPRINTI_HOME";
+    Environment = "SPRINTI_HOME=/home/sprinti/sprinti";
   };
 }

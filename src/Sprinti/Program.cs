@@ -74,6 +74,9 @@ public static class Program
     private static void ConfigureBuilder(WebApplicationBuilder builder)
     {
         builder.Configuration.AddJsonFile("sprinti.json", true, true);
+        var sprintiHome = Environment.GetEnvironmentVariable("SPRINTI_HOME") ?? "/home/sprinti/sprinti";
+        builder.Configuration.AddJsonFile(Path.Combine(sprintiHome, "sprinti.json"), true, true);
+        builder.Configuration.AddJsonFile(Path.Combine(sprintiHome, "detection.json"), true, true);
         builder.Configuration.AddJsonFile("src/Sprinti/Detection/DetectionOptions/detection.json", true, true);
         builder.Configuration.AddJsonFile("Detection/DetectionOptions/detection.json", true, true);
         builder.Services.AddDirectoryBrowser();
