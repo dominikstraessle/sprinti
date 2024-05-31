@@ -16,7 +16,7 @@ public static class ModuleRegistry
 
         if (!ISprintiOptions.RegisterOptions<StreamOptions>(services, configuration, StreamOptions.Stream)) return;
 
-        services.AddTransient<VideoCapture>(provider =>
+        services.AddSingleton<VideoCapture>(provider =>
         {
             var options = provider.GetRequiredService<IOptions<StreamOptions>>();
             var capture = new VideoCapture(options.Value.RtspSource);
