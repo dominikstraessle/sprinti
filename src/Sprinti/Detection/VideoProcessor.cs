@@ -32,7 +32,11 @@ public class VideoProcessor(
         while (!stoppingToken.IsCancellationRequested)
         {
             using var imageHsv = new Mat();
-            if (!capture.Read(imageHsv)) logger.LogWarning("Failed to read image from stream");
+            if (!capture.Read(imageHsv) || imageHsv.Empty())
+            {
+                logger.LogWarning("Failed to read image from stream. Skip");
+                continue;
+            }
 
             Cv2.CvtColor(imageHsv, imageHsv, ColorConversionCodes.BGR2HSV);
 
