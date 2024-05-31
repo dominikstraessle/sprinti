@@ -28,6 +28,7 @@ public class VideoProcessorAllTests(
     [InlineData(2)]
     [InlineData(3)]
     [InlineData(4)]
+    [InlineData(5)]
     public void TestConfigs(int testCase)
     {
         var processor = GetProcessor(testCase);
@@ -48,6 +49,7 @@ public class VideoProcessorAllTests(
     [InlineData(2)]
     [InlineData(3)]
     [InlineData(4)]
+    [InlineData(5)]
     public void CleanConfigs(int testCase)
     {
         foreach (var configImage in DetectionTestFiles.GetConfigImages(testCase))

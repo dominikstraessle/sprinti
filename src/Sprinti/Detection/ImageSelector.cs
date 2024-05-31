@@ -14,6 +14,7 @@ public class ImageSelector(DetectionOptions options, ILogger<ImageSelector> logg
     {
         lookupConfig = null;
         using var mask = ImageMask.WhiteMask(imageHsv);
+        logger.LogTrace("Try image selection for {Image}", debug);
 
         foreach (var config in options.LookupConfigs)
         {
