@@ -4,7 +4,7 @@ namespace Sprinti.Display;
 
 public interface IDisplayService
 {
-    void UpdateProgress(string text);
+    void UpdateProgress(string text, string text2 = "");
     void Print(string text);
 }
 
@@ -21,12 +21,12 @@ internal class DisplayService(GraphicDisplay display, IRenderService renderServi
         display.DrawBitmap(image);
     }
 
-    public void UpdateProgress(string text)
+    public void UpdateProgress(string text, string text2 = "")
     {
         var percent = IncreaseProgress();
-        var textToRender = $"{percent}%\n{text}";
+        var textToRender = $"{percent}% - {text2}\n{text}";
 
-        logger.LogInformation("Display: {step} - {text}", percent, text);
+        logger.LogInformation("Display: {Text}", textToRender);
         using var image = renderService.Render(textToRender);
 
         display.ClearScreen();

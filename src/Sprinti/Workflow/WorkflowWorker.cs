@@ -4,7 +4,7 @@ public class WorkflowWorker(IServiceScopeFactory factory, ILogger<WorkflowWorker
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var token = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
+        using var token = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
         while (!token.IsCancellationRequested)
             try
             {

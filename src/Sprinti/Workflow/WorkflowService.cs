@@ -47,18 +47,15 @@ public class WorkflowService(
         var endTask = confirmationService.EndAsync(cancellationToken);
         stopWatch.Stop();
         displayService.UpdateProgress($"""
-                                       Workflow beendet
                                        Energie: {powerInWattHours:0.#####}Wh
-                                       Zeit: {stopWatch.Elapsed.TotalSeconds}s
-                                       Warten auf Server-Requests...
-                                       """);
+                                       Zeit: {stopWatch.Elapsed.TotalSeconds:0.###}s
+                                       """, "Warten auf Server...");
         await Task.WhenAll(startRequestTask, confirmTask, endTask);
         displayService.UpdateProgress($"""
-                                       Workflow beendet
                                        Energie: {powerInWattHours:0.#####}Wh
-                                       Zeit: {stopWatch.Elapsed.TotalSeconds}s
-                                       Zum Beenden Knopf drücken...
-                                       """);
+                                       Zeit: {stopWatch.Elapsed.TotalSeconds:0.###}s
+                                       """, "Beendet. Knopf drücken"
+        );
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
