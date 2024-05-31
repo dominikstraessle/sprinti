@@ -15,9 +15,9 @@ public static class ModuleRegistry
         // Pi5 Board not supported at the moment
         if (!ISprintiOptions.RegisterOptions<ButtonOptions>(services, configuration, ButtonOptions.Button)) return;
 
-        services.AddSingleton<GpioDriver>(provider =>
+        services.AddScoped<GpioDriver>(provider =>
             new LibGpiodDriver(provider.GetRequiredService<IOptions<ButtonOptions>>().Value.GpioChip));
-        services.AddSingleton<GpioController>(provider =>
+        services.AddScoped<GpioController>(provider =>
             new GpioController(PinNumberingScheme.Logical, provider.GetRequiredService<GpioDriver>()));
         services.AddScoped<ButtonBase>(provider =>
         {
