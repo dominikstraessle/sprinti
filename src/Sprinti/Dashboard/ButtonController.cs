@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Sprinti.Button;
 
-namespace Sprinti.Controllers;
+namespace Sprinti.Dashboard;
 
 public class ButtonController(
     IButtonService buttonService

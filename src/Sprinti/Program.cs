@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Sprinti.Button;
 using Sprinti.Confirmation;
-using Sprinti.Controllers;
+using Sprinti.Dashboard;
 using Sprinti.Detection;
 using Sprinti.Display;
 using Sprinti.Instruction;

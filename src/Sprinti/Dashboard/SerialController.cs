@@ -3,7 +3,7 @@ using Sprinti.Domain;
 using Sprinti.Instruction;
 using Sprinti.Serial;
 
-namespace Sprinti.Controllers;
+namespace Sprinti.Dashboard;
 
 public class SerialController(ISerialService service, IInstructionService instructionService) : ApiController
 {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Sprinti.Confirmation;
 
-namespace Sprinti.Controllers;
+namespace Sprinti.Dashboard;
 
 public class ConfirmationController(IConfirmationService confirmationService) : ApiController
 {

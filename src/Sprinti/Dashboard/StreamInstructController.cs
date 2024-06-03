@@ -4,7 +4,7 @@ using Sprinti.Detection;
 using Sprinti.Instruction;
 using Sprinti.Serial;
 
-namespace Sprinti.Controllers;
+namespace Sprinti.Dashboard;
 
 public class StreamInstructController(
     IVideoProcessor videoProcessor,

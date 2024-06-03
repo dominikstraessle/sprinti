@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Sprinti.Controllers;
+namespace Sprinti.Dashboard;
 
 [ApiController]
 [Route("api/[controller]", Name = nameof(ApiController))]

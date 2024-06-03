@@ -2,7 +2,7 @@ using System.Collections;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 
-namespace Sprinti.Controllers;
+namespace Sprinti.Dashboard;
 
 public class SortedDirectoryContents(IDirectoryContents directoryContents) : IDirectoryContents
 {

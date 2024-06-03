@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sprinti.Detection;
 using Sprinti.Domain;
 
-namespace Sprinti.Controllers;
+namespace Sprinti.Dashboard;
 
 public class DetectionController(
     IVideoProcessor videoProcessor

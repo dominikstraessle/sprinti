@@ -6,7 +6,7 @@ using Sprinti.Display;
 using Sprinti.Serial;
 using Sprinti.Workflow;
 
-namespace Sprinti.Controllers;
+namespace Sprinti.Dashboard;
 
 public class InfoController(
     IOptions<SerialOptions> serialOptions,

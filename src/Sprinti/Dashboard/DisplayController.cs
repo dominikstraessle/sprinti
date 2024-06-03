@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Sprinti.Display;
 
-namespace Sprinti.Controllers;
+namespace Sprinti.Dashboard;
 
 public class DisplayController(
     IDisplayService displayService
