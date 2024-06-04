@@ -42,7 +42,7 @@ public class VideoProcessor(
 
             logger.LogTrace("Received image: {Rows}x{Cols}", imageHsv.Rows, imageHsv.Cols);
 
-            if (processor.TryDetectCubes(imageHsv, out var config, debugDirectory))
+            if (processor.TryDetectCubes(imageHsv, out var config, debugDirectory) && config is not null)
             {
                 logger.LogInformation("Config detected at {Time}: {Config}", config.Time, config.Config);
                 return config;
