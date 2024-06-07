@@ -10,6 +10,7 @@ public static class ModuleRegistry
 {
     public static void AddDisplayModule(this IServiceCollection services, ConfigurationManager configuration)
     {
+        // i2cdetect https://linux.die.net/man/8/i2cdetect
         if (!ISprintiOptions.RegisterOptions<DisplayOptions>(services, configuration, DisplayOptions.Display)) return;
 
         // https://github.com/dotnet/iot/issues/2181#issuecomment-1833238952
