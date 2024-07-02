@@ -31,6 +31,9 @@
   "Confirmation": {
     "Enabled": true
   },
+  "Mask": {
+    "Enabled": true
+  },
   "Display": {
     "Enabled": true
   },
