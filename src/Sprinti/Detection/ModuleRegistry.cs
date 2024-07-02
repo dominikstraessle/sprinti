@@ -1,6 +1,3 @@
-using Microsoft.Extensions.Options;
-using OpenCvSharp;
-
 namespace Sprinti.Detection;
 
 public static class ModuleRegistry
@@ -16,13 +13,8 @@ public static class ModuleRegistry
 
         if (!ISprintiOptions.RegisterOptions<StreamOptions>(services, configuration, StreamOptions.Stream)) return;
 
-        services.AddSingleton<VideoCapture>(provider =>
-        {
-            var options = provider.GetRequiredService<IOptions<StreamOptions>>();
-            var capture = new VideoCapture(options.Value.RtspSource);
-            return capture;
-        });
-        services.AddTransient<IStreamCapture, StreamCapture>();
+        services.AddSingleton<StreamCaptureFactory>();
+        services.AddSingleton<IStreamCapture, StreamCapture>(provider => provider.GetRequiredService<StreamCaptureFactory>().Create());
         services.AddTransient<IImageSelector, ImageSelector>();
         services.AddTransient<ICubeDetector, CubeDetector>();
         services.AddTransient<ILogicalCubeDetector, LogicalCubeDetector>();

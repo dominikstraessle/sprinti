@@ -14,7 +14,8 @@ public class VideoProcessor(
     IDetectionProcessor processor,
     ILogger<VideoProcessor> logger,
     IOptions<StreamOptions> options,
-    IHostEnvironment environment
+    IHostEnvironment environment,
+    StreamCaptureFactory factory
 ) : IVideoProcessor
 {
     public CubeConfig? RunDetection(CancellationToken stoppingToken)
@@ -34,7 +35,10 @@ public class VideoProcessor(
             using var imageHsv = new Mat();
             if (!capture.Read(imageHsv) || imageHsv.Empty())
             {
-                logger.LogWarning("Failed to read image from stream. Skip");
+                logger.LogError("Failed to read image from stream. Skip");
+                Thread.Sleep(500);
+                capture = factory.Create();
+                logger.LogError("Created new stream capture");
                 continue;
             }
 

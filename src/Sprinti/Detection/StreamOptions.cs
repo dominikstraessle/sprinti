@@ -1,3 +1,5 @@
+using OpenCvSharp;
+
 namespace Sprinti.Detection;
 
 public class StreamOptions : ISprintiOptions
@@ -9,6 +11,7 @@ public class StreamOptions : ISprintiOptions
     public string RtspSource => $"rtsp://{Username}:{Password}@{Host}";
     public bool Debug { get; set; } = true;
     public string DebugPathFromContentRoot { get; set; } = "debug";
+    public VideoCaptureAPIs VideoCaptureAPIs { get; set; } = VideoCaptureAPIs.FFMPEG;
     public bool Enabled { get; set; } = true;
 }
 
