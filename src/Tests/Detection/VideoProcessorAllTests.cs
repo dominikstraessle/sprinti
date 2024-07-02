@@ -84,8 +84,8 @@ public class VideoProcessorAllTests(
         Assert.True(true);
     }
 
-    [Theory(Skip = "only move on purpose")]
-    [InlineData(20, -0)]
+    [Theory]
+    [InlineData(0, 10)]
     public async void MovePoints(int x, int y)
     {
         foreach (var config in options.LookupConfigs)
