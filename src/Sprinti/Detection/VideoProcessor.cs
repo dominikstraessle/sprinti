@@ -36,7 +36,7 @@ public class VideoProcessor(
             if (!capture.Read(imageHsv) || imageHsv.Empty())
             {
                 logger.LogError("Failed to read image from stream. Skip");
-                Thread.Sleep(500);
+                Thread.Sleep(options.Value.ErrorTimeout);
                 capture = factory.Create();
                 logger.LogError("Created new stream capture");
                 continue;

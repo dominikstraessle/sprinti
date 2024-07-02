@@ -12,6 +12,7 @@ public class StreamOptions : ISprintiOptions
     public bool Debug { get; set; } = true;
     public string DebugPathFromContentRoot { get; set; } = "debug";
     public VideoCaptureAPIs VideoCaptureAPIs { get; set; } = VideoCaptureAPIs.FFMPEG;
+    public int ErrorTimeout { get; set; } = 250;
     public bool Enabled { get; set; } = true;
 }
 
