@@ -84,17 +84,11 @@ public class VideoProcessorAllTests(
     }
 
     [Theory(Skip = "only move on purpose")]
-    [InlineData(20, 0)]
+    [InlineData(20, -0)]
     public async void MovePoints(int x, int y)
     {
-        var files = new[]
-        {
-            "20240419091605.png"
-        };
         foreach (var config in options.LookupConfigs)
         {
-            if (!files.Contains(config.Filename)) continue;
-
             foreach (var point in config.Points)
             {
                 point[0] += x;
