@@ -12,13 +12,13 @@ public class VideoProcessorTests
     private readonly VideoProcessor _processor;
 
     public VideoProcessorTests(IDetectionProcessor detectionProcessor, ILogger<VideoProcessor> logger,
-        IOptions<StreamOptions> streamOptions, IHostEnvironment environment)
+        IOptions<StreamOptions> streamOptions, IHostEnvironment environment, StreamCaptureFactory factory)
     {
         var testStreamCapture = new TestStreamCapture([
             DetectionTestFiles.GetDetectionFileName("20240523083949.png"),
             DetectionTestFiles.GetDetectionFileName("20240523084050.png")
         ]);
-        _processor = new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment);
+        _processor = new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment, factory);
     }
 
     [Fact]

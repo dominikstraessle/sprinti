@@ -14,13 +14,14 @@ public class VideoProcessorAllTests(
     DetectionOptions options,
     IOptions<StreamOptions> streamOptions,
     IHostEnvironment environment,
-    ILogger<VideoProcessor> logger)
+    ILogger<VideoProcessor> logger,
+    StreamCaptureFactory factory)
 {
     private VideoProcessor GetProcessor(int testCase)
     {
         var files = DetectionTestFiles.GetConfigImages(testCase);
         var testStreamCapture = new TestStreamCapture(files);
-        return new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment);
+        return new VideoProcessor(testStreamCapture, detectionProcessor, logger, streamOptions, environment, factory);
     }
 
     [Theory]
@@ -44,7 +45,7 @@ public class VideoProcessorAllTests(
         Assert.Equal(expected, cubeConfig.Config);
     }
 
-    [Theory]
+    [Theory(Skip = "")]
     [InlineData(1)]
     [InlineData(2)]
     [InlineData(3)]

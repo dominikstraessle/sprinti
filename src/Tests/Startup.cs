@@ -22,6 +22,7 @@ public abstract class Startup
         services.AddSingleton(detectionJson.Detection);
         services.AddTransient<ICubeDetector, CubeDetector>();
         services.AddTransient<ILogicalCubeDetector, LogicalCubeDetector>();
+        services.AddTransient<StreamCaptureFactory>();
         services.AddTransient<IStreamCapture, StreamCapture>();
         services.AddTransient<IDetectionProcessor, DetectionProcessor>();
         services.AddTransient<IImageSelector, ImageSelector>();
