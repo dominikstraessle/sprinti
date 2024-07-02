@@ -27,6 +27,7 @@ public abstract class Startup
         services.AddTransient<IDetectionProcessor, DetectionProcessor>();
         services.AddTransient<IImageSelector, ImageSelector>();
         services.AddTransient<IVideoProcessor, VideoProcessor>();
+        services.AddTransient<ImageMask>();
 
         // https://github.com/dotnet/iot/issues/2181#issuecomment-1833238952
         SkiaSharpAdapter.Register();

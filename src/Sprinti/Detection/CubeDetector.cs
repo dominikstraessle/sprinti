@@ -8,7 +8,8 @@ public interface ICubeDetector
     void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, string? debug = null);
 }
 
-public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<CubeDetector> logger) : ICubeDetector
+public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ImageMask imageMask, ILogger<CubeDetector> logger)
+    : ICubeDetector
 {
     public void DetectCubes(Mat imageHsv, LookupConfig config, int[][] result, string? debug)
     {
@@ -64,9 +65,9 @@ public class CubeDetector(ILogicalCubeDetector logicalCubeDetector, ILogger<Cube
         foreach (var mask in masks) mask.Value.Dispose();
     }
 
-    private static Dictionary<Color, Mat> GetColorMaskPairs(Mat image)
+    private Dictionary<Color, Mat> GetColorMaskPairs(Mat image)
     {
         return Enum.GetValues(typeof(Color)).Cast<Color>()
-            .Select(color => new KeyValuePair<Color, Mat>(color, ImageMask.GetMask(color, image))).ToDictionary();
+            .Select(color => new KeyValuePair<Color, Mat>(color, imageMask.GetMask(color, image))).ToDictionary();
     }
 }

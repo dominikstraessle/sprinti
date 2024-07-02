@@ -8,12 +8,12 @@ public interface IImageSelector
     bool TrySelectImage(Mat imageHsv, [MaybeNullWhen(false)] out LookupConfig lookupConfig, string? debug = null);
 }
 
-public class ImageSelector(DetectionOptions options, ILogger<ImageSelector> logger) : IImageSelector
+public class ImageSelector(DetectionOptions options, ImageMask imageMask, ILogger<ImageSelector> logger) : IImageSelector
 {
     public bool TrySelectImage(Mat imageHsv, [MaybeNullWhen(false)] out LookupConfig lookupConfig, string? debug)
     {
         lookupConfig = null;
-        using var mask = ImageMask.WhiteMask(imageHsv);
+        using var mask = imageMask.WhiteMask(imageHsv);
         logger.LogTrace("Try image selection for {Image}", debug);
 
         foreach (var config in options.LookupConfigs)

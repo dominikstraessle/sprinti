@@ -3,7 +3,7 @@ using Sprinti.Detection;
 
 namespace Sprinti.Tests.Detection;
 
-public class ImageMaskTests
+public class ImageMaskTests(ImageMask imageMask)
 {
     [Fact]
     public void TestMasks()
@@ -15,25 +15,25 @@ public class ImageMaskTests
         using var imageHsv = new Mat();
         Cv2.CvtColor(imageBgr, imageHsv, ColorConversionCodes.BGR2HSV);
 
-        using var actualBlue = ImageMask.BlueMask(imageHsv);
+        using var actualBlue = imageMask.BlueMask(imageHsv);
         using var expectedBlue = Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("2-Blue.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedBlue, actualBlue));
 
-        using var actualRed = ImageMask.RedMask(imageHsv);
+        using var actualRed = imageMask.RedMask(imageHsv);
         using var expectedRed = Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("3-Red.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedRed, actualRed));
 
-        using var actualYellow = ImageMask.YellowMask(imageHsv);
+        using var actualYellow = imageMask.YellowMask(imageHsv);
         using var expectedYellow =
             Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("1-Yellow.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedYellow, actualYellow));
 
-        using var actualWhite = ImageMask.WhiteMask(imageHsv);
+        using var actualWhite = imageMask.WhiteMask(imageHsv);
         using var expectedWhite =
             Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("selector.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedWhite, actualWhite));
 
-        using var actualNone = ImageMask.NoneMask(imageHsv);
+        using var actualNone = imageMask.NoneMask(imageHsv);
         using var expectedNone = Cv2.ImRead(DetectionTestFiles.GetMaskedImagePath("0-None.png"), ImreadModes.Grayscale);
         Assert.True(EqualImages(expectedNone, actualNone));
     }

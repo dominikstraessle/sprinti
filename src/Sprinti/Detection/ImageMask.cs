@@ -1,50 +1,39 @@
+using Microsoft.Extensions.Options;
 using OpenCvSharp;
 using Sprinti.Domain;
 
 namespace Sprinti.Detection;
 
-public static class ImageMask
+public class ImageMask(IOptions<MaskOptions> options)
 {
-    // https://pseudopencv.site/utilities/hsvcolormask/
-    private static readonly Scalar LowerBlue = new(50, 70, 0);
-    private static readonly Scalar UpperBlue = new(160, 255, 255);
-    private static readonly Scalar LowerYellow = new(10, 90, 0);
-    private static readonly Scalar UpperYellow = new(70, 255, 255);
-    private static readonly Scalar LowerRed1 = new(0, 50, 50);
-    private static readonly Scalar UpperRed1 = new(10, 255, 255);
-    private static readonly Scalar LowerRed2 = new(163, 50, 50);
-    private static readonly Scalar UpperRed2 = new(180, 255, 255);
-    private static readonly Scalar LowerWhite = new(100, 0, 190);
-    private static readonly Scalar UpperWhite = new(180, 80, 255);
-
-    public static Mat BlueMask(Mat image)
+    public Mat BlueMask(Mat image)
     {
-        return GetMask(image, LowerBlue, UpperBlue);
+        return GetMask(image, options.Value.LowerBlue, options.Value.UpperBlue);
     }
 
-    public static Mat YellowMask(Mat image)
+    public Mat YellowMask(Mat image)
     {
-        return GetMask(image, LowerYellow, UpperYellow);
+        return GetMask(image, options.Value.LowerYellow, options.Value.UpperYellow);
     }
 
-    public static Mat WhiteMask(Mat image)
+    public Mat WhiteMask(Mat image)
     {
-        var mask = GetMask(image, LowerWhite, UpperWhite);
+        var mask = GetMask(image, options.Value.LowerWhite, options.Value.UpperWhite);
         using var kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5));
         Cv2.MorphologyEx(mask, mask, MorphTypes.Open, kernel);
         return mask;
     }
 
-    public static Mat RedMask(Mat image)
+    public Mat RedMask(Mat image)
     {
         var mask = new Mat();
-        using var redMask1 = GetMask(image, LowerRed1, UpperRed1);
-        using var redMask2 = GetMask(image, LowerRed2, UpperRed2);
+        using var redMask1 = GetMask(image, options.Value.LowerRed1, options.Value.UpperRed1);
+        using var redMask2 = GetMask(image, options.Value.LowerRed2, options.Value.UpperRed2);
         Cv2.BitwiseOr(redMask1, redMask2, mask);
         return mask;
     }
 
-    public static Mat NoneMask(Mat image)
+    public Mat NoneMask(Mat image)
     {
         var mask = new Mat();
         using var redMask = RedMask(image);
@@ -56,7 +45,7 @@ public static class ImageMask
         return mask;
     }
 
-    public static Mat GetMask(Color color, Mat image)
+    public Mat GetMask(Color color, Mat image)
     {
         return color switch
         {

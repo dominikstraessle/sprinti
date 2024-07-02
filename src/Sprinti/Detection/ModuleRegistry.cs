@@ -11,15 +11,18 @@ public static class ModuleRegistry
         services.AddSingleton(detectionOptions);
 
 
+        ISprintiOptions.RegisterOptions<MaskOptions>(services, configuration, MaskOptions.Mask);
         if (!ISprintiOptions.RegisterOptions<StreamOptions>(services, configuration, StreamOptions.Stream)) return;
 
         services.AddSingleton<StreamCaptureFactory>();
-        services.AddSingleton<IStreamCapture, StreamCapture>(provider => provider.GetRequiredService<StreamCaptureFactory>().Create());
+        services.AddSingleton<IStreamCapture, StreamCapture>(provider =>
+            provider.GetRequiredService<StreamCaptureFactory>().Create());
         services.AddTransient<IImageSelector, ImageSelector>();
         services.AddTransient<ICubeDetector, CubeDetector>();
         services.AddTransient<ILogicalCubeDetector, LogicalCubeDetector>();
         services.AddTransient<IDetectionProcessor, DetectionProcessor>();
         services.AddTransient<IVideoProcessor, VideoProcessor>();
+        services.AddTransient<ImageMask>();
 
         if (!ISprintiOptions.RegisterOptions<CaptureOptions>(services, configuration, CaptureOptions.Capture)) return;
         services.AddHostedService<VideoStream>();
