@@ -19,10 +19,6 @@
           sprinti = pkgs.callPackage ./sprinti.nix {
             inherit (self.packages.${system}) cvsharp;
           };
-          service = pkgs.callPackage ./service.nix {
-            inherit (self.packages.${system}) sprinti;
-            inherit (systemd-nix.lib.${system}) mkUserService;
-          };
           # restish api sync sprinti
           # restish sprinti info-config
           inherit (pkgs) restish;
@@ -35,3 +31,4 @@
 
     };
 }
+# nix flake update . # if it tries to update/copy whole nix store -> https://github.com/NixOS/nix/issues/4602
