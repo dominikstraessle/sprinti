@@ -85,7 +85,7 @@ public class VideoProcessorAllTests(
     }
 
     [Theory]
-    [InlineData(0, 10)]
+    [InlineData(-13, 0)]
     public async void MovePoints(int x, int y)
     {
         foreach (var config in options.LookupConfigs)

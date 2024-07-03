@@ -28,7 +28,7 @@ public class MaskOptions : ISprintiOptions
 {
     // https://pseudopencv.site/utilities/hsvcolormask/
     public const string Mask = "Mask";
-    public Scalar LowerBlue { get; set; } = new(50, 70, 0);
+    public Scalar LowerBlue { get; set; } = new(50, 100, 0);
     public Scalar UpperBlue { get; set; } = new(160, 255, 255);
     public Scalar LowerYellow { get; set; } = new(10, 90, 0);
     public Scalar UpperYellow { get; set; } = new(70, 255, 255);
