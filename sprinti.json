@@ -1,0 +1,43 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Trace",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://0.0.0.0:5000"
+      }
+    }
+  },
+  "Stream": {
+    "Enabled": true
+  },
+  "Capture": {
+    "Enabled": false
+  },
+  "Serial": {
+    "Enabled": true,
+    "PortName": "/dev/ttyACM0"
+  },
+  "Button": {
+    "Pin": 26,
+    "IsPullUp": true,
+    "UseExternalResistor": false
+  },
+  "Confirmation": {
+    "Enabled": true
+  },
+  "Mask": {
+    "Enabled": true
+  },
+  "Display": {
+    "Enabled": true
+  },
+  "Workflow": {
+    "Enabled": true
+  }
+}

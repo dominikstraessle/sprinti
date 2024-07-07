@@ -6,11 +6,15 @@ public static class ModuleRegistry
 {
     public const string AuthHeaderName = "Auth";
 
-    public static void AddConfirmationModule(this IServiceCollection services)
+    public static void AddConfirmationModule(this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddHttpClient<IConfirmationAdapter>((provider, client) =>
+        if (!ISprintiOptions.RegisterOptions<ConfirmationOptions>(services, configuration,
+                ConfirmationOptions.Confirmation)) return;
+
+        // Order is important: Register the adapter before the http client
+        services.AddScoped<IConfirmationService, ConfirmationService>();
+        services.AddHttpClient<IConfirmationService, ConfirmationService>((provider, client) =>
             ConfigureClient(provider.GetRequiredService<IOptions<ConfirmationOptions>>().Value, client));
-        services.AddTransient<IConfirmationAdapter, ConfirmationAdapter>();
     }
 
     internal static void ConfigureClient(ConfirmationOptions confirmationOptions, HttpClient client)

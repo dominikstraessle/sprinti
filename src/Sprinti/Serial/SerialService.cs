@@ -8,9 +8,12 @@ public interface ISerialService
     Task<CompletedResponse> SendCommand(ISerialCommand command, CancellationToken cancellationToken);
     Task<FinishedResponse> SendCommand(FinishCommand command, CancellationToken cancellationToken);
     Task<string> SendRawCommand(string command, CancellationToken stoppingToken);
+
+    Task<double> RunWorkflowProcedure(IEnumerable<ISerialCommand> instructions, CancellationToken cancellationToken);
+    Task RunStartProcedure(CancellationToken cancellationToken);
 }
 
-internal class SerialService(
+public class SerialService(
     ISerialAdapter serialAdapter,
     IOptions<SerialOptions> options,
     ILogger<SerialService> logger)
@@ -29,9 +32,10 @@ internal class SerialService(
     {
         var message = await CommandReply(command, cancellationToken);
         var responseState = ParseResponseState(message);
-        return responseState is ResponseState.Finished
-            ? new FinishedResponse(GetPowerInWatts(message), responseState)
-            : new FinishedResponse(0, responseState);
+        var powerInWatts = -1;
+        if (responseState is ResponseState.Finished) powerInWatts = GetPowerInWatts(message);
+
+        return new FinishedResponse(powerInWatts, responseState);
     }
 
     public async Task<string> SendRawCommand(string command, CancellationToken stoppingToken)
@@ -40,21 +44,52 @@ internal class SerialService(
 
         serialAdapter.WriteLine(command);
 
-        var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
-        logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
-        return responseLine;
+        return await readTask.WaitAsync(Timeout, stoppingToken);
+    }
+
+    public async Task<double> RunWorkflowProcedure(IEnumerable<ISerialCommand> instructions,
+        CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Instructions: {instructions}", instructions);
+
+        await SendCommand(new StartCommand(), cancellationToken);
+        foreach (var command in instructions)
+        {
+            await SendCommand(command, cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(options.Value.CommandDelayInMilliseconds), cancellationToken);
+        }
+
+        await SendCommand(new LiftCommand(Direction.Down), cancellationToken);
+        var finishedResponse = await SendCommand(new FinishCommand(), cancellationToken);
+        return finishedResponse.PowerInWattHours;
+    }
+
+    public async Task RunStartProcedure(CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Run start procedure");
+
+        List<ISerialCommand> commands =
+        [
+            new MoveoutCommand(),
+            new InitCommand(),
+            new AlignCommand()
+        ];
+
+        foreach (var command in commands)
+        {
+            await SendCommand(command, cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(options.Value.CommandDelayInMilliseconds), cancellationToken);
+        }
     }
 
     private static ResponseState ParseResponseState(string response)
     {
         return response switch
         {
-            "complete" => ResponseState.Complete,
+            "error 0" => ResponseState.Complete,
             _ when IsFinished(response) => ResponseState.Finished,
-            "error invalid_argument" => ResponseState.InvalidArgument,
-            "error not_implemented" => ResponseState.NotImplemented,
-            "error machine_error" => ResponseState.MachineError,
-            "error error" => ResponseState.Error,
+            "error 1" => ResponseState.NotImplemented,
+            "error 2" => ResponseState.Error,
             _ => ResponseState.Unknown
         };
     }
@@ -84,9 +119,7 @@ internal class SerialService(
 
         serialAdapter.WriteLine(command.ToAsciiCommand());
 
-        var responseLine = await readTask.WaitAsync(Timeout, stoppingToken);
-        logger.LogInformation("Received serial response: '{responseLine}'", responseLine);
-        return responseLine;
+        return await readTask.WaitAsync(Timeout, stoppingToken);
     }
 
     private string ReadResponse(CancellationToken stoppingToken)
@@ -101,6 +134,7 @@ internal class SerialService(
                 logger.LogTrace("No message received in timeout interval");
             }
 
+        logger.LogTrace("No message received in timeout interval");
         throw new TimeoutException("Timeout reached: Reading was cancelled before a message was received");
     }
 }

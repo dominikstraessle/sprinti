@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Sprinti.Domain;
@@ -14,32 +14,30 @@ public class SerialServiceTests
     private readonly Mock<ISerialAdapter> _adapterMock;
     private readonly SerialService _service;
 
-    public SerialServiceTests()
+    public SerialServiceTests(ILogger<SerialService> logger)
     {
         _adapterMock = new Mock<ISerialAdapter>();
         var options = new OptionsWrapper<SerialOptions>(new SerialOptions());
-        _service = new SerialService(_adapterMock.Object, options, NullLogger<SerialService>.Instance);
+        _service = new SerialService(_adapterMock.Object, options, logger);
     }
 
     public static TheoryData3<ISerialCommand, string, ResponseState> TestCommandsData =>
         new()
         {
-            { new RotateCommand(90), "complete", Complete },
-            { new EjectCommand(Red), "complete", Complete },
-            { new LiftCommand(Down), "complete", Complete },
-            { new ResetCommand(), "complete", Complete },
-            { new ResetCommand(), "error invalid_argument", InvalidArgument },
-            { new ResetCommand(), "error not_implemented", NotImplemented },
-            { new ResetCommand(), "error machine_error", MachineError },
-            { new ResetCommand(), "error error", Error },
-            { new ResetCommand(), "some other response", Unknown },
+            { new RotateCommand(90), "error 0", Complete },
+            { new EjectCommand(Red), "error 0", Complete },
+            { new LiftCommand(Down), "error 0", Complete },
+            { new StartCommand(), "error 0", Complete },
+            { new StartCommand(), "error 1", NotImplemented },
+            { new StartCommand(), "error 2", Error },
+            { new StartCommand(), "some other response", Unknown },
             { new FinishCommand(), "finish 10", Finished }
         };
 
     [Fact]
     public async Task TestSendCommandWithParams()
     {
-        _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("complete");
+        _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
         var command = new EjectCommand(Blue);
 
         var result = await _service.SendCommand(command, CancellationToken.None);
@@ -58,7 +56,21 @@ public class SerialServiceTests
         var result = await _service.SendCommand(command, CancellationToken.None);
 
         Assert.Equal(Finished, result.ResponseState);
-        Assert.Equal(powerInWattHours, result.PowerInWattHours);
+        Assert.Equal(powerInWattHours, result.PowerInNanoJoule);
+        _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
+    }
+
+    [Fact]
+    public async Task TestSendFinishWithInvalidResponse()
+    {
+        const int powerInWattHours = -1;
+        _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("finish NOOO");
+        var command = new FinishCommand();
+
+        var result = await _service.SendCommand(command, CancellationToken.None);
+
+        Assert.Equal(Unknown, result.ResponseState);
+        Assert.Equal(powerInWattHours, result.PowerInNanoJoule);
         _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
     }
 
@@ -74,6 +86,56 @@ public class SerialServiceTests
 
         Assert.Equal(expectedResult, result);
         _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
+    }
+
+    [Fact]
+    public async Task TestRunWorkflowProcedure()
+    {
+        var expectedSequence = new List<ISerialCommand>
+        {
+            new StartCommand(),
+            new RotateCommand(90),
+            new EjectCommand(Red),
+            new LiftCommand(Down),
+            new FinishCommand()
+        };
+        const int powerInNanoJoule = 3600000;
+        foreach (var serialCommand in expectedSequence)
+        {
+            if (serialCommand is FinishCommand)
+            {
+                _adapterMock.Setup(adapter => adapter.ReadLine()).Returns($"finish {powerInNanoJoule}");
+                continue;
+            }
+
+            _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
+        }
+
+        var resultPower = await _service.RunWorkflowProcedure([
+            new RotateCommand(90),
+            new EjectCommand(Red)
+        ], CancellationToken.None);
+
+        Assert.Equal(1d, resultPower);
+        foreach (var command in expectedSequence)
+            _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
+    }
+
+    [Fact]
+    public async Task TestRunStartProcedure()
+    {
+        var expectedSequence = new List<ISerialCommand>
+        {
+            new MoveoutCommand(),
+            new InitCommand(),
+            new AlignCommand()
+        };
+        foreach (var _ in expectedSequence) _adapterMock.Setup(adapter => adapter.ReadLine()).Returns("error 0");
+
+        await _service.RunStartProcedure(CancellationToken.None);
+
+        foreach (var command in expectedSequence)
+            _adapterMock.Verify(adapter => adapter.WriteLine(command.ToAsciiCommand()), Times.Once);
     }
 
     [Theory]

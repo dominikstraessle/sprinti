@@ -2,10 +2,12 @@ namespace Sprinti.Serial;
 
 public static class ModuleRegistry
 {
-    public static void AddSerialModule(this IServiceCollection services)
+    public static void AddSerialModule(this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddSingleton<ISerialAdapter, SerialAdapter>();
-        services.AddSingleton<ISerialService, SerialService>();
+        if (!ISprintiOptions.RegisterOptions<SerialOptions>(services, configuration, SerialOptions.Serial)) return;
+
+        services.AddScoped<ISerialAdapter, SerialAdapter>();
+        services.AddScoped<ISerialService, SerialService>();
         // services.AddHostedService<SerialConsole>();
     }
 }

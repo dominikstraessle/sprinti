@@ -1,8 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <ItemGroup>
+        <PackageReference Include="Iot.Device.Bindings" Version="3.1.0"/>
+        <PackageReference Include="Iot.Device.Bindings.SkiaSharpAdapter" Version="3.1.0"/>
         <PackageReference Include="OpenCvSharp4" Version="4.9.0.20240103"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+        <PackageReference Include="System.Device.Gpio" Version="3.1.0"/>
         <PackageReference Include="System.IO.Ports" Version="8.0.0"/>
     </ItemGroup>
 
@@ -35,6 +38,17 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="Tests"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Detection\DetectionOptions\20240516101552.json"/>
+        <None Include="Detection\DetectionOptions\20240517093509.json"/>
+        <None Include="Detection\DetectionOptions\20240517115351.json"/>
+        <None Include="Detection\DetectionOptions\20240523083625.json"/>
+        <None Include="Detection\DetectionOptions\20240523084345.json"/>
+        <None Include="Detection\DetectionOptions\20240524085802.json"/>
+        <None Include="Detection\DetectionOptions\20240531103231.json" />
+        <None Include="Detection\DetectionOptions\detection.json"/>
     </ItemGroup>
 
 </Project>
