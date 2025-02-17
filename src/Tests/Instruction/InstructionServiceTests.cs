@@ -24,9 +24,6 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
-                    new LiftCommand(Direction.Down),
-                    new FinishCommand()
                 ]
             },
             {
@@ -42,10 +39,7 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
-                    new EjectCommand(Color.Yellow),
-                    new LiftCommand(Direction.Down),
-                    new FinishCommand()
+                    new EjectCommand(Color.Yellow)
                 ]
             },
             {
@@ -61,13 +55,10 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
                     new RotateCommand(90),
                     new EjectCommand(Color.Yellow),
                     new RotateCommand(-90),
-                    new EjectCommand(Color.Yellow),
-                    new LiftCommand(Direction.Down),
-                    new FinishCommand()
+                    new EjectCommand(Color.Yellow)
                 ]
             },
             {
@@ -83,7 +74,6 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
                     new RotateCommand(90),
                     new EjectCommand(Color.Yellow),
                     new RotateCommand(-90),
@@ -92,8 +82,7 @@ public class InstructionServiceTests
                     new EjectCommand(Color.Yellow),
                     new RotateCommand(-90),
                     new EjectCommand(Color.Yellow),
-                    new LiftCommand(Direction.Down),
-                    new FinishCommand()
+                    new RotateCommand(180)
                 ]
             },
             {
@@ -109,12 +98,9 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
                     new EjectCommand(Color.Yellow),
                     new EjectCommand(Color.Blue),
-                    new EjectCommand(Color.Red),
-                    new LiftCommand(Direction.Down),
-                    new FinishCommand()
+                    new EjectCommand(Color.Red)
                 ]
             },
             {
@@ -130,15 +116,12 @@ public class InstructionServiceTests
                     { 8, Color.Red }
                 },
                 [
-                    new ResetCommand(),
                     new EjectCommand(Color.Yellow),
                     new EjectCommand(Color.Blue),
                     new EjectCommand(Color.Red),
                     new EjectCommand(Color.Yellow),
                     new EjectCommand(Color.Blue),
-                    new EjectCommand(Color.Red),
-                    new LiftCommand(Direction.Down),
-                    new FinishCommand()
+                    new EjectCommand(Color.Red)
                 ]
             },
             {
@@ -154,7 +137,6 @@ public class InstructionServiceTests
                     { 8, Color.None }
                 },
                 [
-                    new ResetCommand(),
                     new RotateCommand(180),
                     new EjectCommand(Color.Red),
                     new RotateCommand(-90),
@@ -163,8 +145,7 @@ public class InstructionServiceTests
                     new EjectCommand(Color.Red),
                     new RotateCommand(-90),
                     new EjectCommand(Color.Red),
-                    new LiftCommand(Direction.Down),
-                    new FinishCommand()
+                    new RotateCommand(-90)
                 ]
             },
             {
@@ -180,7 +161,6 @@ public class InstructionServiceTests
                     { 8, Color.Yellow }
                 },
                 [
-                    new ResetCommand(),
                     new RotateCommand(-90),
                     new EjectCommand(Color.Red),
                     new RotateCommand(90),
@@ -197,8 +177,31 @@ public class InstructionServiceTests
                     new EjectCommand(Color.Blue),
                     new RotateCommand(180),
                     new EjectCommand(Color.Yellow),
-                    new LiftCommand(Direction.Down),
-                    new FinishCommand()
+                    new RotateCommand(180)
+                ]
+            },
+            {
+                new SortedDictionary<int, Color>
+                {
+                    { 1, Color.Yellow },
+                    { 2, Color.Yellow },
+                    { 3, Color.Blue },
+                    { 4, Color.None },
+                    { 5, Color.None },
+                    { 6, Color.Red },
+                    { 7, Color.Blue },
+                    { 8, Color.None }
+                },
+                [
+                    new RotateCommand(90),
+                    new EjectCommand(Color.Yellow),
+                    new RotateCommand(-90),
+                    new EjectCommand(Color.Yellow),
+                    new EjectCommand(Color.Blue),
+                    new RotateCommand(180),
+                    new EjectCommand(Color.Red),
+                    new RotateCommand(180),
+                    new EjectCommand(Color.Blue)
                 ]
             }
         };

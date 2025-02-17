@@ -1,13 +1,14 @@
-{ buildDotnetModule, dotnetCorePackages, opencv, cvsharp }:
+{ buildDotnetModule, dotnetCorePackages, opencv, cvsharp, libgpiod_1, fontconfig
+}:
 
 buildDotnetModule rec {
   pname = "sprinti";
   version = "0.1";
 
-  src = ./.;
+  src = ./src;
 
-  projectFile = "src/Sprinti/Sprinti.csproj";
-  testProjectFile = "src/Tests/Tests.csproj";
+  projectFile = "Sprinti/Sprinti.csproj";
+  #  testProjectFile = "src/Tests/Tests.csproj";
   # nix build .\#sprinti.passthru.fetch-deps
   # ./result deps.nix
   nugetDeps = ./deps.nix;
@@ -23,5 +24,8 @@ buildDotnetModule rec {
   runtimeDeps = [
     opencv
     cvsharp
+    libgpiod_1
+    # https://discourse.nixos.org/t/builddotnetmodule-runtimedeps-from-nugetdeps/23565
+    fontconfig
   ]; # This will wrap opencv's library path into `LD_LIBRARY_PATH`.
 }

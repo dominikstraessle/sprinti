@@ -29,7 +29,7 @@ public class SerialConsole(ISerialService serialService, ILogger<SerialConsole> 
 
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
-        logger.LogInformation("Stopping SerialReaderService");
+        logger.LogInformation("Stopping Serial Console");
         await base.StopAsync(cancellationToken);
     }
 }
